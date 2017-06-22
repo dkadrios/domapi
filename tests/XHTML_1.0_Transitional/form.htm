@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Form Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("form");
+    domapi.loadUnit("color");
+    onload = function(){
+      domapi.theme.apply();
+      document.form1.reset();
+
+      domapi.form.autocompleteOn(document.form1.edit1, domapi.getString("MONTHS"));
+      domapi.form.autocompleteOn(document.form1.edit2, domapi.color.lookupColorNames);
+      domapi.form.maskededitOn(  document.form1.edit3, "(999)999-9999");
+      domapi.form.maskededitOn(  document.form1.edit4, "999-99-9999");
+      domapi.form.maskededitOn(  document.form1.edit5, "AAA/999");
+
+      document.form1.edit5.onfocus      = function(){document.form1.button1.disabled = !document.form1.edit5.isComplete()};
+      document.form1.edit5.onincomplete = document.form1.edit5.onfocus;
+      document.form1.edit5.oncomplete   = function(){document.form1.button1.disabled = false;document.form1.button1.focus()};
+
+      document.form1.edit1.focus();
+    };
+  </script>
+</head> 
+<body style="margin:30px">
+<form name="form1">
+
+<fieldset>
+  <legend>Auto-completion</legend>
+  <table cellpadding="2"><tr><td width="250">
+  Type in a month:<br />
+  <input type="text" name="edit1" /><br /><br />
+
+  Type in a color name:<br />
+  <input type="text" name="edit2" />
+  </td><td valign="top">
+    <b>Auto-complete examples.</b><br />
+    <ul style="padding-left:15px;margin-left:0px">
+      <li>You provide an array of lookup values.</li>
+      <li>These items can be made case-sensitive or case-insensitive.</li>
+      <li>When a match is found, the element's oncomplete() event fires.</li>
+    </ul>
+  </td>
+  </tr></table>
+</fieldset>
+
+<fieldset style="margin-top:30px">
+  <legend>Masked Edits</legend>
+  <table cellpadding="2"><tr><td width="250">
+  Phone number:<br />
+  <input type="text" name="edit3" /><br /><br />
+  
+  Social security number:<br />
+  <input type="text" name="edit4" /><br /><br />
+  
+  Order number (AAA/999):<br />
+  <input type="text" name="edit5" />
+  
+  <input type="button" name="button1" disabled value="Process" onclick="return false">
+  </td><td valign="top">
+    <b>Masked edit examples.</b><br />
+    <ul style="padding-left:15px;margin-left:0px">
+      <li>You provide a mask for the edit.  This masks defines where separators should be and whether characters can be digits or letters.</li>
+      <li>When the input is correct, the element's oncomplete() event fires.</li>
+      <li>There is also an onincomplete() event that fires during typing.  The bottom example uses this to perform a 'validation'.
+      The button will not enable until the input is in the correct format.</li>
+    </ul>
+    <span style="color:green">See the 'validate' unit for more input validation routines.</span>
+  </td>
+  </tr></table>
+</fieldset>
+
+</form>
+<div id="test"></div>
+</body>
+</html>

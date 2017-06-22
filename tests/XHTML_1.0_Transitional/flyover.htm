@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Flyover Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("flyover");
+    onload = function(){
+      domapi.addFlyover(domapi.getElm("target1"), "This is a test of the flyover system.",true);
+      domapi.addFlyover(
+        domapi.getElm("target2"), 
+        'Big D at 6<br /><a href="http://nebiru.com/photos/large/00000269.jpg">' +
+        '<img border="0" src="../bin/darin.jpg" width="50" height="50" style="margin-bottom:5px"></a>',true
+      );
+    }
+  </script>
+  <style type="text/css">
+    .target{
+      border : 1px solid black;
+      background-color:gray;
+      color:white;
+      position:relative;
+      width:100px;
+      top:50px;
+      left:50px;
+      padding:10px;
+      margin-bottom:20px;
+      cursor:default;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="target" id="target1">Simple rollover.</div>
+<div class="target" id="target2">Rollover containing a picture.</div>
+
+</body>
+</html>

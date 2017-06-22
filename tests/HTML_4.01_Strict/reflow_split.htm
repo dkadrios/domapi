@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head>
+<script src="../../src/domapi.js"></script>
+<script type="text/javascript">
+
+domapi.loadUnit("reflow");
+domapi.loadUnit("thirdparty/gkafka/splitter");
+
+onload = init;
+
+function init(){
+  var elm = domapi.Elm({x:0,y:0,w:0,h:0});
+  elm.style.border = "1px solid black";
+  elm.reflowAdd({l:10,t:10,r:'50%',b:-10});
+  elm.style.overflow = "auto";
+
+  var doc = domapi.Elm({x:0,y:0,w:0,h:0});
+  doc.style.border = "1px solid black";
+  doc.reflowAdd({l:'50%',t:10,r:'-0',padX:5,b:-10});
+  doc.style.overflow = "auto";
+
+  s = domapi.Splitter({x:0,y:0,h:0,splitterType:"h"});
+  s.reflowAdd({l:'50%',t:10,w:5,b:-10});
+
+  domapi.reflow.render();
+
+  s.dependent({splitterType:"grow",obj:elm}) ;
+  s.dependent({splitterType:"grow",obj:doc});
+
+  showSyntax(elm);
+  domapi.transferElm(domapi.getElm('docs'),doc);
+}
+function showSyntax(elm){
+  var s = String(init);
+  elm.setText("<pre>" + s + "</pre>");
+};
+</script>
+</head>
+<body style="overflow:hidden">
+<DIV ID="docs">
+<H2>Layout Manager (reflow) combined with Splitter Component</H2>
+<H3>Important:</H3>
+Dependencies of Splitter have to be defined after calling the reder function (domapi.reflow.render();) of the reflow-engine.
+
+</DIV>
+</body>
+</html>

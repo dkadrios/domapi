@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Tab Index Tests</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("button");
+    domapi.loadUnit("datepicker");
+    domapi.loadUnit("spinedit");
+    domapi.loadUnit("listbox");
+    onload = function(){
+      exampleInit();
+      var f = document.form1;
+      dp1   = domapi.Datepicker({parent:domapi.getElm("tdBDay"),position:"relative", formName:"form1"});
+      btn1  = domapi.Button({parent:domapi.getElm("tdOK"), formName:"form1"});
+      spin1 = domapi.Spinedit({parent:domapi.getElm("tdQuan"),position:"relative", formName:"form1"});
+      listbox1 = domapi.Listbox({parent:domapi.getElm("tdListbox"),h:50,w:200 , position:"relative", formName:"form1"});
+      listbox1.addItem({text:'item1'});
+      listbox1.addItem({text:'item2'});
+      listbox1.addItem({text:'item3'});
+      listbox1.addItem({text:'item4'});
+      listbox1.addItem({text:'item5'});
+      
+      listbox1.onfocus = function(){this.blur()};
+      
+      f.edtFirst.tabIndex = 1;
+      f.edtLast .tabIndex = 2;
+      dp1     .setTabIndex( 3);
+      spin1   .setTabIndex( 4);
+      btn1    .setTabIndex( 5);
+      listbox1.setTabIndex( 6);
+      f.edtFirst.focus();
+    }
+  </script>
+
+</head>
+
+<body>
+<script type="text/javascript">printHeader("tabIndex")</script>
+
+<script type="text/javascript">printFooter()</script>
+<form name="form1" action="#" method="get" style="position:absolute;left:300px;top:100px">
+<table border="0">
+  <tr><td>First</td><td><input type="text" name="edtFirst"></td></tr>
+  <tr><td>Last</td><td><input type="Text" name="edtLast"></td></tr>
+  <tr><td>Birthday</td><td id="tdBDay"></td></tr>
+  <tr><td>Quantity</td><td id="tdQuan"></td></tr>
+  <tr><td colspan="2" id="tdOK" style="padding-top:20px"></td></tr>
+  <tr><td colspan="2" id="tdListbox" style="padding-top:20px"></td></tr>
+</table>
+</form>
+</body>
+</html>

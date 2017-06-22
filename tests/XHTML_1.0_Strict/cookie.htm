@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Cookie Example</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("cookie");
+    onload=function(){
+      f=document.f1;
+      f.reset();
+      domapi.cookies.load();
+      f.s.options.length=0;
+      var newOpt;
+      for(var a=0;a<domapi.cookies.length;a++){
+        newOpt=new Option();
+        newOpt.text=domapi.cookies[a].name; newOpt.value=domapi.cookies[a].value;
+        f.s.options[f.s.options.length]=newOpt; 
+      }
+    };
+    
+    function selectedCookie(){
+      if(f.s.selectedIndex>-1)return f.s.options[f.s.selectedIndex].text; 
+      else{ 
+        alert("Select a cookie first");
+        return false;
+      }
+    };
+    
+    function updateCookie(){
+      var cName=selectedCookie(); if(!cName)return;
+      domapi.cookies.setValue(cName,f.e.value,1440);
+      location.reload();
+    };
+    
+    function deleteCookie(){
+      var cName=selectedCookie(); if(!cName)return;
+      domapi.cookies.deleteValue(cName);
+      location.reload();
+    };
+    
+    function addCookie(){
+      var cName =prompt("Cookie Name","");  if(!cName )return;
+      var cValue=prompt("Cookie Value",""); if(!cValue)return;
+      domapi.cookies.setValue(cName,cValue,1440);
+      location.reload();
+    };
+  </script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+</head>
+
+<body>
+<div style="width:400px;background-color:silver;padding:3px">
+<b>Notes:</b><br />
+You may already see cookies listed below that were created elsewhere on this site.  These cookies have a different "path" than ones created
+on <b>this</b> page and are therefore "read-only" (to this page). If you try to change their values, you will actually be creating another
+cookie of the same name, but with a different path.<br /><br />
+In other words, only use the <b>Update</b> and <b>Delete</b> buttons on cookies that you created with the <b>Add New</b> button ;)<br /><br />
+All cookies created and set on this page have a 1 day expiration period.  Cookie.js allows you to set this timeout in minutes for each 
+individual cookie. 
+</div>
+<form name="f1">
+<table border="1" cellpadding="3">
+<tr><td>
+<b>Cookies on this Page</b><br />
+<select name="s" size="12" onchange="f.e.value=this.value"><option /></select>
+</td><td valign="top">
+<b>Current Value</b><br />
+<input type="Text" name="e" size="40"><br />
+<input type="Button" value="Update" onclick="updateCookie()">
+<input type="Button" value="Delete" onclick="deleteCookie()"><br /><br />
+<input type="Button" value="Add new Cookie" onclick="addCookie()">
+</td></tr>
+</table>
+</form>
+</html>
+
+

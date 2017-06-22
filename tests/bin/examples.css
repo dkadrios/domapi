@@ -1,0 +1,48 @@
+body{
+  background-color: #FFFFFF;
+  margin: 2px 0px 0px 5px;
+}
+
+h3{
+  background-color: #C0C0C0;
+  border-color: #000000;
+  border-style: solid;
+  border-width: 1px 3px 1px 3px;
+  font: bold 12pt "MS Sans Serif", Geneva, sans-serif;
+  margin-bottom: 5px;
+  margin-left: 0px !important;
+  padding-left: 3px;
+  width: 220px;
+}
+
+input{
+  font: 8pt "courier new",monospace;
+}
+
+.inlinecode {
+  background-color: transparent;
+  color: #800000;
+  font: 8pt "courier new",monospace;
+}
+
+.norm td{
+  font: 8pt arial,helvetica,sans-serif;
+}
+
+#main, .main{
+  background-color: #C0C0C0;
+  border: 2px solid #000000;
+  font: 8pt arial,helvetica,sans-serif;
+  padding: 4px;
+  width: 220px;
+}
+
+#p1{
+  position:relative;
+  left: -5px;
+  margin: 0px;
+  overflow: hidden;
+  padding: 0px 2px;
+  top: -3px;
+  font-size:8pt;
+}

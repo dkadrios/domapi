@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<head>
+	<title>sysutils.js Self Tests</title>
+  <script src="../../src/domapi.js"></script>
+  <script>
+    domapi.loadUnit("sysutils");
+    onload = function init(){
+      var t,r,c1,c2;
+      //------
+      t=domapi.getElm("resultTable");
+      for(var a=1;a<t.rows.length;a++){
+        r = t.rows[a];
+        if(r.cells)
+          if(r.cells[0])
+            if(r.cells[0].tagName!="TH"){
+              if(domapi.isIE){
+                c1=r.cells[1].innerText;
+                c2=r.cells[2].innerText;
+              }else{
+                c1=r.cells[1].innerHTML;
+                c2=r.cells[2].innerHTML;
+                c2=cleanValue(c2);
+              }             
+              if(sysutils.trim(c1) == sysutils.trim(c2))
+                r.cells[3].style.backgroundColor="green";
+              else
+                r.cells[3].style.backgroundColor="red";
+            }
+      }
+    };
+    function cleanValue(s){ // moz likes to include the <script> tags from below
+      var rg = /\<\/script\>/i;
+      var i=s.search(rg);
+      if(i==-1)return s;
+      return s.substr(i+9,s.length);
+    };
+  </script>
+  <style>td{font:8pt "courier new",sansserif}</style>
+</head>
+
+<body>
+
+<table border="1" id="resultTable">
+  <tr>
+  <th colspan="4">String Routines</th>
+  </tr>
+  <tr>
+    <th>Routine</th>
+    <th>Optimal Output</th>
+    <th>Actual Output</th>
+    <th>Auto Check</th>
+  </tr>
+
+  <tr>
+    <td>sysutils.isInteger("5");<br>
+        sysutils.isInteger("5pm");<br>
+        sysutils.isInteger(null);<br>
+        sysutils.isInteger("");<br>
+        sysutils.isInteger(1);</td>
+    <td>true<br>false<br>false<br>false<br>true</td>
+    <td><script>document.write( sysutils.isInteger("5")+"<br>"+
+                                sysutils.isInteger("5pm")+"<br>"+
+                                sysutils.isInteger(null)+"<br>"+
+                                sysutils.isInteger("")+"<br>"+
+                                sysutils.isInteger(1))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.isFloat("5");<br>
+        sysutils.isFloat("5pm");<br>
+        sysutils.isFloat(null);<br>
+        sysutils.isFloat(1);<br>
+        sysutils.isFloat(1.1);<br>
+        sysutils.isFloat(-112.0);</td>
+    <td>true<br>false<br>false<br>true<br>true<br>true</td>
+    <td><script>document.write( sysutils.isFloat("5")+"<br>"+
+                                sysutils.isFloat("5pm")+"<br>"+
+                                sysutils.isFloat(null)+"<br>"+
+                                sysutils.isFloat(1)+"<br>"+
+                                sysutils.isFloat(1.1)+"<br>"+
+                                sysutils.isFloat(-112.0))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+ 
+  <tr>
+    <td>sysutils.isMoney("5");<br>
+        sysutils.isMoney("$5.23");<br>
+        sysutils.isMoney(null);<br>
+        sysutils.isMoney(1);<br>
+        sysutils.isMoney(1.1);<br>
+        sysutils.isMoney("$1,005.23");</td>
+    <td>true<br>true<br>false<br>true<br>true<br>false</td>
+    <td><script>document.write( sysutils.isMoney("5")+"<br>"+
+                                sysutils.isMoney("$5.23")+"<br>"+
+                                sysutils.isMoney(null)+"<br>"+
+                                sysutils.isMoney(1)+"<br>"+
+                                sysutils.isMoney(1.1)+"<br>"+
+                                sysutils.isMoney("$1,005.23"))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.isStateCode("MI");<br>
+        sysutils.isStateCode("mi");<br>
+        sysutils.isStateCode("Michigan");<br>
+        sysutils.isStateCode(1);</td>
+    <td>true<br>true<br>false<br>false</td>
+    <td><script>document.write( sysutils.isStateCode("MI")+"<br>"+
+                                sysutils.isStateCode("mi")+"<br>"+
+                                sysutils.isStateCode("Michigan")+"<br>"+
+                                sysutils.isStateCode(1))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.isEmail("support@domapi.com");<br>
+        sysutils.isEmail("billy.joe@jimbob.org");<br>
+        sysutils.isEmail("noone@home");</td>
+    <td>true<br>true<br>false</td>
+    <td><script>document.write( sysutils.isEmail("support@domapi.com")+"<br>"+
+                                sysutils.isEmail("billy.joe@jimbob.org")+"<br>"+
+                                sysutils.isEmail("noone@home"))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.isURL("http://www.domapi.com");<br>
+        sysutils.isURL("http://domapi.com");<br>
+        sysutils.isURL("domapi.com");<br>
+        sysutils.isURL("http://domapi");<br>
+        sysutils.isURL("http://www.domapi");</td>
+    <td>true<br>true<br>false<br>false<br>true</td>
+    <td><script>document.write( sysutils.isURL("http://www.domapi.com")+"<br>"+
+                                sysutils.isURL("http://domapi.com")+"<br>"+
+                                sysutils.isURL("domapi.com")+"<br>"+
+                                sysutils.isURL("http://domapi")+"<br>"+
+                                sysutils.isURL("http://www.domapi"))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.isTelephone("(555)555-5555");<br>
+        sysutils.isTelephone("555-555-5555");<br>
+        sysutils.isTelephone("555/555/5555");<br>
+        sysutils.isTelephone("5555555555");</td>
+    <td>true<br>true<br>true<br>true</td>
+    <td><script>document.write( sysutils.isTelephone("(555)555-5555")+"<br>"+
+                                sysutils.isTelephone("555-555-5555")+"<br>"+
+                                sysutils.isTelephone("555/555/5555")+"<br>"+
+                                sysutils.isTelephone("5555555555"))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.trim("boo");<br>
+        sysutils.trim("  boo  ");<br>
+        sysutils.trim("b  o  o");<br>
+        sysutils.trim(1);</td>
+    <td>boo<br>boo<br>b  o  o<br>1</td>
+    <td><script>document.write( sysutils.trim("boo")+"<br>"+
+                                sysutils.trim("  boo  ")+"<br>"+
+                                sysutils.trim("b  o  o")+"<br>"+
+                                sysutils.trim(1))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.formatString("This %1 a %2",["is","test"]);<br>
+        sysutils.formatString("%1 1, %1 2",["field"]);<br>
+        sysutils.formatString("no changes",[]);<br>
+        sysutils.formatString("no array");</td>
+    <td>This is a test<br>field 1, field 2<br>no changes<br>no array</td>
+    <td><script>document.write( sysutils.formatString("This %1 a %2",["is","test"])+"<br>"+
+                                sysutils.formatString("%1 1, %1 2",["field"])+"<br>"+
+                                sysutils.formatString("no changes",[])+"<br>"+
+                                sysutils.formatString("no array"))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.filterChars("boo","o");<br>
+        sysutils.filterChars("foobar","bar");<br>
+        sysutils.filterChars("jimmycrackcorn","cRaCk");<br>
+        sysutils.filterChars("b  o  o"," ");</td>
+    <td>b<br>foo<br>jimmycorn<br>boo</td>
+    <td><script>document.write( sysutils.filterChars("boo","o")+"<br>"+
+                                sysutils.filterChars("foobar","bar")+"<br>"+
+                                sysutils.filterChars("jimmycrackcorn","cRaCk")+"<br>"+
+                                sysutils.filterChars("b  o  o"," "))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.filterNonDigits("one");<br>
+        sysutils.filterNonDigits("123");<br>
+        sysutils.filterNonDigits("12a3");<br>
+        sysutils.filterNonDigits("12.3");</td>
+    <td><br>123<br>123<br>12.3</td>
+    <td><script>document.write( sysutils.filterNonDigits("one")+"<br>"+
+                                sysutils.filterNonDigits("123")+"<br>"+
+                                sysutils.filterNonDigits("12a3")+"<br>"+
+                                sysutils.filterNonDigits("12.3"))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.padZeros("1",5);<br>
+        sysutils.padZeros("1111",2);<br>
+        sysutils.padZeros(12,8);
+    <td>00001<br>1111<br>00000012</td>
+    <td><script>document.write( sysutils.padZeros("1",5)+"<br>"+
+                                sysutils.padZeros("1111",2)+"<br>"+
+                                sysutils.padZeros(12,8))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.roundTo("101.2255",2);<br>
+        sysutils.roundTo("101.2",2);<br>
+        sysutils.roundTo("ten",2);<br>
+        sysutils.roundTo(6.996,2);</td>
+    <td>101.23<br>101.20<br>NaN<br>7.00</td>
+    <td><script>document.write(sysutils.roundTo("101.2255",2)+"<br>"+
+                               sysutils.roundTo("101.2",2)+"<br>"+
+                               sysutils.roundTo("ten",2)+"<br>"+
+                               sysutils.roundTo(6.996,2))</script></td><td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+  <th colspan="4">Date Routines</th>
+  </tr>
+  <tr>
+    <th>Routine</th>
+    <th>Optimal Output</th>
+    <th>Actual Output</th>
+    <th>Auto Check</th>
+  </tr>
+  
+  <tr>
+    <td>sysutils.now();</td>
+    <td>Current Date</td>
+    <td><script>document.write(sysutils.now())</script></td><td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.makeFourDigitYear("1999");<br>
+        sysutils.makeFourDigitYear("87");<br>
+        sysutils.makeFourDigitYear("02");<br>
+        sysutils.makeFourDigitYear(5);<br>
+        sysutils.makeFourDigitYear("one");<br>
+        sysutils.makeFourDigitYear("2001");</td>
+    <td>1999<br>1987<br>2002<br>2005<br>one<br>2001</td>
+    <td><script>document.write( sysutils.makeFourDigitYear("1999")+"<br>"+
+                                sysutils.makeFourDigitYear("87")+"<br>"+
+                                sysutils.makeFourDigitYear("02")+"<br>"+
+                                sysutils.makeFourDigitYear(5)+"<br>"+
+                                sysutils.makeFourDigitYear("one")+"<br>"+
+                                sysutils.makeFourDigitYear("2001"))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>sysutils.getMonthLength(2,2001);<br>
+        sysutils.getMonthLength("2","2001");<br>
+        sysutils.getMonthLength("02","2001");<br>
+        sysutils.getMonthLength(2,01);<br>
+        sysutils.getMonthLength(1,1999);<br>
+        sysutils.getMonthLength(1,2000);
+    <td>31<br>31<br>31<br>31<br>28<br>29</td>
+    <td><script>document.write( sysutils.getMonthLength(2,2001)+"<br>"+
+                                sysutils.getMonthLength("2","2001")+"<br>"+
+                                sysutils.getMonthLength("02","2001")+"<br>"+
+                                sysutils.getMonthLength(2,01)+"<br>"+
+                                sysutils.getMonthLength(1,1999)+"<br>"+
+                                sysutils.getMonthLength(1,2000))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.addDaysToDate(sysutils.createDate(0,1,2000),"10");<br>
+        sysutils.addDaysToDate(sysutils.createDate(0,1,2000),10);<br>
+        sysutils.addDaysToDate(sysutils.createDate(0,1,2000),"-10");<br>
+        sysutils.addDaysToDate(sysutils.createDate(0,1,2000),-10);</td>
+    <td>01/11/2000<br>01/11/2000<br>12/22/1999<br>12/22/1999</td>
+    <td><script>document.write( sysutils.formatDate(sysutils.addDaysToDate(sysutils.createDate(0,1,2000),"10"))+"<br>"+
+                                sysutils.formatDate(sysutils.addDaysToDate(sysutils.createDate(0,1,2000),10))+"<br>"+
+                                sysutils.formatDate(sysutils.addDaysToDate(sysutils.createDate(0,1,2000),"-10"))+"<br>"+
+                                sysutils.formatDate(sysutils.addDaysToDate(sysutils.createDate(0,1,2000),-10)))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.formatDate(sysutils.now(),"mm/dd/yyyy");<br>
+        sysutils.formatDate(sysutils.now(),"mm-dd-yy");<br>
+        sysutils.formatDate(sysutils.now(),"d.m.yyyy");</td>
+    <td>Current Date in<br>various formats</td>
+    <td><script>document.write( sysutils.formatDate(sysutils.now(),"mm/dd/yyyy")+"<br>"+
+                                sysutils.formatDate(sysutils.now(),"mm-dd-yy")+"<br>"+
+                                sysutils.formatDate(sysutils.now(),"d.m.yyyy")
+                                )</script></td><td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.isDate("1/1/2000","mm/dd/yyyy");<br>
+        sysutils.isDate("2/29/2000","mm-dd-yy");<br>
+        sysutils.isDate("2/29/2001","d.m.yyyy");<br>
+        sysutils.isDate("9/29/2002","mm/dd/yyyy");<br>
+        sysutils.isDate("Jan 3, 2000");<br>
+        sysutils.isDate(sysutils.formatDate(sysutils.now()));</td>
+    <td>[date]<br>false<br>false<br>[date]<br>false<br>[date]</td>
+    <td><script>document.write( sysutils.isDate("1/1/2000","mm/dd/yyyy")+"<br>"+
+                                sysutils.isDate("2/29/2000","mm-dd-yy")+"<br>"+
+                                sysutils.isDate("2/29/2001","d.m.yyyy")+"<br>"+
+                                sysutils.isDate("9/29/2002","mm/dd/yyyy")+"<br>"+
+                                sysutils.isDate("Jan 3, 2000")+"<br>"+
+                                sysutils.isDate(sysutils.formatDate(sysutils.now())))</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>sysutils.getStartDay(0,2002);<br>
+        sysutils.getStartDay(11,2001);<br>
+        sysutils.getStartDay("0","2002");<br>
+        sysutils.getStartDay("11","2001");<br></td>
+    <td>2<br>6<br>2<br>6</td>
+    <td><script>document.write( sysutils.getStartDay(0,2002)+"<br>"+
+                                sysutils.getStartDay(11,2001)+"<br>"+
+                                sysutils.getStartDay("0","2002")+"<br>"+
+                                sysutils.getStartDay("11","2001")
+                                )</script></td>
+    <td>&nbsp;</td>
+  </tr>
+  <!---
+  <tr>
+    <td>sysutils.daysSince(sysutils.createDate(1,1,2002),sysutils.createDate(1,5,2002));<br>
+        sysutils.daysSince(11,2001);<br>
+        sysutils.daysSince("0","2002");<br>
+        sysutils.daysSince("11","2001");<br></td>
+    <td>2<br>6<br>2<br>6</td>
+    <td><script>document.write( sysutils.daysSince(sysutils.createDate(1,1,2002),sysutils.createDate(1,5,2002))+"<br>"+
+                                sysutils.daysSince(11,2001)+"<br>"+
+                                sysutils.daysSince("0","2002")+"<br>"+
+                                sysutils.daysSince("11","2001")
+                                )</script></td>
+    <td>&nbsp;</td>
+  </tr>
+--->
+</table>
+
+</body>
+</html>

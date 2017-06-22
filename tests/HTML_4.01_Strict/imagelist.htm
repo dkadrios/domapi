@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>ImageList Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("imagelist");
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Imagelist({src:"../bin/imagelist1.gif",count:7,w:32,h:32});
+      elm1.moveTo(300,100);
+      f.s2.options.length=0;
+      for(a=0;a<7;a++)
+        f.s2.options[f.s2.options.length]=new Option(a,a);
+    }
+    var timer1;
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Imagelist")</script>
+
+<button onclick="if(timer1)clearInterval(timer1);timer1=setInterval('elm1.setIndex(Math.random()*7)',10);return false">Random Select</button>&nbsp;
+<button onclick="clearInterval(timer1);return false">Stop</button><br /><br />
+<select name="s2" onchange="elm1.setIndex(this.value)"><option /></select> Select Image
+
+
+<script type="text/javascript">printFooter()</script><br />
+This is the image used by this ImageList<br /><br />
+<img src="../bin/imagelist1.gif" width="224" height="32" border="0" alt="" style="background-color:white" />
+</body>
+</html>

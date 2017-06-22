@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Imagepagecontrol Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("imagepagecontrol");    
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Imagepagecontrol({x:260,y:70,w:400,h:100, tabH:15,overlap:5});
+      elm1.beginUpdate();
+      try{
+        elm1.addPage({w:94, src:"../bin/horz_tab1.gif", orientation:"vertical", type:"DIV"});
+        elm1.addPage({w:94, src:"../bin/horz_tab2.gif", orientation:"vertical", type:"DIV"});
+        elm1.addPage({w:94, src:"../bin/horz_tab3.gif", orientation:"vertical", type:"DIV", enabled:false});
+        elm1.addPage({w:94, src:"../bin/horz_tab4.gif", orientation:"vertical", type:"DIV"});
+        elm1.ondraw = function(){
+          this.notebook.style.border = "1px solid black";
+          this.notebook.style.background = "#FF9933";
+        };
+        elm1.pages[0].innerHTML = "Page 1";elm1.pages[1].innerHTML = "Page 2";elm1.pages[3].innerHTML = "Page 4";
+      }finally{elm1.endUpdate();}
+      
+      elm2 = domapi.Imagepagecontrol({x:260,y:490,w:400,h:100, tabH:15,overlap:5,orientation:"bottom"});
+      elm2.beginUpdate();
+      try{
+        elm2.addPage({w:94, src:"../bin/bottom_tab1.gif", orientation:"vertical", type:"DIV"});
+        elm2.addPage({w:94, src:"../bin/bottom_tab2.gif", orientation:"vertical", type:"DIV", enabled:false});
+        elm2.addPage({w:94, src:"../bin/bottom_tab3.gif", orientation:"vertical", type:"DIV"});
+        elm2.addPage({w:94, src:"../bin/bottom_tab4.gif", orientation:"vertical", type:"DIV"});
+        elm2.ondraw = function(){
+          this.notebook.style.border = "1px solid black";
+          this.notebook.style.background = "#FF9933";
+        };
+        elm2.pages[0].innerHTML = "Page 1";elm2.pages[2].innerHTML = "Page 3";elm2.pages[3].innerHTML = "Page 4";
+      }finally{elm2.endUpdate();}
+
+      elm3 = domapi.Imagepagecontrol({x:150,y:130,w:100,h:400, tabH:15,overlap:5,orientation:"left"});
+      elm3.beginUpdate();
+      try{
+        elm3.addPage({h:94, src:"../bin/vert_tab1.gif", type:"DIV", enabled:false});
+        elm3.addPage({h:94, src:"../bin/vert_tab2.gif", type:"DIV"});
+        elm3.addPage({h:94, src:"../bin/vert_tab3.gif", type:"DIV"});
+        elm3.addPage({h:94, src:"../bin/vert_tab4.gif", type:"DIV"});
+        elm3.ondraw = function(){
+          this.notebook.style.border = "1px solid black";
+          this.notebook.style.background = "#FF9933";
+        };
+        elm3.pages[1].innerHTML = "Page 2";elm3.pages[2].innerHTML = "Page 3";elm3.pages[3].innerHTML = "Page 4";
+      }finally{elm3.endUpdate();}
+
+      elm4 = domapi.Imagepagecontrol({x:670,y:130,w:100,h:400, tabH:15,overlap:5,orientation:"right"});
+      elm4.beginUpdate();
+      try{
+        elm4.addPage({h:94, src:"../bin/right_tab1.gif", type:"DIV"});
+        elm4.addPage({h:94, src:"../bin/right_tab2.gif", type:"DIV"});
+        elm4.addPage({h:94, src:"../bin/right_tab3.gif", type:"DIV"});
+        elm4.addPage({h:94, src:"../bin/right_tab4.gif", type:"DIV", enabled:false});
+        elm4.ondraw = function(){
+          this.notebook.style.border = "1px solid black";
+          this.notebook.style.background = "#FF9933";
+        };
+        elm4.pages[0].innerHTML = "Page 1";elm4.pages[1].innerHTML = "Page 2";elm4.pages[2].innerHTML = "Page 3";
+      }finally{elm4.endUpdate();}
+    }  
+  </script>
+  <style type="text/css">
+    #divCenter{
+      position:absolute;
+      left:300px;
+      top:200px;
+      width:300px;
+      
+    }
+  </style>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Imagepagecontrol")</script>
+<script type="text/javascript">printFooter()</script>
+<div id="divCenter">
+  Four separate Imagepagecontrols, showing the four possible layouts.<br />
+  Each one has one disabled tab.
+</div>
+</body>
+</html>

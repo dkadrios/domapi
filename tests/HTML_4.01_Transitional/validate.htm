@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>validate.js Tests</title>
+  <script src="../../src/domapi.js?styleBody=true"></script>
+  <script>
+    domapi.loadUnit("validate");
+    onload=init;
+    function init(){
+      f=document.f1;
+    };
+    function doTask(o,v){
+      var r = domapi.findParent(o,"TR");
+      var c = r.cells[3];
+      if(domapi.isIE)c.innerText = v;
+      else         c.innerHTML = v;
+    };
+  </script>
+  <style>
+    td{font:8pt "courier new",sansserif}
+    input{font:8pt "courier new",monospace}
+  </style>
+</head>
+
+<body>
+
+<form name="f1">
+<table border="1">
+  <tr><th colspan="4">Validation Routines</th></tr>
+  <tr>
+    <th>Routine</th>
+    <th>Data</th>
+    <th>Run</th>
+    <th>Result</th>
+  </tr>
+
+  <tr>
+    <td>validate.currency</td>
+    <td><input type="Text" name="e1" size="12"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.currency(f.e1))"></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>validate.state</td>
+    <td><input type="Text" name="e2" size="12"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.state(f.e2))"></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>validate.string</td>
+    <td><input type="Text" name="e3" size="12"> <input type="Text" name="e4" value="name" size="7"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.string(f.e3,f.e4.value))"></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>validate.stringLen</td>
+    <td><input type="Text" name="e5" size="12"> <input type="Text" name="e6" value="name" size="7"> <input type="Text" name="e7" value="4" size="2"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.stringLen(f.e5,f.e6.value,f.e7.value))"></td>
+    <td>&nbsp;</td>
+  </tr>
+ 
+  <tr>
+    <td>validate.zip</td>
+    <td><input type="Text" name="e8" size="12"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.zip(f.e8))"></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>validate.integer</td>
+    <td><input type="Text" name="e9" size="12"> <input type="Text" name="e10" value="name" size="7"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.integer(f.e9,f.e10.value))"></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>validate.number</td>
+    <td><input type="Text" name="e11" size="12"> <input type="Text" name="e12" value="name" size="7"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.number(f.e11,f.e12.value))"></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td>validate.date</td>
+    <td><input type="Text" name="e13" size="12"> <input type="Text" name="e14" value="mm/dd/yyyy" size="11"></td>
+    <td><input type="Button" value="Try" onclick="doTask(this,validate.date(f.e13,f.e14.value))"></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+</table>
+</form>
+
+</body>
+</html>

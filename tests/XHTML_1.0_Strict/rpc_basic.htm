@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>RPC2 Test 1</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("debug");
+    domapi.loadUnit("rpccore");
+    onload=function(){
+      domapi.rpc.onreceive = onreceive;
+      document.f1.reset();
+      domapi.theme.apply();
+    };
+    //-------
+    function onreceive(packet){
+      var directive = packet.data.findValueByName("directive");
+      //alert(directive)
+      switch(directive){
+        case "list" : 
+          //alert(packet.data.names.length);
+          packet.data.saveToSelect(document.f1.s1);
+          document.f1.s1.options[0]=null;
+          break;
+        case "get"  : 
+          document.f1.t1.value=packet.data.findValueByName("description");
+          break;
+      }
+    };
+    //-------
+    function fillObjects(){
+      var myPacket = new domapi.RPCPacket({url:"../bin/rpc_basic.cfm", statusText:"Getting object list..."});
+      myPacket.data.add("directive","list");
+      if(document.f1.method[0].checked)
+        myPacket.method = mtGet
+      else
+        myPacket.method = mtPost
+      domapi.rpc.sendPacket({packet:myPacket,onreceive:myHandler});
+    };
+    //-------
+    function selectObject(id){
+      var myPacket = new domapi.RPCPacket({url:"../bin/rpc_basic.cfm", statusText:"Looking up object..."});
+      myPacket.data.add("directive","get");
+      myPacket.data.add("obj_id",id);
+      if(document.f1.method[0].checked)
+        myPacket.method = mtGet
+      else
+        myPacket.method = mtPost
+      domapi.rpc.sendPacket({packet:myPacket});
+    };
+    //-------
+    function myHandler(packet){
+      //alert("handler fired");
+    }
+  </script>
+  <link rel="stylesheet" type="text/css" href="../bin/examples.css">
+  <style type="text/css">
+    .main{
+      width:400px;
+      text-align:justify;
+      background-color:white;
+      border:1px solid;
+      border-color:silver gray gray silver;
+    }
+    a,a:visited{color:black}
+  </style>
+</head>
+
+<body>
+<p class="main">
+  This page uses the RPC objects to send and receive data
+</p>
+<form name="f1">
+<table>
+<tr>
+<td valign="top">
+<button onclick="fillObjects();return false">Fill Object List</button>
+</td>
+</tr>
+<tr>
+<td>
+<select name="s1" size="12" onchange="if(this.options.length>1)selectObject(this.value)">
+  <option>Click load button</option>
+</select>
+</td>
+<td valign="top"><textarea name="t1" rows="12" cols="40"></textarea></td>
+</tr>
+</table>
+<input type="Radio" checked name="method"> Use GET
+<input type="Radio" name="method"> Use POST
+</form>
+</body>
+</html>

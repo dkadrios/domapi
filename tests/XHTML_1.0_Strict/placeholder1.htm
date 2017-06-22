@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Placeholder Example 1</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("tree");
+    domapi.loadUnit("listbox");
+    onload=function(){
+      alert(
+        "This dialog is here to simulate a longish load time.\n" +
+        "During loading, the user would see the placeholders on the page.\n" +
+        "Close this dialog to continue loading the controls."
+      );
+      tree1 = domapi.Tree(   {id:"phTree",   x:50, y:50,w:200,h:300,preserveContent:false});
+      list1 = domapi.Listbox({id:"phListbox",x:255,y:50,w:295,h:300,preserveContent:false});
+      tree1.style.padding = "0px !important";
+      list1.style.padding = "0px !important";
+      tree1.style.textAlign = "left";
+      list1.style.textAlign = "left";
+      list1.doHLines = true; list1.draw();      
+      var i;
+      for(i=1;i<31;i++)list1.addItem({text:"Item "+i});
+      for(i=1;i<11;i++)tree1.addPath({path:"Node " + i +"/Child 1"});
+      tree1.init();
+    }
+  </script>
+  <style type="text/css">
+    body{
+      background-color:#EEEEEE;
+      font:10pt helvetica, arial, sans-serif;
+      background-image:url(grid.gif);
+      overflow:auto;
+    }
+    .ph{
+      background-color:#AAAAAA;
+      position:absolute;
+      text-align:center;
+      vertical-align:middle;
+      padding-top:100px;
+    }
+    #phTree{      
+      left:50px;
+      top:50px;
+      width:200px;
+      height:300px;
+    }
+    #phListbox{      
+      left:255px;
+      top:50px;
+      width:295px;
+      height:300px;
+    }
+  </style>
+</head>
+<body>
+<div class="ph" id="phTree">   Tree1   <br />Placeholder<br /><br /><b>Loading...</b></div>
+<div class="ph" id="phListbox">Listbox1<br />Placeholder<br /><br /><b>Loading...</b></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Sidebar Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("sidebar");
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Sidebar({x:300,y:100, w:200, h:350, enabled:true});
+      var panel1 = elm1.addPanel({caption:"Site"});
+      var panel2 = elm1.addPanel({caption:"Product Features", element:domapi.getElm("ul1"), opened:false});
+      var panel3 = elm1.addPanel({caption:"Search", element:document.forms["f2"]});
+//elm1.setEnabled(false)
+      panel1.body.innerHTML = 
+        '<a href="javascript:void()">Home</a><br><br>' +
+        '<a href="javascript:void()">About</a><br><br>' +
+        '<a href="javascript:void()">Contact</a><br>';
+      elm1.closePanel(2);
+    };
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Sidebar")</script>
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" /> doBorder<br />
+<input type="Checkbox" onclick="elm1.doAllowAllOpen=this.checked" checked alt="#" name="none" value="" /> doAllowAllOpen<br />
+<input type="Checkbox" onclick="elm1.doAllowHeaderClick=this.checked" alt="#" name="none" value="" /> doAllowHeaderClick<br />
+<input type="Checkbox" onclick="elm1.doAllowHeaderDoubleClick=this.checked" checked alt="#" name="none" value="" /> doAllowHeaderDoubleClick<br />
+<script type="text/javascript">printFooter()</script>
+
+<ul id="ul1" style="margin:0px;padding-left:20px">
+  <li>First feature</li>
+  <li>Second feature</li>
+  <li>Third feature</li>
+  <li>Fourth feature</li>
+</ul>
+
+<form name="f2">
+  Search query<br />
+  <input type="edit" size="12" /><br /><br />
+  <input type="Button" value="Search" />
+</form>
+
+</body>
+</html>

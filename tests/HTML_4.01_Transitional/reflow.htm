@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script src="../../src/domapi.js"></script>
+<script type="text/javascript">
+/*
+- which arguments have to be passed
+- which optional arguments are possible
+  padX, padLeft, padRight, padY, padTop, padBottom
+*/
+domapi.loadUnit("reflow");
+
+onload = init;
+function init(){
+  var elm = domapi.Elm({x:0,y:0,w:0,h:0});
+  elm.style.border = "1px solid black";
+  elm.reflowAdd({l:10,t:10,r:'50%',b:'-51%'});
+  elm.style.overflow = "auto";
+
+  var doc = domapi.Elm({x:0,y:0,w:0,h:0});
+  doc.style.border = "1px solid black";
+  doc.reflowAdd({l:'50%',t:10,r:'-0',padX:5,b:'-51%'});
+  doc.style.overflow = "auto";
+
+  var elm0 = domapi.Elm({x:0,y:0,w:0,h:0});
+  elm0.style.border = "1px solid black";
+  elm0.reflowAdd({l:'50%',t:'50%',pad:5,padT:0,w:'50%',h:'50%'});
+  elm0.setText("elm0");
+
+  var elm1 = domapi.Elm({parent:elm0,x:0,y:0,w:0,h:0});
+  elm1.style.border = "1px solid black";
+  elm1.reflowAdd({c:'50%',m:'50%',w:'80%',h:'80%'});
+  elm1.setText("elm1");
+
+  var elm2 = domapi.Elm({parent:elm1,x:0,y:0,w:0,h:0});
+  elm2.style.border = "1px solid black";
+  elm2.reflowAdd({l:'50%',t:'50%',w:'50%',h:'50%'});
+  elm2.setText("elm2");
+
+  var elm3 = domapi.Elm({parent:elm2,x:0,y:0,w:0,h:0});
+  elm3.style.border = "1px solid black";
+  elm3.reflowAdd({l:'50%',t:'50%',w:'50%',h:'50%'});
+  elm3.setText("elm3");
+
+  var elm4 = domapi.Elm({x:0,y:0,w:0,h:0});
+  elm4.style.border = "1px solid black";
+  elm4.reflowAdd({l:0,t:'50%',padL:10,padR:5,padB:5,w:'50%',h:'50%'});
+  elm4.setText("elm4");
+
+  elm5 = domapi.Elm({parent:elm4,x:0,y:0,w:0,h:0,bgcolor:"#F1F1F1"});
+  elm5.style.border = "1px solid black";
+  elm5.reflowAdd({l:10,t:50,w:'50%',h:100});
+  elm5.setText("elm5");
+
+  // set elm6-x by using a function
+  function test(){
+    return elm5.getX()+elm5.getW()+2 ;
+  };
+
+  var elm6 = domapi.Elm({parent:elm4,x:0,y:0,w:0,h:0,bgcolor:"#F1F1F1"});
+  elm6.style.border = "1px solid black";
+  elm6.reflowAdd({l:test,t:50,w:30,h:100});
+  elm6.setText("elm6");
+
+  // reflow elm 7 absolute from right and bottom
+  var elm7 = domapi.Elm({parent:elm4,x:0,y:0,w:0,h:0,bgcolor:"#F1F1F1"});
+  elm7.style.border = "1px solid black";
+  elm7.reflowAdd({l:-50,t:-50,padX:5,padY:5,r:'100%',b:'100%'});
+  elm7.setText("elm7");
+
+  var elm8 = domapi.Elm({parent:elm4,x:0,y:0,w:0,h:0,bgcolor:"#F1F1F1"});
+  elm8.style.border = "1px solid black";
+  elm8.reflowAdd({l:0,t:'-0',w:'100%',h:20});
+  elm8.setText("elm8");
+
+  domapi.reflow.render();
+  showSyntax(elm);
+  domapi.transferElm(domapi.getElm('docs'),doc);
+}
+function showSyntax(elm){
+  //var re = re = /^$/gm;
+  //var s = String(init).replace(re,"");
+  //re = /^<br>/gm;
+  //s = s.replace(re,"");
+  //alert(s);
+  var s = String(init);
+  elm.setText("<pre>" + s + "</pre>");
+};
+</script>
+</head>
+<body style="overflow:hidden">
+<DIV ID="docs">
+<H2>Layout Manager (reflow)</H2>
+Adds extended functionality for <B>Positioning and Sizing</B> to your elements and handles the management of position and size in case of resizing events.<BR>
+It supports <B>absolute and relative</B> positioning and sizing in relation to the element's <B>parent</B>.
+<H3>Calling reflow engine:</H3>
+<PRE>
+  // create the element
+var elm = domapi.Elm({x:0,y:0,w:0,h:0}); 
+  // add reflow with an argument hash
+elm.reflowAdd({l:10,t:10,r:'60%',b:'-51%'});
+</PRE>
+
+<H3>Reflow - positioning arguments:</H3>
+<H4>Horizontal positioning arguments: l (left), c (center), r (right)</H4>
+all those arguments can hold 
+<LI>positive or negative integers
+<LI>positive or negative percent values (% of parent's width)
+<LI>a function wich returns a positive integer value<BR>
+if you assign negative values the positions are calculated from the right side of the parent.(Notice: the positions '100%' and '-0' are the same.)
+<H4>Horizontal sizing arguments: w (width)</H4>
+<LI>positive or negative integers
+<LI>positive or negative percent values (% of parent's width)<BR>
+
+<H4>Vertical positioning arguments: t (top), m (middle), b (bottom)</H4>
+all those arguments can hold 
+<LI>positive or negative integers
+<LI>positive or negative percent values (% of parent's height)
+<LI>a function wich returns a positive integer value<BR>
+if you assign negative values the positions are calculated from the bottom side of the parent.(Notice: the positions '100%' and '-0' are the same.)
+<H4>Vertical sizing arguments: h (height)</H4>
+<LI>positive or negative integers
+<LI>positive or negative percent values (% of parent's width)<BR>
+
+<H4>additional arguments: pad, padX, padY, padL, padR, padT, padB</H4>
+these arguments specify the padding behaviour of the element.<BR>
+<PRE>
+<UL>
+<LI>pad     sets the padding for all sides
+<LI>padX    sets the padding left and right
+<LI>padY    sets the padding for top and bottom
+<LI>padL    sets the padding left
+<LI>padR    sets the padding right
+<LI>padT    sets the padding top
+<LI>padB    sets the padding for bottom
+</UL>
+</PRE>
+Notice that you can refine your assignments by setting the pad parameter (5) <B>and</B> for example the padB parameter (10).
+This will cause a padding 5 at all sides exept the bottom where the padding will be 10.
+</DIV>
+</body>
+</html>

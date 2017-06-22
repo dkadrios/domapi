@@ -1,0 +1,40 @@
+<html><head><title>DomAPI Docs - Tutorial - XMLCore</title><link rel="stylesheet" type="text/css" href="../docs/bin/style.css"></head><body><div id="logo"><a href="http://domapi.com"><img src="../docs/bin/logo6.gif" alt="DomAPI Application Platform" border="0" /></a></div><a href="#" onclick="history.go(-1)"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="#" onclick="history.go(-1)">Back</a>&nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a><a href="tutor_index.htm">Up to index</a><h3>DomAPI Tutorial</h3><div class="tutorNavBlock"><a href="tutor_33.htm"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="tutor_33.htm" title="Back">Remote Procedure Calls (RPC)</a> &nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a> &nbsp;&nbsp;&nbsp; <a href="tutor_42.htm" title="Next">XUL Reader</a><a href="tutor_42.htm"><img src="../docs/bin/right.gif" alt="Next" width="14" height="14" border="0"></a></div><h3>XMLCore</h3><p class="tutorAuthor"> Author: <b>Patrice Fricard</b><br /><span style="font-size:smaller">Modified: 11/01/2004</span></p><style> li{ list-style:disc; } </style><h4>Xmlcore in practice</h4><h4>Overview</h4><p> This is a tutorial on using xmlcore extension to load and use Xml Dom Document. </p><p> Three samples: </p><ul><li>loadXML: Create an XML Dom document and load it using a string</li><li>synchronous load: Create an XML Dom document and load an Xml document synchronously</li><li>asynchronous load: Create an XML Dom document and load an Xml document asynchronously</li></ul><h4>Pre-requisite</h4><pre class="code">core.loadUnit("xmlcore")</pre><h4>LoadXml</h4><p> This method show how to simply load an xml into a Dom Document. </p><pre class="code">//create a dom document
+xmldoc = core.xml.getDomDocument();
+//load an xml string
+xmldoc.loadXML("&lt;xml&gt;&lt;node&gt;test&lt;/node&gt;&lt;/xml&gt;");</pre><h4>Synchronous load</h4><p> You can use it to load an xml document from a server.For security reason you can only load those file from a remote source.The load function prevent any access to the local file system. </p><pre class="code">//create a dom document
+xmldoc = core.xml.getDomDocument();
+//set the loading mode to synchronous (default is asynchrous)
+xmldoc.async =false;
+//load the xml file (could be a static file or a dynamic one which output a well-formed xml)
+xmldoc.load("myxml.xml");</pre><h4>Asynchronous load</h4><p> Two steps are needed in this case </p><p>Step 1: create a function to handle result and link it to the Dom Document</p><pre class="code">//create a dom document
+xmldoc = core.xml.getDomDocument();
+
+//this function will be called once the xml document is loaded
+xonload = function(){
+alert(xmldoc.xml);
+}
+
+xmldoc.onreadystatechange = xonload;</pre>e <p>Step 2: set mode to asynchronous and load file</p><pre class="code">//set mode to asynchronous (not require cause it's the default value ;)
+xmldoc.async =true;
+//load the xml file
+xmldoc.load("myxml.xml");</pre><h4>Use it to load a listbox</h4><p> Here, it's complete sample. </p><p> First load domapi an required library </p><pre class="code">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;script src="../src/core.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+ core.loadUnit("xmlcore");
+ core.loadUnit("listbox");</pre><p>we can use them once the page is loaded</p><pre class="code">onload=function(){
+//create a listbox that will be feed by the xmldoc
+elm1=Listbox({x:20,y:20,w:100,h:100});</pre> Create a dom and load an xml string <pre class="code">//create dom
+xmldoc = core.xml.getDomDocument(null,null);
+//load xml
+xmldoc.loadXML("&lt;list&gt;&lt;item&gt;item1&lt;/item&gt;&lt;item&gt;item2&lt;/item&gt;&lt;item&gt;item3&lt;/item&gt;&lt;/list&gt;");</pre><p>walk through the childNodes and create items in the listbox</p><pre class="code">var root = xmldoc.documentElement;
+
+  for(var a=0;a&lt;root.childNodes.length;a++)
+	//nodeType = 1 indicates an Element
+	 if(root.childNodes[a].nodeType == 1)
+	   this.addItem({text:root.childNodes[a].firstChild.nodeValue});</pre><p>let's finish the page</p><pre class="code">}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre> Hope that could help and give some ideas... <br /><br /><div class="tutorNavBlock"><a href="tutor_33.htm"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="tutor_33.htm" title="Back">Remote Procedure Calls (RPC)</a> &nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a> &nbsp;&nbsp;&nbsp; <a href="tutor_42.htm" title="Next">XUL Reader</a><a href="tutor_42.htm"><img src="../docs/bin/right.gif" alt="Next" width="14" height="14" border="0"></a></div><hr />  </body></html>

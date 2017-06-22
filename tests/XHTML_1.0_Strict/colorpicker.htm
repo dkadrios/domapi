@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Colorpicker Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("colorpicker");
+    onload=function(){
+      exampleInit();
+      elm1   = domapi.Colorpicker({x:300,y:100,kind:0});
+      label1 = domapi.Elm({x:250,y:70});
+      elm1.onchange = function(){label1.setText("(onchange) Value = "+this.value)};
+      elm1.onchange();
+      elm1.attachToForm(f,"elm1_value");
+    }
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Colorpicker")</script>
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.setDoAllowEdit(this.checked)" checked alt="#" name="none" value="" /> doAllowEdit<br />
+<input type="Checkbox" name="none" onclick="elm1.autoClose=this.checked" alt="#" value="" checked /> autoClose<br /><br />
+<input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='left'" alt="#" value="" />left<br />
+<input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='right'" alt="#" value="" />right<br />
+<input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='up'" alt="#" value="" />up<br />
+<input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='down'" alt="#" value="" checked />down
+<br /><br />
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+<script type="text/javascript">printFooter()</script>
+<div style="position:absolute;left:300px;top:200px;font-weight:bold;width:200px">NOTE: you can also type in constant names such as 'red' or 'yellow'.  Supports all HTML color constants.</div>
+</body>
+</html>

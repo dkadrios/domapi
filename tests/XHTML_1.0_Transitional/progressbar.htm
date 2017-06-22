@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Progressbar Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("progressbar");
+    domapi.loadUnit("slider");
+    onload=function(){
+      exampleInit();
+      var t = domapi.getElm("table1");
+      var r = (domapi.theme.name == "aqua")?[2,9,134,9]:[8,5,130,5];
+      slider = domapi.Slider({parent:domapi.getElm("divSlider"),position:"relative",mode:"range",range:r});      
+      slider.onchange = function(i){setPos(i)};
+      elm1 = domapi.Progressbar({parent:t.rows[0].cells[1]});
+      elm2 = domapi.Progressbar({parent:t.rows[1].cells[1],quanta:10});
+      elm3 = domapi.Progressbar({parent:t.rows[2].cells[1],orientation:"vertical"});
+      elm4 = domapi.Progressbar({parent:t.rows[3].cells[1],orientation:"vertical",quanta:10});
+
+      slider.setValue([50,100,true]);
+    };
+    function setPos(p){
+      var b = domapi.bags.progressbar;
+      for(var i=0;i<b.length;i++)
+        b[i].setProgress(p);
+    };
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Progressbar")</script>
+<div id="divSlider">Use slider to change progess</div>
+<script type="text/javascript">printFooter()</script>
+
+<table border="1" id="table1" cellpadding="5" width="300" style="position:absolute;top:40px;left:270px">
+<tr><td>Smooth</td><td colspan="2"></td></tr>
+<tr><td>Quantized</td><td colspan="2"></td></tr>
+<tr><td>Smooth</td><td></td></tr>
+<tr><td>Quantized</td><td></td></tr>
+</table>
+
+
+</body>
+</html>

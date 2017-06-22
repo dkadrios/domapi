@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Listbox Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("listbox");
+    var fonts= "Aardvark,Abbey-Medium,Symbol,ChickenScratch AOE,Default,MS Serif,Expo,Brooklyn,GilbertUltraBold,"+
+               "Lansbury,Arial Narrow,Lucida Console,Arial Black,System,Arial,Fixedsys,Trebuchet MS,Humanst521 Cn BT,"+
+               "Scythe,Garamond,Palatino Linotype,Swis721 BlkEx BT,Pepsi,Dragonwick,Century Gothic,Georgia,Marlett,"+
+               "Courier New,Tahoma,DawnCastle,Merlin,Bookman Old Style,Times New Roman,Haettenschweiler,Script,"+
+               "Wingdings,Microsoft Sans Serif,Terminal,Small Fonts,Abagail,Book Antiqua,Carleton,Modern,Andes,"+
+               "MS Sans Serif,Bastarda,Roman,Opera,Stonehenge,MS Outlook,Lucida Sans Unicode,Erie,OzHandicraft BT,"+
+               "Lochen,Webdings,Lincoln,Verdana,Comic Sans MS,Motor,Courier,Impact";
+    onload = function(){
+      elm1 = domapi.Listbox({x:10, y:150,w:170,h:225,doAllowDrag:true});
+      elm2 = domapi.Listbox({x:210,y:150,w:170,h:225,doAllowDrag:true});
+      elm1.delimitedText(fonts);
+      //-----
+      // custom tailor ondropallow and ondrop to your particular needs
+      // ondropallow must always return a boolean
+      elm1.ondropallow = function(arg){
+        var d = domapi.customDrag;
+        var n = domapi.findParent(arg.over, "LISTBOXITEM");
+        var p = domapi.findParent(arg.over, "LISTBOX");
+        // drop on anything but itself
+        return (n || p) && (d.elm != n);
+      };
+      //-----
+      elm1.ondrop = function(arg){//dump([arg.over.id, arg.source.id])
+        var d = domapi.customDrag;//dump(arg.E.target.id)
+        var targetItem = domapi.findTarget(arg.E, "LISTBOXITEM");
+        if(!targetItem)targetItem = domapi.findTarget(arg.E, "LISTBOX");//dump(domapi.findTarget(arg.E, "LISTBOX").id)
+        var sourceItem = arg.source;
+        var targetListbox = domapi.findParent(targetItem,"LISTBOX");
+        var sourceListbox = domapi.findParent(sourceItem,"LISTBOX");
+        targetListbox.insertItem({
+          fromItem      : sourceItem,
+          toItem        : targetItem,
+          sourceListbox : sourceListbox,
+          insertAbove   : d.insertAbove,
+          insertBelow   : d.insertBelow
+        });
+      };
+      //-----
+      elm2.ondropallow = elm1.ondropallow;
+      elm2.ondragend   = elm1.ondragend;
+      elm2.ondrop      = elm1.ondrop;
+    };
+  </script>
+  <style type="text/css">
+    #main{
+      width:400px;
+      text-align:justify;
+      background-color:white;
+      border:1px solid;
+      border-color:silver gray gray silver;
+    }
+  </style>
+</head>
+
+<body style="background-color:buttonface">
+<p id="main">
+  Drag the items from one listbox to the other.  You can also reorder items in a single listbox.<br /><br />
+  There is a <span class="inlinecode">15px</span> drag threshhold before items are removed, which should still 
+  allow you to select items like normal.
+</p>
+</body>
+</html>

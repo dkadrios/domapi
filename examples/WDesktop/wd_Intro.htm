@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
+<HTML>
+<BODY>
+  <DIV id="idIntro">
+    <P>This demo is a DomAPI-based implementation of a file browser.  It was originally written as both a proof 
+    of concept and as an exercise for learning more about the DomAPI library.</P>
+    <P>The main page of this example, WDesktop.htm, implements a simple desktop-like user interface and serves
+    as a launch point for the rest of the demo.  Note that although you may directly open any html page in this demo, 
+    only WDesktop.htm was meant to be browsed directly.</P>
+    <P>At the core of this example is the file wd_explore.htm, in which the file browser is implemented.  The demo uses 
+    the Tree, Listgrid, Toolbar, Menubar, Speedbutton, and the Splitpane or Splitter DomAPI components. The file manager 
+    also  makes use of the reflow, xmlcore, and JSON extensions.  The useSplitPane variable, defined inWDesktop.htm, can 
+    be changed by the user to specify whether a splitpane or a splitter component is to be used on the page (2 different 
+    splitter implementations).</P>
+    <P>This demo was originally tied to a back-end data engine that produced JSON packets for the client; however, for the 
+    purposes of this demo, the original mechanism has been replaced by an XML data source (wd_serverdata.xml) and JSON-producing 
+    script (implemented in wd_getJsonData.js).  The script uses XSLT transformations to produce on-demand JSON data for the tree and 
+    listgrid (data is produced as new tree nodes are selected/expanded).</P>
+    <P>Enjoy!
+  </DIV>
+</BODY>
+</HTML>

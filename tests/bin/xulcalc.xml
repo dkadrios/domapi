@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<window id="calculator" title="Domapi calculator" minWidth="200" maxWidth="300">
+<vbox style="background-color:buttonface">
+<hbox><textbox id="calcField" flex="1"/></hbox>
+<hbox align="end"><button label="C" id="reset" width="40"/></hbox>
+<vbox>
+ <hbox>
+  <button label="7" id="b7" width="40"/>
+  <button label="8" id="b8" width="40"/>
+  <button label="9" id="b9" width="40"/>
+  <button label="/" id="bDiv" width="40"/>
+  <button label="Rac" id="bRac" width="40"/>
+ </hbox>
+ <hbox>
+  <button label="4" id="b4" width="40"/>
+  <button label="5" id="b5" width="40"/>
+  <button label="6" id="b6" width="40"/>
+  <button label="*" id="bMulti" width="40"/>
+  <button label="%" id="bPercent" width="40"/>
+ </hbox>
+  <hbox>
+  <button label="1" id="b1" width="40"/>
+  <button label="2" id="b2" width="40"/>
+  <button label="3" id="b3" width="40"/>
+  <button label="-" id="bSub" width="40"/>
+  <button label="1/x" id="bInv" width="40"/>
+ </hbox>
+ <hbox>
+  <button label="0" id="b0" width="40"/>
+  <button label="+/-" id="bSign" width="40"/>
+  <button label="," id="bSep" width="40"/>
+  <button label="+" id="bAdd" width="40"/>
+  <button label="=" id="bEqual" width="40"/>
+ </hbox>
+</vbox>
+</vbox>
+</window>

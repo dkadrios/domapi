@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Tree Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("tree");
+    domapi.loadUnit("json");    
+    onload = function(){
+      exampleInit();
+
+      elm1  = domapi.Tree({x:300,y:50,w:200,h:200});
+      elm1.loadFromJsonUrl('../bin/json_tree_rpc1.txt');
+      
+      elm2  = domapi.Tree({x:300,y:300,w:200,h:200});
+      elm2.loadFromJsonUrl('../bin/json_tree_rpc2.txt');
+      elm2.onexpandnode = function(n){
+        elm2.loadFromJsonUrl('../bin/json_tree_rpc2.txt',n);      
+      };
+
+    };
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Tree w/RPC (JSON)")</script>
+
+<script type="text/javascript">printFooter()</script>
+<p style="width:200px">Top tree get it's nodes from elm1.loadFromJsonURL('json_tree_rpc1.txt');</p>
+<p style="width:200px">Bottom tree uses onexpandnode to load from json_tree_rpc2.txt.  Forms an infinite loop in this case.<br /><br />
+In the real world, the server would not be returning the same structure every time ;)</p>
+</body>
+</html>

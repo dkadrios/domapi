@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
+
+<window
+    id="findfile-window"
+    title="Find Files"
+    orient="horizontal" xmlns:html="http://www.w3.org/1999/xhtml">
+
+	<vbox flex="1">
+		<description>
+			Enter your search criteria below and select the Find button to begin
+			the search.
+		</description>  
+		<hbox>
+			<label value="Search for:" control="find-text"/>
+			<textbox id="find-text"/>
+		</hbox>
+		
+		<hbox>
+			<spacer flex="1"/>
+			<button id="find-button" label="Find" default="true"/>
+			<spacer style="width:10px"/>
+			<button id="cancel-button" label="Cancel" onclick="fcancel();"/>
+		</hbox>
+	</vbox>
+	<html:script>fcancel = function(){alert('cancel click');};</html:script>
+</window>

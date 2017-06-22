@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Spinedit Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("spinedit");
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Spinedit({x:300,y:100,formName:"f1", elementName:"elm1_value"});
+      elm1.onchange = function(){domapi.getElm("label1").innerHTML = elm1.value;return true};
+    };
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Spinedit")</script>
+
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.doWarning=this.checked" checked alt="#" name="none" value="" /> doWarning (if out of range)<br />
+<br />
+<table cellpadding="0" cellspacing="0">
+<tr><td>step:</td><td><input type="text" size="4" value="1" onchange="if(sysutils.isInteger(this.value))elm1.step=this.value" alt="#" /></td></tr>
+<tr><td>min:</td><td><input type="text" size="4" value="0" onchange="if(sysutils.isInteger(this.value))elm1.min=this.value" alt="#" /></td></tr>
+<tr><td>max:</td><td><input type="text" size="6" value="1000" onchange="if(sysutils.isInteger(this.value))elm1.max=this.value" alt="#" /></td></tr>
+<tr><td valign="top"><button onclick="elm1.setValue(f.e1.value);return false">setValue</button>&nbsp;</td><td><input name="e1" type="text" size="6" value="500" alt="#" /><br /><br /></td></tr>
+<tr><td>Current Value:</td><td id="label1">0</td></tr>
+</table>
+
+<br /><br />
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

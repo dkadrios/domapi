@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script src="../../src/domapi.js"></script>
+<script type="text/javascript">
+  domapi.loadUnit("keyboard");
+	onload=init;
+  function init(){
+    document.forms['f1'].elements['keys'].value = ''
+    var showKeys = function() {
+      var string = '';
+      for (var i=0;i<domapi.keyboard.keys.length;i++) {
+        string += String.fromCharCode(domapi.keyboard.keys[i])+" ";
+      }
+      var f1 = document.f1;
+      f1.keys.value = string;
+      if (domapi.keyboard.isKey(f1.isKey1.value)) f1.isKey1.style.background = "red"; else f1.isKey1.style.background = "white";
+      if (domapi.keyboard.isKey(f1.isKey2.value)) f1.isKey2.style.background = "red"; else f1.isKey2.style.background = "white";
+      if (domapi.keyboard.isKey(f1.isKey3.value)) f1.isKey3.style.background = "red"; else f1.isKey3.style.background = "white";
+      if ((f1.isShift.checked)&&(domapi.keyboard.isShift())) f1.showShift.style.background = "red"; else f1.showShift.style.background = "white";
+      if ((f1.isCtrl.checked)&&(domapi.keyboard.isCtrl()))   f1.showCtrl.style.background = "red";  else f1.showCtrl.style.background = "white";
+    }
+    domapi.keyboard.onKeyDown = showKeys;
+    domapi.keyboard.onKeyUp = showKeys;
+    var alertKey1 = function(key) {
+      alert('You just pressed - '+key+'\nfiring the alertKey1 event');
+    }
+
+    var alertKey2 = function(key) {
+      alert('You just pressed - '+key+'\nfiring the alertKey2 event');
+    }
+
+    domapi.keyboard.addEvent('q', alertKey1);
+    domapi.keyboard.addEvent('w', alertKey1);
+    domapi.keyboard.addEvent('e', alertKey2);
+    domapi.keyboard.addEvent('r', alertKey2);
+  }
+</script>
+  <link rel="stylesheet" type="text/css" href="../bin/examples.css">
+  <style type="text/css">
+    button{width:140px}
+  </style>
+</head>
+<body>
+<form action="none" name="f1">
+<h3>Keyboard</h3>
+
+<div class="main">
+  <table width=200 cellpadding="2" cellspacing="0" border="0">
+    <tr><td>Is Key</td><td><input type="Text"     name="isKey1"  value="A" size="4" alt="#"  style="background : white; color : black"/></td></tr>
+    <tr><td>Is Key</td><td><input type="Text"     name="isKey2"  value="B" size="4" alt="#"  style="background : white; color : black"/></td></tr>
+    <tr><td>Is Key</td><td><input type="Text"     name="isKey3"  value="3" size="4" alt="#"  style="background : white; color : black"/></td></tr>
+    <tr><td>Is Shift</td>
+      <td>
+        <input type="checkbox" name="isShift"    value="on"         alt="#"  checked/>
+        <input type="Text"     name="showShift"  value="" size="1"  alt="#"  style="background : white; color : black"/>
+      </td>
+    </tr>
+    <tr><td>Is Ctrl</td>
+      <td>
+        <input type="checkbox" name="isCtrl"   value="on"        alt="#" checked/>
+        <input type="Text"     name="showCtrl" value="" size="1" alt="#"  style="background : white; color : black"/>
+        </td>
+    </tr>
+    <tr><td>keys</td><td><input type="text" name="keys" value="" alt="#" /></td></tr>
+  </table>
+</div>
+<br>
+  <table cellpadding="2" cellspacing="0" border="0">
+    <tr><td>-Pressed keys are displayed in "keys" field.<br>
+            -Change the "is Key" field to different catch keys.<br>
+            -Tick the checkbox's to catch ctrl and shift keys.<br>
+            -Caught keys are displayed red.<br>
+            -Q,W,E,R all have events attached, which fire when pressed.
+    </td></tr>
+  </table>
+</form>
+</body>
+</html>

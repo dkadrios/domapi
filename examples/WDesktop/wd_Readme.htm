@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("pagecontrol");    
+    domapi.loadUnit("reflow");
+    onload = function(){
+      elm1 = domapi.Pagecontrol({x:0,y:0,w:400,h:300});
+      elm1.addPage({text:"Introduction",type:'IFRAME',url:"wd_Intro.htm"} );
+      elm1.addPage({text:"Known Issues",type:'IFRAME',url:"wd_Issues.htm"} );
+      elm1.setAlign(alClient);
+      domapi.reflow.render() ;
+    }  
+  </script>
+</head>
+
+<body style="overflow:hidden">
+</body>
+</html>

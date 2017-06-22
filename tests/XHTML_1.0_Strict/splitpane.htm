@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Splitpane Example</title>
+  <style type="text/css">
+    .memo{
+      overflow:auto;
+      padding:0px;
+      background-color:white;
+      color:black;
+      visibility:"hidden";
+      padding-left:5px;
+    }
+  </style>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("splitpane");    
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Splitpane({
+        x     : 250,
+        y     : 25,
+        w     : 450,
+        h     : 250,
+        type1 : "IFRAME",
+        type2 : "IMG"
+      });
+      elm1.pane1.src = "http://www.google.com";
+      elm1.pane2.src = "../bin/logo.gif";
+      elm1.moveSplitter(180);
+      // ---- relative test
+      elm2 = domapi.Splitpane({
+        position    : "relative",
+        orientation : "vertical",
+        id1         : "reddeath",
+        id2         : "tarrandfether"
+      });
+     //    domapi.debug.dumpProps(domapi.getElm("reddeath"))
+      elm3 = domapi.Splitpane({        
+        w    : 700,
+        h    : 250,
+        ref1 : elm2,
+        id2  : "ruemorgue",
+        orientation : "horizontal"
+      });
+      elm3.style.position = "relative";
+    }
+  </script>  
+</head>
+<body>
+<script type="text/javascript">printHeader("Splitpane")</script>
+
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.doRollover=this.checked" alt="#" name="none" value="" /> doRollover<br />
+<input type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" alt="#" name="none" value="" /> doBorder<br />
+<input type="Checkbox" onclick="elm1.doThumbTrack=this.checked" alt="#" name="none" value="" /> doThumbTrack<br />
+<input type="Checkbox" onclick="elm1.doHideOnDrag=this.checked" alt="#" name="none" value="" /> doHideOnDrag<br />
+<div style="height:100px">&nbsp;</div>
+<script type="text/javascript">printFooter()</script>
+
+<div id="reddeath" class="memo">
+"When the eyes of Prince Prospero fell upon this spectral image...he was seen to
+be convulsed, in the first moment with a strong shudder either of terror or distaste;
+but, in the next, his brow reddened with rage. 'Who dares?...Who dares insult us with
+this blasphemous mockery? Seize him and unmask him--that we may know whom we have to
+hang at sunrise, from the battlements!"
+</div>
+<div id="tarrandfether" class="memo">
+"I may state the system, then, in general terms, as one in which the patients were
+menages-humored. We contradicted no fancies which entered the brains of the mad.
+On the contrary, we not only indulged but encouraged them; and many of our most
+permanent cures have been thus effected. There is no argument which so touches the
+feeble reason of the madman as the argumentum ad absurdum. We have had men, for example,
+who fancied themselves chickens. The cure was, to insist upon the thing as a fact- to
+accuse the patient of stupidity in not sufficiently perceiving it to be a fact- and
+thus to refuse him any other diet for a week than that which properly appertains to
+a chicken. In this manner a little corn and gravel were made to perform wonders."
+</div>
+<div id="ruemorgue" class="memo">
+"Extraordinary Murders. --This morning, about three o'clock, the inhabitants of the Quartier St. 
+Roch were aroused from sleep by a succession of terrific shrieks, issuing, apparently, from the 
+fourth story of a house in the Rue Morgue, known to be in the sole occupancy of one Madame
+ L'Espanaye, and her daughter, Mademoiselle Camille L'Espanaye. After some delay, occasioned 
+ by a fruitless attempt to procure admission in the usual manner, the gateway was broken in with 
+ a crowbar, and eight or ten of the neighbors entered, accompanied by two gendarmes. By this time 
+ the cries had ceased; but, as the party rushed up the first flight of stairs, two or more rough 
+ voices, in angry contention, were distinguished, and seemed to proceed from the upper part of the 
+ house. As the second landing was reached, these sounds, also, had ceased, and everything remained 
+ perfectly quiet. The party spread themselves, and hurried from room to room. Upon arriving at a 
+ large back chamber in the fourth story, (the door of which, being found locked, with the key 
+ inside, was forced open,) a spectacle presented itself which struck every one present not less 
+ with horror than with astonishment.<br />
+<br />
+"The apartment was in the wildest disorder --the furniture broken and thrown about in all directions. 
+There was only one bedstead; and from this the bed had been removed, and thrown into the middle of 
+the floor. On a chair lay a razor, besmeared with blood. On the hearth were two or three long and 
+thick tresses of grey human hair, also dabbled in blood, and seeming to have been pulled out by the 
+roots. Upon the floor were found four Napoleons, an ear-ring of topaz, three large silver spoons, 
+three smaller of metal d'Alger, and two bags, containing nearly four thousand francs in gold. The 
+drawers of a bureau, which stood in one corner, were open, and had been, apparently, rifled, although 
+many articles still remained in them. A small iron safe was discovered under the bed (not under the 
+bedstead). It was open, with the key still in the door. It had no contents beyond a few old letters, 
+and other papers of little consequence.<br />
+<br />
+"Of Madame L'Espanaye no traces were here seen; but an unusual quantity of soot being observed in the 
+fire-place, a search was made in the chimney, and (horrible to relate!) the corpse of the daughter, 
+head downward, was dragged therefrom; it having been thus forced up the narrow aperture for a 
+considerable distance. The body was quite warm. Upon examining it, many excoriations were perceived, 
+no doubt occasioned by the violence with which it had been thrust up and disengaged. Upon the face 
+were many severe scratches, and, upon the throat, dark bruises, and deep indentations of finger nails, 
+as if the deceased had been throttled to death.<br />
+<br />
+"After a thorough investigation of every portion of the house, without farther discovery, the party 
+made its way into a small paved yard in the rear of the building, where lay the corpse of the old lady, 
+with her throat so entirely cut that, upon an attempt to raise her, the head fell off. The body, as well 
+as the head, was fearfully mutilated --the former so much so as scarcely to retain any semblance of humanity.<br />
+<br />
+"To this horrible mystery there is not as yet, we believe, the slightest clew."
+</div>
+
+</body>
+</html>

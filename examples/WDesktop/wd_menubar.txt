@@ -1,0 +1,106 @@
+{
+    items:[
+      {text:"File", childMenu:{
+          items:[
+            {text:"New"},
+            {type:"separator"},
+            {text:"Create Shortcut", enabled:false},
+            {text:"Delete", enabled:false},
+            {text:"Rename"},
+            {text:"Properties"},
+            {type:"separator"},
+            {text:"Close", onselected:"document.owner.close();"}
+          ]
+        }
+      },
+      {text:"Edit", childMenu:{
+          items:[
+            {text:"Undo", enabled:false},
+            {type:"separator"},
+            {text:"Cut", enabled:false},
+            {text:"Copy"},
+            {text:"Paste", enabled:false},
+            {text:"Paste Shortcut", enabled:false},
+            {type:"separator", enabled:false},
+            {text:"Select All"},
+            {text:"Invert Selection"}
+          ]
+        }
+      },
+      {text:"View", childMenu:{
+          items:[
+            {text:"Toolbars" , childMenu:{
+                items:[
+                  {text:"Standard Buttons", autoCheck:true, checked:true},
+                  {text:"Address Bar", autoCheck:true, checked:true},
+                  {text:"Links", autoCheck:true, checked:true },
+                  {type:"separator"},
+                  {text:"Lock the Toolbars", autoCheck:true, checked:true },
+                  {text:"Customize..."}
+                ]
+              }
+            },
+            {text:"Status Bar", autoCheck:true, checked:true},
+            {text:"Explorer Bar", childMenu:{
+                items:[
+                  {text:"SubItem 1", radioGroup:1, checked:true},
+                  {text:"SubItem 2", radioGroup:1}
+                ]
+              }
+            },
+            {type:"separator"},
+            {text:"Thumbnails", radioGroup:2, checked:true},
+            {text:"Files", radioGroup:2},
+            {text:"Icons", radioGroup:2},
+            {text:"List", radioGroup:2},
+            {text:"Details", radioGroup:2},
+            {type:"separator"},
+            {text:"Arrange Icons by", childMenu:{
+                items:[
+                  {text:"Name", radioGroup:3, checked:true},
+                  {text:"Size", radioGroup:3},
+                  {text:"Type", radioGroup:3},
+                  {text:"Modified", radioGroup:3}
+                ]
+              }
+            },
+            {type:"separator"},
+            {text:"Choose Details"},
+            {text:"Customize This Folder..."},
+            {type:"separator"},
+            {text:"Go To.."},
+            {text:"Refresh"}              
+          ]
+        }
+      },
+      {text:"Favorites", childMenu:{
+          items:[
+            {text:"Add to Favorites..."},
+            {text:"Organize Favorites..."},
+            {type:"separator"},
+            {text:"Links", childMenu:{
+                items:[
+                  {text:"DomAPI", img:"images/domapi16.gif",onselected:"window.open('http://www.domapi.com');"}
+                ]
+              }
+            }
+          ]
+        }},
+      {text:"Tools", childMenu:{
+          items:[
+            {text:"Map Network Drive..."},
+            {text:"Disconnect Network Drive..."},
+            {text:"Synchronize..."},
+            {type:"separator"},
+            {text:"Folder Options..."}
+          ]
+        }},
+      {text:"Help", childMenu:{
+          items:[
+            {text:"Help and Support Center"},
+            {type:"separator"},
+            {text:"About"}
+          ]
+        }}
+    ]
+  };

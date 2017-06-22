@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-splittersplitterType" content="text/html; charset=utf-8">
+  <title>XulReader Example</title>
+	<style type="text/css">
+				 xml {display: none;}
+	</style>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript" src="../bin/examples.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("thirdparty/pfricard/xulreader");
+    domapi.loadUnit("window");
+    domapi.loadUnit("listbox");
+    domapi.loadUnit("listgrid");
+    domapi.loadUnit("combobox");
+    domapi.loadUnit("form");
+    domapi.loadUnit("button");
+    onload=function(){
+      exampleInit();
+      xrdr1 = domapi.XulReader({x:250,y:30,uri:"../bin/xulsample2.xml"});
+      cont = domapi.Elm({id:"outV"});
+      xrdr2 = domapi.XulReader({parent:cont,uri:"../bin/xulsample1.xml"});
+      xdoc = domapi.xml.xmlFromDataIsland("dataIsland");
+      xrdr3 = domapi.XulReader({x:250,y:135,xmlnode:xdoc.documentElement.childNodes[0]});
+    };
+    startPosX = 250;
+    startPosY = 20;
+    function readTextarea(){
+    domapi.XulReader({x:startPosX,y:startPosY,xmlstr:document.getElementById('idTextarea').value});
+    startPosX+=10;
+    startPosY+=10;
+    }
+		function openCalc(){
+		xcalc=domapi.XulReader({x:startPosX,y:startPosY,uri:"../bin/xulcalc.xml"});
+    startPosX+=10;
+    startPosY+=10;
+		}
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("XulReader Alpha")</script>
+<br/>
+The object currently doesn't support all XUL declaration.
+So consider it as an alpha version.<hr/>
+<textarea rows="15" cols="23" id="idTextarea">
+&lt;window id="window3" title="test" orient="horizontal"&gt;
+&lt;vbox flex="1"&gt;
+&lt;/vbox&gt;
+&lt;/window&gt;
+</textarea><br/>
+<input type="button" onclick="readTextarea()" value="test code"/><br/>
+<input type="button" onclick="openCalc()" value="Calculator"/>
+<br/><br/>
+For more information on XUL check <a target="_blank" href="http://www.xulplanet.com">xulplanet.com</a>
+<script type="text/javascript">printFooter()</script>
+
+
+<div style="overflow:hidden;border:1px inset;position:absolute;left:250px;top:250px;width:400px" id="outV"></div>
+
+<!--inside xml store-->
+<xml id="dataIsland">
+<window   id="window2" title="test" orient="horizontal">
+<vbox flex="1">
+  <hbox style="background-color:#99CCCC"><label>hbox1</label></hbox>
+	<hbox style="border:1px solid gray" flex="1">
+				<bbox width="40" style="background-color:#DDDDDD"><label>vbox2</label></bbox>
+				<bbox flex="1" style="background-color:#F1F1F1"><button label="Hello"></button><label>bbox1 [flex=1]</label></bbox>
+	</hbox>
+	<hbox style="background-color:#CCCCFF">hbox3</hbox>
+</vbox>
+</window>
+</xml>
+</body>
+</html>

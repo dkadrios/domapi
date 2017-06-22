@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>css Example</title>
+  <link rel="stylesheet" type="text/css" href="../bin/examples.css"><!-- Also <style></style> are accepted -->
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("more_css");
+    onload=function(){    
+      label01=domapi.Elm({});
+	  label01.setText("<b>domapi.css.selectors[0] = </b><br />");
+	  label01.style.border="1px solid black";
+      label02=domapi.Elm();
+	  label02.setText("<b>domapi.css.cssText[0] = </b><br />");
+	  label02.style.border="1px solid black";
+      label03=domapi.Elm();
+	  label03.setText("<b>domapi.css.cssTextIndex[0] = </b><br />");
+	  label03.style.border="1px solid black";
+      label04=domapi.Elm();
+	  label04.setText("<b>domapi.css.attributes[0] = </b><br />");
+	  label04.style.border="1px solid black";
+      label05=domapi.Elm();
+	  label05.setText("<b>domapi.css.format[0] = </b><br />");
+	  label05.style.border="1px solid black";
+      label06=domapi.Elm();
+	  label06.setText("<b>domapi.css.formatCssText[0] = </b><br />");
+	  label06.style.border="1px solid black";
+
+	  domapi.css.init(); // init domapi.css - default is styleSheet[0]
+	  domapi.css.process("111111"); // process styleSheet variable arrays
+
+      for (var a=0;a<domapi.css.selectors[0].length;a++)
+        label01.innerHTML+="<b>["+a+"]</b> "+domapi.css.selectors[0][a]+"<br />";
+
+      for (var a=0;a<domapi.css.cssText[0].length;a++)
+        label02.innerHTML+="<b>["+a+"]</b> "+domapi.css.cssText[0][a]+"<br />";
+
+      for (var a=0;a<domapi.css.cssTextIndex[0].length;a++)
+        label03.innerHTML+="<b>["+a+"]</b> "+domapi.css.cssTextIndex[0][a]+"<br />";
+
+      for (var a=0;a<domapi.css.attributes[0].length;a++){
+		for (var b=0;b<domapi.css.attributes[0][a].length;b++){
+      			label04.innerHTML+="<b>["+a+"]["+b+"][0]</b> "+domapi.css.attributes[0][a][b][0]+"<br />";
+			label04.innerHTML+="<b>["+a+"]["+b+"][1]</b> "+domapi.css.attributes[0][a][b][1]+"<br /><br />";
+		}
+	}
+
+      label05.innerHTML+=domapi.css.format[0];
+
+      for (var a=0;a<domapi.css.formatCssText[0].length;a++)
+        label06.innerHTML+="<b>["+a+"]</b><br />"+domapi.css.formatCssText[0][a]+"<br /><br />";
+    }
+  </script>
+  
+</head>
+
+<body>
+Only 1 styleSheet [0] is present in this example page - "examples.css".<br /><br />
+domapi.css.process("111111"); results in:<br /><br />
+</body>
+</html>

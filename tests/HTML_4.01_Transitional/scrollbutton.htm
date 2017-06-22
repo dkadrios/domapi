@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>ScrollButton Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("scrollbutton");
+    onload = function(){
+      exampleInit();
+    	mydiv = domapi.Elm({id:"output"});
+			mydiv.style.border="1px solid gray";
+      elm1   = domapi.ScrollButton({x:300,y:100,control:mydiv});
+      elm2   = domapi.ScrollButton({x:300,y:115,direction:"bottom",control:mydiv});
+      elm3   = domapi.ScrollButton({x:300,y:150,direction:"left",control:mydiv,doOnOver:true,step:4});
+      elm4   = domapi.ScrollButton({x:315,y:150,direction:"right",control:mydiv,doOnOver:true,step:4});
+			
+    }
+		
+		function viewBorder(){
+		
+		elm1.doBorder=!elm1.doBorder;elm1.draw();
+		elm2.doBorder=!elm2.doBorder;elm2.draw();
+		elm3.doBorder=!elm3.doBorder;elm3.draw();
+		elm4.doBorder=!elm4.doBorder;elm4.draw();
+		}
+  </script>
+
+</head>
+
+<body>
+<style>
+#output{
+width:200px;
+height:300px;
+position:absolute;
+top:50px;
+left:330px;
+background-color:white;
+overflow:hidden;
+}
+</style>
+<script type="text/javascript">printHeader("Scrollbutton")</script>
+<input type="Checkbox" onclick="viewBorder()" checked alt="#" name="none" value="" /> doBorder<br />
+<script type="text/javascript">printFooter()</script>
+<div id="output">
+<table width="400">
+<tr><td>
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis. Donec ornare. Duis tristique nisl. Aenean vitae velit. Praesent condimentum nibh quis massa. Morbi id dolor. Curabitur accumsan urna eget urna. Ut porta. Nullam ultrices sollicitudin lectus. Pellentesque massa pede, consequat id, semper sed, tempus non, turpis. Sed eros felis, malesuada non, elementum quis, consequat quis, diam. Donec accumsan. Mauris facilisis lorem vel tellus. Mauris accumsan massa sed ipsum. 
+
+Praesent viverra. Proin vitae turpis ullamcorper lacus ullamcorper pellentesque. Vestibulum molestie neque quis neque. In volutpat. Donec vitae risus at massa elementum semper. Vestibulum et dolor. Vivamus iaculis sapien nec sapien dignissim tincidunt.
+</td></tr>
+<tr><td>
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis. Donec ornare. Duis tristique nisl. Aenean vitae velit. Praesent condimentum nibh quis massa. Morbi id dolor. Curabitur accumsan urna eget urna. Ut porta. Nullam ultrices sollicitudin lectus. Pellentesque massa pede, consequat id, semper sed, tempus non, turpis. Sed eros felis, malesuada non, elementum quis, consequat quis, diam. Donec accumsan. Mauris facilisis lorem vel tellus. Mauris accumsan massa sed ipsum. 
+
+Praesent viverra. Proin vitae turpis ullamcorper lacus ullamcorper pellentesque. Vestibulum molestie neque quis neque. In volutpat. Donec vitae risus at massa elementum semper. Vestibulum et dolor. Vivamus iaculis sapien nec sapien dignissim tincidunt.
+</td></tr>
+<tr><td>
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis. Donec ornare. Duis tristique nisl. Aenean vitae velit. Praesent condimentum nibh quis massa. Morbi id dolor. Curabitur accumsan urna eget urna. Ut porta. Nullam ultrices sollicitudin lectus. Pellentesque massa pede, consequat id, semper sed, tempus non, turpis. Sed eros felis, malesuada non, elementum quis, consequat quis, diam. Donec accumsan. Mauris facilisis lorem vel tellus. Mauris accumsan massa sed ipsum. 
+
+Praesent viverra. Proin vitae turpis ullamcorper lacus ullamcorper pellentesque. Vestibulum molestie neque quis neque. In volutpat. Donec vitae risus at massa elementum semper. Vestibulum et dolor. Vivamus iaculis sapien nec sapien dignissim tincidunt.
+</td></tr>
+</table>
+</div>
+</body>
+</html>

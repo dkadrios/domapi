@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Dropdown Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("dropdown");
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Dropdown({x:300,y:100});      
+    }
+  </script>  
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Dropdown")</script>
+
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+Direction:<br />
+<table class="norm"><tr>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='up'" alt="#" value="" />up</td>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='right'" alt="#" value="" />right</td>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='down'" checked alt="#" value="" />down</td>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='left'" alt="#" value="" />left</td>
+</tr></table><br />
+
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

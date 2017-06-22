@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Animate Example</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("animate");
+    onload=init;
+    //------
+    function init() {
+      f=document.f1;
+      f.reset();
+      //elm1=domapi.createElm(null,250,50 ,40,30,"red");
+      elm1=domapi.Elm({x:250,y:50,w:200,h:197});
+      elm2=domapi.Elm({x:250,y:450,w:200,h:197});
+      elm1.setText('<img src="../bin/logo.gif" width="100%" height="100%" />');
+      elm2.setText('<img src="../bin/logo.gif" width="100%" height="100%" />');
+    }
+    //------
+    function randomGlide(){
+      var startRandomX = Math.round(Math.random()*300+250);
+      var startRandomY = Math.round(Math.random()*300);
+      var endRandomX   = Math.round(Math.random()*300+250);
+      var endRandomY   = Math.round(Math.random()*300);
+	  status="Start [ "+startRandomX+" , "+startRandomY+" ]   End [ "+endRandomX+" , "+endRandomY+" ]   ";
+      elm1.glideTo({
+        endx  : endRandomX,
+        endy  : endRandomY,
+        type  : f.gtype.value,
+        steps : f.inc1.value,
+        speed : f.spd1.value,
+        x1 : 200, y1 : 300,
+        x2 : 600, y2 : 50,
+        x3 : startRandomX, y3 : startRandomY});
+    }
+    //------
+    function randomSize(){
+      elm1.sizeTo({
+        endw  : Math.random()*300,
+        endh  : Math.random()*300,
+        type  : f.wtype.value,
+        steps : f.inc2.value,
+        speed : f.spd2.value});
+    }
+    //------
+    function doBoth(){
+      elm1.glideTo({
+        endx  : Math.random()*300+250,
+        endy  : Math.random()*300,
+        type  : f.gtype.value,
+        steps : f.inc1.value,
+        speed : f.spd1.value});
+      elm1.sizeTo({
+        endw  : Math.random()*300,
+        endh  : Math.random()*300,
+        type  : f.wtype.value,
+        steps : f.inc2.value,
+        speed : f.spd2.value});
+    }
+    //------
+    var path_count=6;
+    function doBoth2(){
+      path_count--;
+      if(path_count>0){
+        var a=Math.random()*300;
+        var b=Math.random()*300;
+        elm1.glideTo({
+          endx  : a+250,
+          endy  : b,
+          type  : f.gtype.value,
+          steps : f.inc1.value,
+          speed : f.spd1.value});
+        elm1.sizeTo({
+          endw  : a,
+          endh  : b,
+          type  : f.wtype.value,
+          steps : f.inc2.value,
+          speed : f.spd2.value,
+          fn    : "doBoth2()"});
+      }else path_count=6;
+    }
+    //------
+    function randomClip(){
+      var a=Math.random()*400;
+      var b=Math.random()*400;
+      var c=Math.random()*300;
+      var d=Math.random()*300;
+      elm2.clipTo({
+        endt  : Math.min(c,d),
+        endr  : Math.max(a,b),
+        endb  : Math.max(c,d),
+        endl  : Math.min(a,b),
+        type  : f.ctype.value,
+        steps : f.incc.value,
+        speed : f.spdc.value});
+    }
+    //------
+    var clip_count=6;
+    function randomClip2(){
+      clip_count--;
+      if(clip_count>0){
+        var a=Math.random()*400;
+        var b=Math.random()*400;
+        var c=Math.random()*300;
+        var d=Math.random()*300;
+        elm2.clipTo({
+          endt  : Math.min(c,d),
+          endr  : Math.max(a,b),
+          endb  : Math.max(c,d),
+          endl  : Math.min(a,b),
+          type  : f.ctype.value,
+          steps : f.incc.value,
+          speed : f.spdc.value,
+          fn    : "randomClip2()"});
+      }else clip_count=6;
+    }
+    //------
+    function path() {
+      list1 = new Array(260,280,310,350,400,460,450,430,400,350,290,250);
+      list2 = new Array(100,120,140,160,180,200,220,240,260,280,300,450);
+      elm2.pathSlide({
+        listx : list1,
+        listy : list2,
+        start : 0,
+        steps : f.incp.value,
+        speed : f.spdp.value});
+    }
+  </script>
+  <link rel="stylesheet" type="text/css" href="../bin/examples.css">
+  <style type="text/css">
+    button{width:140px}
+  </style>
+</head>
+
+<body>
+<form action="none" name="f1">
+
+<h3>Glide</h3>
+<div class="main">
+<table cellpadding="2" cellspacing="0" border="0">
+  <tr><td>Type</td><td><select name="gtype" onchange="if (this.value==4) domapi.getElm('curveDiv').style.display='block'; else domapi.getElm('curveDiv').style.display='none';"><option value="2" selected>fast-to-slow</option><option value="1">slow-to-fast</option><option value="3">Linear</option><option value="4">Curve</option></select></td></tr>
+</table>
+<table cellpadding="2" cellspacing="0" border="0">
+  <tr><td>Steps</td><td><input type="Text" name="inc1" value="50" size="4" alt="#" /></td></tr>
+  <tr><td>Speed</td><td><input type="Text" name="spd1" value="20" size="4" alt="#" /></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="randomGlide();return false">Glide to random<br />location</button></td></tr>
+</table>
+<div id="curveDiv" style="display: none;">
+<table cellpadding="2" cellspacing="0" border="0">
+  <tr><td>X1</td><td><input type="Text" name="x1" value="200" size="4" alt="#" /></td></tr>
+  <tr><td>Y1</td><td><input type="Text" name="y1" value="300" size="4" alt="#" /></td></tr>
+  <tr><td>X2</td><td><input type="Text" name="x2" value="600" size="4" alt="#" /></td></tr>
+  <tr><td>Y2</td><td><input type="Text" name="y2" value="50" size="4" alt="#" /></td></tr>
+</table>
+</div>
+</div>
+
+<h3>Size</h3>
+<div class="main">
+<table cellpadding="2" cellspacing="0" border="0">
+  <tr><td>Type</td><td><select name="wtype"><option value="2">fast-to-slow</option><option value="1">slow-to-fast</option><option value="3">Linear</option></select></td></tr>
+  <tr><td>Steps</td><td><input type="Text" name="inc2" value="50" size="4" alt="#" /></td></tr>
+  <tr><td>Speed</td><td><input type="Text" name="spd2" value="20" size="4" alt="#" /></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="randomSize();return false">Glide to random<br />size</button></td></tr>
+</table>
+</div>
+<p>
+<button onclick="doBoth();return false" style="width:150px">Do both at once</button><br />
+<button onclick="doBoth2();return false" style="width:150px">Do five in a row</button><br />
+</p>
+<h3>Clip</h3>
+<div class="main">
+<table cellpadding="2" cellspacing="0" border="0">
+  <tr><td>Type</td><td><select name="ctype"><option value="2">fast-to-slow</option><option value="1">slow-to-fast</option><option value="3">Linear</option></select></td></tr>
+  <tr><td>Steps</td><td><input type="Text" name="incc" value="50" size="4" alt="#" /></td></tr>
+  <tr><td>Speed</td><td><input type="Text" name="spdc" value="20" size="4" alt="#" /></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="randomClip();return false">Clip to random area</button></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="randomClip2();return false">Do five in a row</button></td></tr>
+</table>
+</div>
+
+<h3>Path</h3>
+<div class="main">
+<table cellpadding="2" cellspacing="0" border="0">
+  <tr><td>Steps</td><td><input type="Text" name="incp" value="10" size="4" alt="#" /></td></tr>
+  <tr><td>Speed</td><td><input type="Text" name="spdp" value="20" size="4" alt="#" /></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="path();return false">Follow Path</button></td></tr>
+</table>
+</div>
+</form>
+</body>
+</html>

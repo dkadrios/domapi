@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>HTTPRequest Example</title>
+
+<script type="text/javascript" src="../../src/domapi.js?skin=true&styleBody=true"></script>
+<script type="text/javascript" src="../bin/examples.js"></script>
+<script type="text/javascript">
+domapi.loadUnit("listbox");
+domapi.loadUnit("thirdparty/dhendricks/loadunit");
+
+
+domapi.loadUnit("tree");
+
+domapi.loadUnit("splitpane");
+domapi.loadUnit("reflow");
+
+var xmldoc,blinker,tree,urls;
+var out=null,logs=null;
+var eventct=0;
+var docFrag;
+var HTTP,H;
+domapi.trace=true;
+//------------------------------------------------------------------------------
+
+String.prototype.pretty = function(){
+  return '<br><pre>'+this.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/\t/g, "&nbsp;&nbsp;&nbsp;").replace(/\r\n/g, "<br />")+'</pre>';
+};
+
+
+function onload(){
+
+
+
+
+//dump(domapi.unitManager);
+//domapi.debug.dump(domapi.unitManager,true);
+domapi.loadUnit("listbox");
+
+//domapi.loadUnit("splitpane");
+//domapi.loadUnit("reflow");
+var l='';
+for (var i=0;i<domapi.libs.length;i++) l += domapi.libs[i] + '\n';
+alert(l);
+domapi.debug.dump(domapi.comps,true);
+};
+
+function held(){
+H = {}; // a local HTTP handler object
+
+H.ontimeout = function(){ out.setText( HTTP.toString()+" Timed OUt !"); };
+H.toString  = function(){return 'Obj LocalHandler';};
+H.onerror   = function(theError){
+    logs.addItem({text:HTTP.method+' Operation failed '+HTTP.status+':'+HTTP.statusText});
+      logs.addItem({text:theError});
+      goBottom(true);
+      out.setText('');
+      dump('got '+theError);
+  }
+H.onreceive = function(status){ // 'this' Has DOMDocument context
+  with(HTTP){
+  if(method!="GET")return;
+  if(!responseText.length){  //this example may not by served up by a webserver so check length instead.
+    logs.addItem({text:'GET Operation failed '+status+':'+ (!domapi.isNil(statusText)?statusText:'status Not Available (file///)?')});
+      logs.addItem({text:lastError});
+    } else {
+     out.setText( this.toString()+' Contents:'+ HTTP.responseText.pretty());
+       logs.addItem({text:'Display Complete, status='+status+' : '+ (!domapi.isNil(statusText)?statusText:'status Not Available (file///)?')});
+    }
+  }
+  goBottom(true);
+};
+
+H.onreadystatechange= function(readyState){ // 'this' Has DOMDocument context
+  var stat=this.toString() + new Date().toLocaleTimeString()+' readyState= ['+ readyState + ']';
+  if(domapi.trace)dump(stat);
+};
+
+ //domapi.trace=true;
+
+  HTTP = domapi.Httprequest({asynch:true,doDebug:true,
+       onreceive:{obj:H,fn:H.onreceive},
+       //onerror:{obj:H,fn:H.onerror},
+       onerror:H.onerror,
+       onreadystatechange:{obj:H,fn:H.onreadystatechange}});
+
+
+  urls  = domapi.Listbox({x:300,y:80,w:250,h:100});
+  urls.selectItem(0);
+  urls.reflowAdd({l:300,t:50,r:'-10',pad:5,h:80});
+
+  var ulist = '../bin/inventory3.xml|../bin/xmlcore.xml|http://domapi.com/rss/forum.cfm'+
+     '|../bin/rpc_basic.cfm|../bin/computer32.gif';
+
+  urls.delimitedText(ulist,'|');
+
+  logs = domapi.Listbox({doBorder:true,x:300,y:120,h:100,w:400});
+  logs.reflowAdd({l:300,t:150,r:'-10',h:100,pad:5});
+
+  tree = domapi.Tree({x:0,y:20,w:350,h:200,doShowLines:true});
+
+  out  = domapi.Elm({x:0,w:700,h:300});
+  if(out)with(out){
+    frameBorder       = "2";
+    style.margin      = "2px";
+      style.overflow    = "auto";
+   }
+
+  pane = domapi.Splitpane({x:20,y:250,h:250,w:710,orientation:"horizontal",
+    moveSplitterTo:220,
+    doThumbTrack:true,
+    doBorder:true,
+    doHideOnDrag:false,
+    doRollover:true,
+    ref1:tree,
+    ref2:out});
+
+  pane.reflowAdd({l:1,t:'50%',b:'-1',r:'-10',pad:5});
+
+  domapi.reflow.render();
+
+  exampleApplyTheme("system");
+  //domapi.trace=true;
+};
+
+//------------------------------------------------------------------------------
+//To enable codebase principals, end users must add this line to the prefs.js file
+//in their Mozilla user profile directory:
+//
+//user_pref("signed.applets.codebase_principal_support", true);
+//
+//For deployment, your scripts should not rely on codebase principals being enabled.
+//You might want to enable codebase principals when developing your scripts,
+//but you should sign them before delivery.
+
+function loadDocument(){
+  logs.addItem({text:'Loading '+urls.getValue()});
+  goBottom(true);
+  if(domapi.isGecko && urls.value.indexOf('http:')>-1)  //Required to load content from other sources.(See above comments)
+    try{netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");}
+    catch(e){alert(e);return}
+
+
+  HTTP.getContent(urls.getValue(),true);
+};
+
+function loadHeaders(){
+
+  with(HTTP){
+    if(domapi.isGecko && urls.getValue().indexOf('http:')>-1)  //Required to load content from other sources.(See above comments)
+        try{netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");}
+           catch(e){alert(e);return}
+
+      logs.addItem({text:'Fetching Headers for:'+urls.getValue()});
+      goBottom(true);
+    if(open({method:"HEAD",url:urls.getValue(),asynch:false})){  //synchronous
+      if(send(null)){
+       logs.addItem({text:'Headers Displayed. '+statusText});
+         out.setText( 'Headers for '+urls.getValue()+ String(getAllResponseHeaders()).pretty());
+
+        }
+     }
+     if(status != 200){
+        logs.addItem({text:'Header retrieval failed '+status+':'+statusText});
+
+     }
+        goBottom(true);
+  }
+};
+
+function goBottom(andsel){
+  with(logs){
+
+     if(andsel){
+        selectNone();
+        selectItem(items.length-1,true);
+        scrollTop = _inner.offsetHeight;
+  }
+  }
+ };
+
+</script>
+
+</head>
+<body>
+
+<input type="button" onclick="loadDocument();" value="Perform Get" style="width:150px">
+<input type="button" onclick="loadHeaders();" value="View Headers Only" style="width:150px">
+<hr />
+</body>
+</html>

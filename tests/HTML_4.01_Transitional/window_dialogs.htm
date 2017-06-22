@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Dialog boxes</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("window");
+    onload = function(){
+      domapi.theme.applied = true;
+      domapi.theme.apply("buttonface");
+    };
+    function launchDialog(f){
+      var buttons = [];
+      var title   = f.edtTitle.value;
+      var message = f.edtMessage.value;
+      var type    = f.edtType.value;
+      for(var i=0;i<f.elements.length;i++)
+        if(f.elements[i].checked)buttons.push(f.elements[i].value);
+      domapi.messageDlg({title:title, message:message, kind:type, buttons:buttons, onclose:onclose});
+    };
+    function onclose(mrResult){
+      var s;
+      switch(mrResult){
+        case mbYes      : s = "mrYes";      break;
+        case mbNo       : s = "mrNo";       break;
+        case mbOK       : s = "mrOK";       break;
+        case mbCancel   : s = "mrCancel";   break;
+        case mbAbort    : s = "mrAbort";    break;
+        case mbRetry    : s = "mrRetry";    break;
+        case mbIgnore   : s = "mrIgnore";   break;
+        case mbAll      : s = "mbAll";      break;
+        case mbNoToAll  : s = "mbNoToAll";  break;
+        case mbYesToAll : s = "mrYesToAll"; break;
+        case mbHelp     : s = "mrHelp";     break;
+      }
+      alert("Modal result: '"+s+"'");
+    };
+  </script>
+</head>
+<body>
+<form>
+  <table>
+    <tr><td>type</td>
+      <td><select name="edtType">
+        <option value="0">mtWarning</option>
+        <option value="1">mtError</option>
+        <option value="2" selected>mtInformation</option>
+        <option value="3">mtConfirmation</option>
+      </select></td>
+    </tr>
+    <tr><td valign="top">message</td><td><textarea name="edtMessage" rows="3" cols="35">This is a test message.</textarea></td></tr>
+    <tr><td>title</td><td><input type="Text" name="edtTitle" /></td></tr>
+    <tr><td valign="top">buttons</td><td>
+      <table>
+        <tr><td><input type="Checkbox" value="0">mbYes</td><td><input type="Checkbox" value="6">mbIgnore</td></tr>
+        <tr><td><input type="Checkbox" value="1">mbNo</td><td><input type="Checkbox" value="7">mbAll</td></tr>
+        <tr><td><input type="Checkbox" value="2" checked>mbOK</td><td><input type="Checkbox" value="8">mbNoToAll</td></tr>
+        <tr><td><input type="Checkbox" value="3" checked>mbCancel</td><td><input type="Checkbox" value="9">mbYesToAll</td></tr>
+        <tr><td><input type="Checkbox" value="4">mbAbort</td><td><input type="Checkbox" value="10">mbHelp</td></tr>
+        <tr><td><input type="Checkbox" value="5">mbRetry</td><td></td></tr>
+      </table>    
+    </td></tr>
+    <tr><td colspan="2" align="center"><input type="Button" onclick="launchDialog(this.form)" value="Test"></td></tr>
+  </table>
+</form>
+</body>
+</html>

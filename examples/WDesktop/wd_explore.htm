@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Explorer</title>
+    <script type="text/javascript" src="wd_utils.js"></script>
+    <script type="text/javascript" src="wd_getJsonData.js"></script>
+    <script type="text/javascript" src="../../src/domapi.js?doStyleBody=true&theme=system&doSkin=true"></script>
+    <script type="text/javascript">
+
+    domapi.loadUnit("tree");
+    domapi.loadUnit("listgrid");
+    domapi.loadUnit("toolbar");
+    domapi.loadUnit("speedbutton");
+    domapi.loadUnit("menubar");
+    domapi.loadUnit("popupmenu");
+    domapi.loadUnit("reflow");
+    domapi.loadUnit("splitpane");
+    domapi.loadUnit("thirdparty/gkafka/splitter");
+
+    //required for xml data source
+    domapi.loadUnit("xmlcore"); 
+
+    onload = function() {
+      var TXT_ROOT_NODE = "My Computer";
+      var LG_FILESIZE_COLUMN_NUM = 2;
+      var bUseSplitpane = (domapi.urlParams["useSplitpane"] == "true")? true : false;
+
+      // Initialize the data source
+      dataInit("wd_serverdata.xml");
+
+      document.owner = (window.frameElement)? window.frameElement.parentNode : window;
+
+      var oMenu = domapi.Menubar({doShadow:true, doImages:true});
+      oMenu.loadFromJson(domapi.urlToJson("wd_menubar.txt"));     
+      oMenu.setAlign(alTop);
+
+      var oToolBar = domapi.Toolbar({h:40,doBGFill:true});
+      oToolBar.setAlign(alTop);
+
+      function OnTBClick(E){/*alert("'" + this.hint + "' clicked.");*/};
+
+      var btn1 = domapi.Speedbutton({parent:oToolBar,src:"images/prev.gif", imgW:24, imgH:24, w:60, text:"Back", hint:"Back",onclick:OnTBClick});
+      var btn2 = domapi.Speedbutton({parent:oToolBar,src:"images/next.gif", imgW:24, imgH:24, hint:"Forward",onclick:OnTBClick});
+      var btn3 = domapi.Speedbutton({parent:oToolBar,src:"images/dir_up.gif", imgW:24, imgH:24, hint:"Up",onclick:OnTBClick});
+      oToolBar.addSpacer();
+      var btn4 = domapi.Speedbutton({parent:oToolBar,src:"images/search.gif", imgW:24, imgH:24, text:"Search", hint:"Search",onclick:OnTBClick});
+      var btn5 = domapi.Speedbutton({parent:oToolBar,src:"images/folders.gif", imgW:24, imgH:24, text:"Folders", hint:"Folders",onclick:OnTBClick});
+      oToolBar.addSpacer();
+      var btn6 = domapi.Speedbutton({parent:oToolBar,src:"images/moveto.gif", imgW:24, imgH:24, hint:"Move To",onclick:OnTBClick});
+      var btn7 = domapi.Speedbutton({parent:oToolBar,src:"images/copyto.gif", imgW:24, imgH:24, hint:"Copy To",onclick:OnTBClick});
+      var btn8 = domapi.Speedbutton({parent:oToolBar,src:"images/delete.gif", imgW:24, imgH:24, hint:"Delete",onclick:OnTBClick});
+      var btn9 = domapi.Speedbutton({parent:oToolBar,src:"images/undo.gif", imgW:24, imgH:24, hint:"Undo",onclick:OnTBClick});
+      oToolBar.addSpacer();
+      var m = domapi.Popupmenu({});
+      m.addItem({text:"Thumbnails", radioGroup:4});
+      m.addItem({text:"Tiles", radioGroup:4});
+      m.addItem({text:"Icons",  radioGroup:4});
+      m.addItem({text:"List",  radioGroup:4});
+      m.addItem({text:"Details",  radioGroup:4, checked:true});
+      m.onselected = function(m,i){/*alert(m.getText(i))*/};
+      var btn10 = domapi.Speedbutton({parent:oToolBar,src:"images/views.gif", imgW:24, imgH:24, hint:"Views", kind:"dropdown",dropDown : m,dropdownArrow:"<img src='images/down_arrow.gif'/>", onclick:OnTBClick});
+      oToolBar.spaceControls();
+
+      var oTree = domapi.Tree({x:0,y:0,w:250,h:0,showLines:false});
+      var oRoot = oTree.addNode({text:TXT_ROOT_NODE,hasChildren : true, img:"images/computer16.gif"});
+      oTree.init();
+
+      if (!bUseSplitpane) {
+        oTree.setAlign(alLeft);
+
+        var oPanelBottom = domapi.Elm({x:0,y:0,w:0,h:16});
+        oPanelBottom.setAlign(alBottom);
+      }
+      oTree.onexpandnode = function(n) {
+        if(n.hasChildren && !n.nodes.length)
+          oTree.loadFromJson(getJsonData("tree", this.getPath(n, "\\")),n);
+      };
+      
+      oTree.onchange = function(n) {
+        var n = this.selected;
+        if (!n)return;
+        var _this = this;
+        window.setTimeout( function() { _this.queryNode(_this.getPath(n, "\\")); }, 400);
+      };
+      
+      oTree.queryNode = function(sPathIn) {
+        var n = this.selected;
+        if (!n)return;
+        
+        var sPath = this.getPath(n, "\\");
+
+        // load the data set only if the path when selected is the same as the current tree path
+        if (sPathIn != sPath)return;
+        oGrid.loadFromJson(getJsonData("grid", sPath));
+        updateStatusbar();
+      };
+      
+      function updateStatusbar(){
+        var sb = document.owner.sb;
+        if (sb) {
+          sb.countPanel.setText(oGrid.data.rows.length + " objects");
+          var sSize = (oGrid.currentRow >0)? oGrid.data.getValue(oGrid.currentRow, LG_FILESIZE_COLUMN_NUM) : "";
+          sb.sizePanel.setText(sSize);
+        }
+      };
+      
+      var oGrid = domapi.Listgrid({w:400,h:300, doVirtualMode:true,doShowRowbar:false});
+      
+      //
+      // Felix - Hack alert:
+      //
+      // Since the listgrid's row height defaults to 15px in theme.css, we must increase it to fit the 
+      // dataset's 16x16 images by calling setGridRowHeight(). This call could be replaced by
+      // a direct change to the DA_LISTGRID_CELL rule in theme.css; however, we appear to need different 
+      // adjustment values for IE/Mozilla. Odd - are cell paddings inconsistent between browsers?
+      //      
+      setGridRowHeight(oGrid, (domapi.isIE? 16 : 18));
+      
+      oGrid.setGridlines("none");
+      oGrid.setAlign(alClient);
+      oGrid.loadFromJson("");
+      oGrid.onselectrow = updateStatusbar;
+     
+      var oSP = null;
+      
+      if (bUseSplitpane) {
+        oSP = domapi.Splitpane({splitterW:2,orientation:"horizontal", moveSplitterTo:250, w:700,h:250,ref1:oTree,ref2:oGrid});
+        oSP.reflowAdd({t:60,b:-16,l:0,r:-1,reflowSelf:false});      
+      }
+      else {
+        oSP = domapi.Splitter({x:0,y:0,h:0,w:4,splitterType:"h"});
+        oSP.setAlign(alLeft) ;
+        domapi.reflow.render() ;
+        oSP.dependent({splitterType:"grow",obj:oTree}) ;
+        oSP.dependent({splitterType:"grow",obj:oGrid});
+      }
+      // NOTE: Mozilla does not support focus() on div elements, so we perform a hack and focus on the tree's
+      // firstChild instead. The Mozilla proprietary CSS rule -moz-user-focus does allow focus on any element
+      // being clicked on but it regrettably does not allow the same to be done programmatically.
+      var e = domapi.isIE? oTree : oTree.firstChild;
+      if(e && e.focus)e.focus();
+      oTree.selectNode(oRoot);	    
+
+      domapi.reflow.render();
+    };
+    </script>
+  </head>
+  <body onDragDrop="return false;" oncontextmenu="return false;" onselectstart="return false;" style="overflow:hidden">  
+  </body>
+</html>

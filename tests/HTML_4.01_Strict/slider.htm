@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Slider Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("slider");    
+    onload = function(){
+      exampleInit();
+      
+      // default
+      label1 = domapi.Elm({x:300,y:150,w:300,h:50});
+      elm1   = domapi.Slider({x:300, y:100});
+      elm1.onchange=function(i){label1.setText("onchange = value == "+i)};
+      elm1.attachToForm(document.f1,"elm1_value");
+
+      // custom
+      elm2Basins = [ [47 ,17], [57 ,20], [65 ,26], [70 ,34], [73 ,44], [70 ,54], [65 ,61], [57 ,67],
+                     [47 ,70], [36 ,67], [27 ,61], [23 ,54], [20 ,44], [23 ,34], [27 ,26], [36 ,20] ];      
+      elm2 = domapi.Slider({
+        w        : 108,
+        h        : 101,
+        thumbW   : 9,
+        thumbH   : 9,
+        bgImg    : '../bin/knob_1_bg.jpg',
+        thumbImg : '../bin/knob_1_thumb.gif',
+        position : "relative",
+        basins   : elm2Basins}
+      );
+      label2 = domapi.Elm({position:"relative",w:300,h:50});
+      elm2.thumb.style.cursor=domapi.cursors.hand;
+      elm2.onchange=function(i){label2.setText("onchange = value == "+i)};
+      label2.style.marginTop = "10px";
+      // fader
+      label3 = domapi.Elm({x:250,y:400,w:300,h:50});
+      elm3 = domapi.Slider({
+        x:250, y:300,
+        w        : 39,
+        h        : 95,
+        thumbW   : 29,
+        thumbH   : 9,
+        mode     : "range",
+        reversed : true,
+        range    : [5,1,5,83],
+        bgImg    : '../bin/vert_line_1_bg.jpg',
+        thumbImg : '../bin/vert_line_1_thumb.jpg'}
+      );
+      elm3.onchange=function(xp,yp){label3.setText("onchange  x=0% y="+yp+"%")};
+      elm3.thumb.style.cursor = domapi.cursors.hand;
+    }
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Slider")</script>
+
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> Enabled<br />
+<br />
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+<script type="text/javascript">printFooter()</script>
+<h2 style="position:absolute;left:300px;top:50px">Theme Default</h2>
+<h2 style="position:absolute;left:250px;top:250px">Smooth Fader</h2>
+<h2>Totally Custom</h2>
+</body>
+</html>

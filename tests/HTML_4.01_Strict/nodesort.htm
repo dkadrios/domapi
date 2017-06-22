@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("nodesort");
+    onload = function(){
+      ul  = domapi.getElm("u");
+      sel = domapi.getElm("s"); 
+    };
+  </script>
+</head>
+
+<body>
+
+<ul id="u">
+<li>F</li>
+<li>W</li>
+<li>H</li>
+<li>I</li>
+<li>V</li>
+</ul>
+<a href="#" onclick="domapi.nodeSort({nodelist:ul.getElementsByTagName('LI')});return false">sort up</a>
+<a href="#" onclick="domapi.nodeSort({nodelist:ul.getElementsByTagName('LI'),direction:1});return false">sort down</a>
+<br /><br /><hr /><br />
+<table id="t" border="1">
+  <tr><td>T</td><td>G</td><td>L</td></tr>
+  <tr><td>M</td><td>R</td><td>B</td></tr>
+  <tr><td>D</td><td>H</td><td>H</td></tr>
+  <tr><td>N</td><td>B</td><td>E</td></tr>
+  <tr><td>H</td><td>E</td><td>I</td></tr>
+  <tr><td>O</td><td>W</td><td>C</td></tr>
+</table><br />
+<select id="s"><option value="0" selected>Col 1</option><option value="1">Col 2</option><option value="2">Col 3</option></select>
+<br />
+<a href="#" onclick="domapi.nodeSort({nodelist:domapi.getElm('t').rows,direction:0,collection:'cells',collectionIndex:parseInt(sel.value)});return false">sort up</a>
+<a href="#" onclick="domapi.nodeSort({nodelist:domapi.getElm('t').rows,direction:1,collection:'cells',collectionIndex:parseInt(sel.value)});return false">sort down</a>
+</body>
+</html>

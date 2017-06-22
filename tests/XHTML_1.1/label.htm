@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Label Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("label");
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Label({x:300,y:100,w:100,h:50});
+      elm1.setBgColor("white");
+    }
+  </script>  
+</head>
+
+<body style="background-color:buttonface">
+<script type="text/javascript">printHeader("Label")</script>
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked);elm1.setBgColor('white');" checked alt="#" name="none" value="" /> Enabled<br /><br />
+<input type="Radio" name="h" value="left" checked onclick="elm1.setTextAlign(this.value)">Left
+<input type="Radio" name="h" value="center" onclick="elm1.setTextAlign(this.value)">Center
+<input type="Radio" name="h" value="right" onclick="elm1.setTextAlign(this.value)">Right
+<br /><br />
+<input type="Radio" name="v" value="top" checked onclick="elm1.setVerticalAlign(this.value)">Top
+<input type="Radio" name="v" value="middle" onclick="elm1.setVerticalAlign(this.value)">Middle
+<input type="Radio" name="v" value="bottom" onclick="elm1.setVerticalAlign(this.value)">Bottom
+<br /><br />
+Note: This label has been colored white to show alignment.
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

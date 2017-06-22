@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Calendar Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("calendar");    
+    onload = function(){
+      exampleInit();
+      elm1   = domapi.Calendar({x:300,y:50,formName:"f1", elementName:"elm1_value"});
+      label1 = domapi.Elm({x:300,y:250});
+      label1.setText("<b>onchange:</b>");
+      elm1.onchange = function(){
+        label1.setText(
+          "<b>onchange:</b><br>" +
+          "date: " + this.value + "<br>" +
+          "value: " + this.getValue() + "<br>" +
+          "selection (array): [" + this.selection + "]"
+        );
+      };
+     // elm1.setDate(elm1.date); // just to update display in this example, not needed otherwise
+      
+      elm1.ongetholidays = function(m,y){
+        var r = [];
+        if(m == 7)r.push([3, "Darin's Birthday"]);
+        return r;
+      };
+      bigCal = domapi.Calendar({x:350,y:350,w:300,h:300,mode:"compact"});
+      bigCal.doShowDays = true;
+      bigCal.drawAndLayout();
+      bigCal.layout();
+    }
+    function setMode(b){
+      var f = document.f1;
+      if(b){
+        elm1.mode                = "compact";
+        elm1.doShowTitle         = false;
+        elm1.doShowControls      = false;
+        f.cbShowTitle.checked    = false;
+        f.cbShowControls.checked = false;
+      }else{
+        elm1.mode                = "normal";
+        elm1.doShowTitle         = true;
+        elm1.doShowControls      = true;
+        f.cbShowTitle.checked    = true;
+        f.cbShowControls.checked = true;
+      }
+      elm1.drawAndLayout();
+      if(domapi.isIE)elm1.drawAndLayout()
+    };
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Calendar")</script>
+
+<input type="Checkbox" onclick="elm1.doRollover=this.checked" checked alt="#" name="none" value="" /> doRollover<br />
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.doShowTitle=this.checked;elm1.drawAndLayout()" checked alt="#" name="cbShowTitle" value="" /> doShowTitle<br />
+<input type="Checkbox" onclick="elm1.doShowControls=this.checked;elm1.drawAndLayout()" checked alt="#" name="cbShowControls" value="" /> doShowControls<br />
+<input type="Checkbox" onclick="elm1.doShowToday=this.checked;elm1.drawAndLayout()" checked alt="#" name="none" value="" /> doShowToday<br />
+<input type="Checkbox" onclick="elm1.doShowHolidays=this.checked;elm1.drawAndLayout()" checked alt="#" name="none" value="" /> doShowHolidays<br />
+<input type="Checkbox" onclick="elm1.doShowDays=this.checked;elm1.drawAndLayout();elm1.layout()" checked alt="#" name="none" value="" /> doShowDays<br />
+<input type="Checkbox" onclick="elm1.doMultiSelect=this.checked;elm1.drawAndLayout()" alt="#" name="none" value="" /> doMultiSelect<br />
+<input type="Checkbox" onclick="setMode(this.checked)" alt="#" name="none" value="" /> mode=compact<br />
+<br />
+Date Format <select name="df" onchange="elm1.setMask(this.value)">
+<option value="mm/dd/yyyy">mm/dd/yyyy</option>
+<option value="dd.mm.yyyy">dd.mm.yyyy</option>
+<option value="yyyy-m-d">yyyy-m-d</option>
+</select><br />
+
+<br /><br />
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+
+<script type="text/javascript">printFooter()</script>
+<p style="width:300px">
+<b>NOTE:</b><br />
+All Holidays, month names and day names are defined in src/lang.js and can be personalized to
+you or your visitor's locale.
+</p>
+</body>
+</html>

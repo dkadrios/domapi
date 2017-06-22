@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Statusbar Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("thirdparty/btudball/statusbar");
+    domapi.loadUnit("thirdparty/btudball/resizegrip");
+    onload = function(){
+      exampleInit();
+      eOuter = domapi.Elm({x:300,y:50,w:400,h:100});
+      eOuter.style.border="1px solid";
+      eOuter.style.borderColor = domapi.theme.border.getOutset();
+      elm1 = domapi.Statusbar({parent:eOuter,x:0,y:eOuter.getH()-18});
+      elm1.beginUpdate();
+      elm1.addPanel({text:"Panel1"});
+      elm1.addPanel({text:"Panel2", type:ptFixed});
+      elm1.addPanel({text:"Panel3"});
+      elm1.addPanel({text:"Panel4"});
+      elm1.addPanel({text:"Panel5", type:ptFixed});
+      elm1.addPanel({text:"Panel6"});
+      rg1 = domapi.Resizegrip({parent:eOuter,fMove:"customMove();"});
+      elm1.endUpdate();
+
+      eOuter2 = domapi.Elm({x:300,y:175,w:400,h:100});
+      eOuter2.style.border="1px solid";
+      eOuter2.style.borderColor = domapi.theme.border.getOutset();
+      elm2 = domapi.Statusbar({parent:eOuter2,x:0,y:eOuter2.getH()-18});
+      elm2.beginUpdate();
+      elm2.addPanel({text:"type:1 - Stretch"});
+      elm2.addPanel({text:"type:1 - Default center (buggy)", textAlign:"center"});
+      elm2.addPanel({text:"type:1 - Stretch", minW:100});
+      elm2.doResize();
+      rg2 = domapi.Resizegrip({parent:eOuter2,fMove:"customMove2();"});
+      elm2.endUpdate();
+
+      eOuter3 = domapi.Elm({x:300,y:300,w:400,h:100});
+      eOuter3.style.border="1px solid";
+      eOuter3.style.borderColor = domapi.theme.border.getOutset();
+      elm3 = domapi.Statusbar({parent:eOuter3,x:0,y:eOuter3.getH()-18});
+      elm3.beginUpdate();
+      elm3.addPanel({text: "type:1 - Stretch minW 20",  minW:20});
+      elm3.addPanel({text: "type:2 - Fixed",            type:ptFixed});
+      elm3.addPanel({text: "type:2 - Fixed minW 200",   minW:200, type:ptFixed});
+      elm3.addPanel({text: "type:1 - Stretch minW 100", minW:100});
+      elm3.doResize();
+      rg3 = domapi.Resizegrip({parent:eOuter3,fMove:"customMove3();"});
+      elm3.endUpdate();
+
+      // ---- relative test
+      eOuterRel = domapi.Elm({w:200,h:70,position:"relative"});
+      sb2 = domapi.Statusbar({parent:eOuterRel,x:0,y:eOuterRel.getH()-18});
+      sb2.beginUpdate();
+      sb2.addPanel({text:"1"});
+      sb2.addPanel({text:"2"});
+      sb2.addPanel({text:"3"});
+      sb2.doResize();
+      rg2 = domapi.Resizegrip({parent:eOuterRel,fMove:"customMoveRelative();"});
+      eOuterRel.style.border="1px solid";
+      eOuterRel.style.borderColor = domapi.theme.border.getOutset();
+      sb2.endUpdate();
+    };
+  
+    function customMove(){
+      elm1.moveTo(elm1.gap,eOuter.getH()-elm1.getH()-elm1.margin);
+      elm1.setW(eOuter.getW()-elm1.margin*2-elm1.gap);
+      elm1.doResize();
+    };
+    function customMove2(){
+      elm2.moveTo(elm2.gap,eOuter2.getH()-elm2.getH()-elm2.margin);
+      elm2.setW(eOuter2.getW()-elm2.margin*3-elm2.gap);
+      elm2.doResize();
+    };
+    function customMove3(){
+      elm3.moveTo(elm3.gap,eOuter3.getH()-elm3.getH()-elm3.margin);
+      elm3.setW(eOuter3.getW()-elm3.margin*2-elm3.gap);
+      elm3.doResize();
+    };
+    function customMoveRelative(){
+      sb2.moveTo(sb2.gap,eOuterRel.getH()-sb2.getH()-sb2.margin);
+      sb2.setW(eOuterRel.getW()-sb2.margin-sb2.gap);
+      sb2.doResize();
+    };
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Statusbar")</script>
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

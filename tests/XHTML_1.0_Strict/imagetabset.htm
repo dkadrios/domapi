@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Imagetabset Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("imagetabset");
+    onload = function(){
+      exampleInit();
+      
+      hpane1 = domapi.Elm({x:450,y:150,w:50,h:50,bgcolor:"#003399",color:"white"}); hpane1.setText("hpane 1");
+      hpane2 = domapi.Elm({x:450,y:150,w:50,h:50,bgcolor:"#0000cc",color:"white"}); hpane2.setText("hpane 2");
+      hpane3 = domapi.Elm({x:450,y:150,w:50,h:50,bgcolor:"#006699",color:"white"}); hpane3.setText("hpane 3");
+      hpane4 = domapi.Elm({x:450,y:150,w:50,h:50,bgcolor:"#009999",color:"white"}); hpane4.setText("hpane 4");
+
+      vpane1 = domapi.Elm({x:350,y:250,w:50,h:50,bgcolor:"#003399",color:"white"}); vpane1.setText("vpane 1");
+      vpane2 = domapi.Elm({x:350,y:250,w:50,h:50,bgcolor:"#0000cc",color:"white"}); vpane2.setText("vpane 2");
+      vpane3 = domapi.Elm({x:350,y:250,w:50,h:50,bgcolor:"#006699",color:"white"}); vpane3.setText("vpane 3");
+      vpane4 = domapi.Elm({x:350,y:250,w:50,h:50,bgcolor:"#009999",color:"white"}); vpane4.setText("vpane 4");
+      
+      elm1 = domapi.Imagetabset({x:250,y:50,w:500,h:15,overlap:5});
+      elm1.beginUpdate();
+      elm1.addTab({w:94,src:"../bin/horz_tab1.gif",pane:hpane1,orientation:"vertical"});
+      elm1.addTab({w:94,src:"../bin/horz_tab2.gif",pane:hpane2,orientation:"vertical"});
+      elm1.addTab({w:94,src:"../bin/horz_tab3.gif",pane:hpane3,orientation:"vertical", enabled:false});
+      elm1.addTab({w:94,src:"../bin/horz_tab4.gif",pane:hpane4,orientation:"vertical"});
+      elm1.endUpdate();
+      //elm1.onclick = function(){alert(this.items[0].style.backgroundPosition)}
+      
+      elm2 = domapi.Imagetabset({x:250,y:100,w:15,h:500,orientation:"vertical",overlap:5});
+      elm2.beginUpdate();
+      elm2.addTab({h:94,src:"../bin/vert_tab1.gif",pane:vpane1});
+      elm2.addTab({h:94,src:"../bin/vert_tab2.gif",pane:vpane2, enabled:false});
+      elm2.addTab({h:94,src:"../bin/vert_tab3.gif",pane:vpane3});
+      elm2.addTab({h:94,src:"../bin/vert_tab4.gif",pane:vpane4});
+      elm2.endUpdate();
+    }
+  </script>
+</head>
+
+<body>
+
+<script type="text/javascript">printHeader("Imagetabset")</script>
+<input type="Checkbox" onclick="elm1.enabled=this.checked;elm2.enabled=this.checked" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.doRollover=this.checked;elm2.doRollover=this.checked" checked alt="#" name="none" value="" /> doRollover<br />
+<input type="Checkbox" onclick="elm1.doDepress=this.checked;elm2.doDepress=this.checked" checked alt="#" name="none" value="" /> doDepress<br />
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

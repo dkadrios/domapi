@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Popupmenu Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("popupmenu");
+    onload = function(){
+      exampleInit();
+      var m;
+      elm1 = domapi.Popupmenu({x:300,y:50,doImages:true,doShadow:true});
+      elm1.beginUpdate();
+      try{        
+        elm1.addItem({text:"Clear Text",onselected:"elm2.setText('')", img:"../bin/delete.gif", enabled:true});
+        elm1.addItem({text:"Set Text",  onselected:"getNewText()",     img:"../bin/edit.gif"});
+        elm1.addSeparator();
+        elm1.addItem({text:"Background"});
+          m = elm1.addChildMenu({parent:elm1.miBackground});
+          m.addItem({text:"Red",   radioGroup:1});
+          m.addItem({text:"White", radioGroup:1, checked:true});
+          m.addItem({text:"Blue",  radioGroup:1});
+          m.onselected = pickBgColor;
+        elm1.addItem({text:"Foreground"});
+          m = elm1.addChildMenu({parent:elm1.miForeground, onselected:pickFgColor});
+          m.addItem({text:"Red",   radioGroup:1});
+          m.addItem({text:"White", radioGroup:1});
+          m.addItem({text:"Blue",  radioGroup:1});
+          m.addItem({text:"Black", radioGroup:1, checked:true});
+        elm1.addItem({text:"shouldn't see me"});
+        elm1.addItem({text:"disabled", enabled:false});
+  
+        elm1.hideItem(elm1.miShouldntSeeMe);
+      }finally{
+        elm1.endUpdate();
+      }
+      elm2 = domapi.Elm({id:"div1"});
+      elm1.attach(elm2); // makes elm1 the popupmenu for elm2
+    };
+    function getNewText(){
+      var msg = prompt("Enter Text To Display:","Some new content");
+      if(msg)elm2.setText(msg);
+    };
+    function pickBgColor(menu, i){
+      var s = menu.getText(i);
+      elm2.setBgColor(s);
+    };
+    function pickFgColor(menu, i){
+      var s = menu.getText(i);
+      elm2.setColor(s);
+    };
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Popupmenu")</script>
+<a href="#" onclick="elm1.clear();return false">clear</a>
+<input type="Checkbox" checked onclick="for(var i=0;i<domapi.bags.popupmenu.length;i++)domapi.bags.popupmenu[i].doShadow=this.checked"> doShadow
+<div id="div1" style="border:1px solid black;height:100px;background-color:white">Right-click me to set properties</div>
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

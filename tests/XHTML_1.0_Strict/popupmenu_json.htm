@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Popupmenu Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("popupmenu");
+    onload = function(){
+      exampleInit();
+      var m;
+      elm1 = domapi.Popupmenu({x:300,y:50});
+
+      var jsonString = {
+        doImages:true,
+        items:[
+          {text:"Clear Text",onselected:"elm2.setText('')", img:"../bin/delete.gif", enabled:false},
+          {text:"Set Text",  onselected:"getNewText()",     img:"../bin/edit.gif"},
+          {type:"separator"},
+          {text:"Background", onselected:pickBgColor, childMenu:{
+              items:[
+                {text:"Red",   radioGroup:1},
+                {text:"White", radioGroup:1, checked:true},
+                {text:"Blue",  radioGroup:1}
+              ]
+            }
+          },
+          {text:"Foreground", onselected:pickFgColor, childMenu:{
+              items:[
+                {text:"Red",   radioGroup:1},
+                {text:"White", radioGroup:1},
+                {text:"Blue",  radioGroup:1},
+                {text:"Black", radioGroup:1, checked:true}
+              ]
+            }
+          },
+          {text:"shouldn't see me"},
+          {text:"...or me", visible:false},
+          {text:"disabled", enabled:false}
+        ]
+      };
+
+      elm1.loadFromJson(jsonString);
+
+   //   elm1.hideItem(elm1.miShouldntSeeMe);
+      elm2 = domapi.Elm({id:"div1"});
+      elm1.attach(elm2); // makes elm1 the popupmenu for elm2
+    };
+    function getNewText(){
+      var msg = prompt("Enter Text To Display:","Some new content");
+      if(msg)elm2.setText(msg);
+    };
+    function pickBgColor(menu, i){
+      var s = menu.getText(i);
+      elm2.setBgColor(s);
+    };
+    function pickFgColor(menu, i){
+      var s = menu.getText(i);
+      elm2.setColor(s);
+    };
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Popupmenu")</script>
+
+<div id="div1" style="border:1px solid black;height:100px;background-color:white">Right-click me to set properties</div>
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

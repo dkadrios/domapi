@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Simple Navigation Menu</title>
+  <style type="text/css">
+    #navMenu{
+      position:relative;
+      width:110px;
+    }
+    #navMenu th{
+      background-color: #31306B; 
+      color:white;
+      font:8pt Verdana, Arial, Helvetica, Sans Serif;
+      text-align: left;
+      cursor: default;
+      padding:3px 1px;  
+    }
+    #navMenu td{
+      background-color: #CCCCCC;
+      color: black;
+      font:8pt Verdana, Arial, Helvetica, Sans Serif;
+      cursor: pointer;
+      padding:2px 1px;
+    }
+    #navMenu a{
+      font-weight: normal;
+      color: black;
+      text-decoration:none;
+    }
+  </style>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    onload = function(){
+      var t = document.getElementById("navMenu");
+      t.onmouseover = _tableOver;
+      t.onmouseout  = _tableOut;
+      t.onclick     = _tableClick;
+    };
+    function _tableOver(E){
+      var e = domapi.findTarget(E,"TD"); if(!e)return; 
+      var a = firstAnchor(e);
+      if(!a || a.parentNode != e)return;
+      e.style.backgroundColor = "#DDDDDD";
+      status = a.href;
+      return true;
+    };
+    function _tableOut(E){
+      var e = domapi.findTarget(E,"TD"); if(!e)return;
+      var a = firstAnchor(e);
+      if(!a || a.parentNode != e)return;
+      e.style.backgroundColor = "#CCCCCC";
+    };
+    function _tableClick(E){
+      var e = domapi.findTarget(E,"TD"); if(!e)return;
+      var a = firstAnchor(e);
+      if(!a || a.parentNode != e)return;
+      location.href = a.href;
+    };
+    function firstAnchor(e){
+      var a = e.getElementsByTagName("A");
+      if(a.length == 0)return null;
+      return a[0];
+    };
+  </script>
+</head>
+<body>
+
+<table id="navMenu" border="0" cellpadding="0" cellspacing="1">
+  <tr><th>Heading 1</th></tr>
+  <tr><td><a href="page1.htm">Item 1</a></td></tr>
+  <tr><td><a href="page2.htm">Item 2</a></td></tr>
+  <tr><th>Heading 2</th></tr>
+  <tr><td><a href="page1.htm">Item 1</a></td></tr>
+  <tr><td><a href="page2.htm">Item 2</a></td></tr>
+  <tr><th>Heading 3</th></tr>
+  <tr><td><a href="page1.htm">Item 1</a></td></tr>
+  <tr><td><a href="page2.htm">Item 2</a></td></tr>
+  <tr><td><a href="page3.htm">Item 3</a></td></tr>
+  <tr><td><a href="page4.htm">Item 4</a></td></tr>
+</table>
+
+</body>
+</html>

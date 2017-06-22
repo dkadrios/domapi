@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Example 1"
+        orient="vertical"
+        xmlns:html="http://www.w3.org/1999/xhtml"        
+        >
+<button label="Normal"/>
+<button label="Disabled" disabled="true"/>
+<button label="Default" default="true"/>
+<description>
+This longer section of text is displayed.
+</description>
+<description value="This is some text"/>
+<label control="some-text" value="Enter some text"/>
+<textbox id="some-text" value="test" readonly="false" disabled="false"/>
+<label control="some-password" value="Enter a password"/>
+<textbox id="some-password" size="8" type="password" maxlength="8"/>
+<listbox rows="2">
+  <listitem label="Butter Pecan"/>
+  <listitem label="Chocolate Chip"/>
+  <listitem label="Raspberry Ripple"/>
+  <listitem label="Squash Swirl"/>
+</listbox>
+<menulist label="Bus">
+  <menupopup>
+    <menuitem label="Car"/>
+    <menuitem label="Taxi"/>
+    <menuitem label="Bus" selected="true"/>
+    <menuitem label="Train"/>
+  </menupopup>
+</menulist>
+<html:p>
+test de paragraphe <html:b>html</html:b>
+<html:hr/>
+</html:p>
+<groupbox>
+  <caption label="Answer"/>
+  <description value="Banana"/>
+  <description value="Tangerine"/>
+  <description value="Phone Booth"/>
+  <description value="Kiwi"/>
+</groupbox>
+</window>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Menubar Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("menubar");    
+    onload = function(){
+      exampleInit();
+      var container = domapi.Elm({x:250,y:50,h:100,w:400});
+      with(container.style){
+        borderStyle = "solid";
+        borderColor = "black";
+        borderWidth = "0px 1px 1px 1px";
+      }
+      elm1 = domapi.Menubar({parent:container, doShadow:true, doImages:true});
+      var jsonString = {
+        items:[
+          {text:"Menu 1", childMenu:{
+              items:[
+                {text:"Item 1", img:"../bin/delete.gif", enabled:false},
+                {text:"Item 2", img:"../bin/email.gif"},
+                {text:"Item 3"}
+              ]
+            }
+          },
+          {text:"Menu 2", childMenu:{
+              items:[
+                {text:"I can be toggled", autoCheck:true, checked:true},
+                {text:"I have an image", img:"../bin/edit.gif"},
+                {text:"I have a submenu of radiobuttons", childMenu:{
+                    items:[
+                      {text:"SubItem 1", radioGroup:1, checked:true},
+                      {text:"SubItem 2", radioGroup:1}
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {text:"Menu 3", childMenu:{
+              items:[{text:"I'm scary", onselected:"alert('boo')"}]
+            }
+          },
+          {text:"disabled", enabled:false}          
+        ]
+      };
+      elm1.loadFromJson(jsonString);     
+    };
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Menubar")</script>
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

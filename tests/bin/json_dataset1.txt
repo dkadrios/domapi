@@ -1,0 +1,124 @@
+{
+  cols : [
+    {text : "name",        fieldName : "comp_name"},
+    {text : "filename",    fieldName : "comp_file", width:50, headerAlign:"right"},
+    {text : "description", fieldName : "comp_desc", hidden : true}    
+  ],
+  rows : [
+
+    {cells:[
+      {text:"Button",     value:"Button"},
+      {text:"button.js", value:"button.js"},
+      {text:"Not rocket science, just a simple button.  What makes this viable to the DomAPI however is that it matches the other component's look-and-feel and Themes, so it fits well on your page.",     value:"Not rocket science, just a simple button.  What makes this viable to the DomAPI however is that it matches the other component's look-and-feel and Themes, so it fits well on your page."}
+    ]}
+,
+    {cells:[
+      {text:"Calendar",     value:"Calendar"},
+      {text:"calendar.js", value:"calendar.js"},
+      {text:"A fully customizable calendar component.  Can be read-only, or can allow the user to interact with it and select a date.  Fully Y2K compliant.",     value:"A fully customizable calendar component.  Can be read-only, or can allow the user to interact with it and select a date.  Fully Y2K compliant."}
+    ]}
+,
+    {cells:[
+      {text:"Combobox",     value:"Combobox"},
+      {text:"combobox.js", value:"combobox.js"},
+      {text:"In read-only mode this component offers nothing new over a <span class=inlinecode>&lt;select&gt;</span>, besides it's look-and-feel.  It's strength lies in it's <b>non</b> read-only mode, which allows the user to type in a new entry as well as select an existing one.",     value:"In read-only mode this component offers nothing new over a <span class=inlinecode>&lt;select&gt;</span>, besides it's look-and-feel.  It's strength lies in it's <b>non</b> read-only mode, which allows the user to type in a new entry as well as select an existing one."}
+    ]}
+,
+    {cells:[
+      {text:"Datepicker",     value:"Datepicker"},
+      {text:"datepicker.js", value:"datepicker.js"},
+      {text:"Take the calendar component and slap it into a dropdown and you wind up with this component.  Allows the user to select a date using the calendar or just type it in.  Supports any date format and automatically validates user entry.",     value:"Take the calendar component and slap it into a dropdown and you wind up with this component.  Allows the user to select a date using the calendar or just type it in.  Supports any date format and automatically validates user entry."}
+    ]}
+,
+    {cells:[
+      {text:"Dropdown",     value:"Dropdown"},
+      {text:"dropdown.js", value:"dropdown.js"},
+      {text:"This component forms the basis for all the dropdown like components, like datepicker, colorpicker and combobox.  If you create your own dropdown components, this is a good ancestor class to use.",     value:"This component forms the basis for all the dropdown like components, like datepicker, colorpicker and combobox.  If you create your own dropdown components, this is a good ancestor class to use."}
+    ]}
+,
+    {cells:[
+      {text:"Imagelist",     value:"Imagelist"},
+      {text:"imagelist.js", value:"imagelist.js"},
+      {text:"Given a horizontal imagestrip of same-size images, this control manages displaying of individual ones by index.  Extremely useful for image roll-overs or whenever the need arises for a graphic that can change it's appearence without the need for caching.",     value:"Given a horizontal imagestrip of same-size images, this control manages displaying of individual ones by index.  Extremely useful for image roll-overs or whenever the need arises for a graphic that can change it's appearence without the need for caching."}
+    ]}
+,
+    {cells:[
+      {text:"Label",     value:"Label"},
+      {text:"label.js", value:"label.js"},
+      {text:"This themeable text container allows you to align it's content both horizontally and vertically.<br />Used as the base for other components such as Button.",     value:"This themeable text container allows you to align it's content both horizontally and vertically.<br />Used as the base for other components such as Button."}
+    ]}
+,
+    {cells:[
+      {text:"Listbox",     value:"Listbox"},
+      {text:"listbox.js", value:"listbox.js"},
+      {text:"A standard listbox component with a whole slew of features that affect it's look-and-feel.  Supports mutiple selection, sorting, drag-n-drop and more.",     value:"A standard listbox component with a whole slew of features that affect it's look-and-feel.  Supports mutiple selection, sorting, drag-n-drop and more."}
+    ]}
+,
+    {cells:[
+      {text:"Notebook",     value:"Notebook"},
+      {text:"notebook.js", value:"notebook.js"},
+      {text:"",     value:""}
+    ]}
+,
+    {cells:[
+      {text:"Pagecontrol",     value:"Pagecontrol"},
+      {text:"pagecontrol.js", value:"pagecontrol.js"},
+      {text:"Modeled after the standard Windows&reg; tabcontrol.  You can manually add each pages content, insert existing page elements, or load in an external file.  Makes for very expressive page layouts.",     value:"Modeled after the standard Windows&reg; tabcontrol.  You can manually add each pages content, insert existing page elements, or load in an external file.  Makes for very expressive page layouts."}
+    ]}
+,
+    {cells:[
+      {text:"Rollover",     value:"Rollover"},
+      {text:"rollover.js", value:"rollover.js"},
+      {text:"Building on the power of the Imagelist component, Rollover encapsulates a complete image rollover without the need for messy preloading or image caching.",     value:"Building on the power of the Imagelist component, Rollover encapsulates a complete image rollover without the need for messy preloading or image caching."}
+    ]}
+,
+    {cells:[
+      {text:"Slider",     value:"Slider"},
+      {text:"slider.js", value:"slider.js"},
+      {text:"This is the first \"skinned\" component in DomAPI.  It utilizes the special \"basin\" routines of the <a href=\"docs/index.cfm?obj_id=18\">drag extension</a> to facilitate different stopping points for the slider's thumb control.  Both the thumb and the slider background are images.",     value:"This is the first \"skinned\" component in DomAPI.  It utilizes the special \"basin\" routines of the <a href=\"docs/index.cfm?obj_id=18\">drag extension</a> to facilitate different stopping points for the slider's thumb control.  Both the thumb and the slider background are images."}
+    ]}
+,
+    {cells:[
+      {text:"Slider2",     value:"Slider2"},
+      {text:"slider2.js", value:"slider2.js"},
+      {text:"Nearly identical to Slider, except that this one is designed to move smoothly in a linear fashion like a fader control.",     value:"Nearly identical to Slider, except that this one is designed to move smoothly in a linear fashion like a fader control."}
+    ]}
+,
+    {cells:[
+      {text:"Speedbutton",     value:"Speedbutton"},
+      {text:"speedbutton.js", value:"speedbutton.js"},
+      {text:"A simple button with a graphic as it's content.  The graphic has two states, enabled and disabled and is displayed similarly to the Imagelist control.  Speedbuttons can be grouped together to form radiobuttons, or they can be made to function in a toggle state.",     value:"A simple button with a graphic as it's content.  The graphic has two states, enabled and disabled and is displayed similarly to the Imagelist control.  Speedbuttons can be grouped together to form radiobuttons, or they can be made to function in a toggle state."}
+    ]}
+,
+    {cells:[
+      {text:"Splitpane",     value:"Splitpane"},
+      {text:"splitpane.js", value:"splitpane.js"},
+      {text:"",     value:""}
+    ]}
+,
+    {cells:[
+      {text:"Tabset",     value:"Tabset"},
+      {text:"tabset.js", value:"tabset.js"},
+      {text:"Allows you to manage a set of tabs either vertically or horizontally.  Support multiple looks and feels.",     value:"Allows you to manage a set of tabs either vertically or horizontally.  Support multiple looks and feels."}
+    ]}
+,
+    {cells:[
+      {text:"Toolbar",     value:"Toolbar"},
+      {text:"toolbar.js", value:"toolbar.js"},
+      {text:"Functions as a container for Speedbuttons or whatever else you can cram into it ;)  Supports automatic flowing of child elements.",     value:"Functions as a container for Speedbuttons or whatever else you can cram into it ;)  Supports automatic flowing of child elements."}
+    ]}
+,
+    {cells:[
+      {text:"Tree",     value:"Tree"},
+      {text:"tree.js", value:"tree.js"},
+      {text:"Standard tree control.  All images are managed automatically by the theme engine but you can also provide your own for each node.",     value:"Standard tree control.  All images are managed automatically by the theme engine but you can also provide your own for each node."}
+    ]}
+,
+    {cells:[
+      {text:"Viewbar",     value:"Viewbar"},
+      {text:"viewbar.js", value:"viewbar.js"},
+      {text:"Allows you to create collapsable groups of links or topics.",     value:"Allows you to create collapsable groups of links or topics."}
+    ]}
+    
+  ]
+};

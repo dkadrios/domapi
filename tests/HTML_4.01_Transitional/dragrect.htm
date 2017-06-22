@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Drag Rect Example</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("drag");
+    onload = function(){
+      dragSurface = domapi.Elm({x:0,y:0,bgcolor:"buttonface"});
+      dragRect    = domapi.Elm({x:0,y:0,w:10,h:10});
+      dragRect.hide();
+      dragRect.style.border = "1px dotted red";
+      dragSurface.turnOnDrag(null,domapi.drag.dtCustom,5,dStart,dMove,dEnd);  
+      
+      dragSurface.setText("Drag in the page...");
+      domapi.addEvent(self,"resize",pageResized,true);
+      pageResized();
+    };
+    dStart = function(x,y){
+      dragRect.moveTo( x,y);
+      dragRect.setSize(1,1);
+      dragRect.show();
+      dragRect.bringToFront();
+    };
+    dMove = function(x,y,dx,dy){
+      var ox = this.cursorStartX;
+      var oy = this.cursorStartY;
+      if(dx<0)dragRect.setX(ox+x);
+      if(dy<0)dragRect.setY(oy+y);
+      dragRect.setSize(Math.abs(dx),Math.abs(dy));
+    };
+    dEnd = function(){
+      dragRect.hide();
+      dragRect.moveTo(0,0);
+      dragRect.setSize(0,0);
+    };
+    function pageResized(){
+      dragSurface.setSize(domapi.bodyWidth(),domapi.bodyHeight());
+      status=dragSurface.getH();
+    };
+  </script>
+</head>
+<body style="margin:0px;padding:0px"></body>
+</html>

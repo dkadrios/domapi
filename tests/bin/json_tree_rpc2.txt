@@ -1,0 +1,7 @@
+{
+  nodes : [
+    {text : "node1", value : "n1"},
+    {text : "node2", value : "n2", hasChildren : true},
+    {text : "node3", value : "n3"}
+  ]
+};

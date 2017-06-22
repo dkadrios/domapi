@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Shadow Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("shadow");    
+    onload=function(){    
+      exampleInit();
+      createShadows()
+    }
+    function createShadows(){
+      domapi.Elm({id:"e1"});
+      domapi.shadow.dropShadow(
+        domapi.getElm("e1"),
+        parseInt(f.s.value));
+      domapi.getElm("b2").style.visibility="visible";
+    };
+    function randomMove(){
+      domapi.getElm('e1').moveTo( Math.random()*200+250,Math.random()*200);
+    }
+  </script>
+  <style>
+    #e1{
+      background-color:navy;
+      border:1px solid black;
+      position:absolute;
+      left:300px;
+      top:100px;
+      width:100px;
+      height:100px;
+      color:white;
+      z-index:10;
+    }
+  </style>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Shadow")</script>
+
+Size:<br />
+<select name="s">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4" selected>4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select><br /><br />
+<br /><br />
+<input type="Button" onclick="createShadows();return false" value="Create Shadow">
+<br /><br />
+<input type="Button" onclick="randomMove()" value="Random Move" id="b2" style="visibility:hidden">
+<script type="text/javascript">printFooter()</script>
+<div id="e1">&nbsp;</div>
+</body>
+</html>
+

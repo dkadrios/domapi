@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Dataset Test</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("dataset");
+    domapi.loadUnit("datasetdebug");
+    onload = function(){
+      exampleInit();
+      dataset = new domapi.Dataset();
+      updateDisplay();
+      domapi.theme.apply();
+    };
+    function updateDisplay(){
+      domapi.getElm("td1").innerHTML = dataset.cols.length;
+      domapi.getElm("td2").innerHTML = dataset.rows.length;
+    };
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Dataset")</script>
+<table style="border:1px solid black;background-color:white">
+<tr><th colspan="2">Dataset properties</th></tr>
+<tr><td>Cols:</td><td id="td1"></td></tr>
+<tr><td>Rows:</td><td id="td2"></td></tr>
+<tr><td colspan="2" align="center"><a href="#" onclick="dataset.dump();return false">Explore (debug)</a></td></tr>
+</table>
+
+<a href="#" onclick="dataset.loadFromJsonUrl('../bin/json_dataset1.txt');updateDisplay();return false">Load from json_dataset1.txt</a>
+<a href="../bin/json_dataset1.txt" target="_blank">(view file)</a><br />
+
+<a href="#" onclick="dataset.loadFromJsonUrl('../bin/json_dataset2.txt');updateDisplay();return false">Load from json_dataset2.txt</a>
+<a href="../bin/json_dataset2.txt" target="_blank">(view file)</a>
+
+<a href="#" onclick="dataset.loadFromCsvUrl('../bin/files.csv');updateDisplay();return false">Load from files.csv</a>
+<a href="../bin/files.csv" target="_blank">(view file)</a>
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

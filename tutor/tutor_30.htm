@@ -1,0 +1,61 @@
+<html><head><title>DomAPI Docs - Tutorial - Working with Themes</title><link rel="stylesheet" type="text/css" href="../docs/bin/style.css"></head><body><div id="logo"><a href="http://domapi.com"><img src="../docs/bin/logo6.gif" alt="DomAPI Application Platform" border="0" /></a></div><a href="#" onclick="history.go(-1)"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="#" onclick="history.go(-1)">Back</a>&nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a><a href="tutor_index.htm">Up to index</a><h3>DomAPI Tutorial</h3><div class="tutorNavBlock"><a href="tutor_40.htm"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="tutor_40.htm" title="Back">Menu</a> &nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a> &nbsp;&nbsp;&nbsp; <a href="tutor_27.htm" title="Next">Working with Compression</a><a href="tutor_27.htm"><img src="../docs/bin/right.gif" alt="Next" width="14" height="14" border="0"></a></div><h3>Working with Themes</h3><p class="tutorAuthor"> Author: <b>Darin Kadrioski</b><br /><span style="font-size:smaller">Modified: 06/21/2002</span></p><p><span class="faqTitle">What are themes?</span> In version 2.0, DomAPI introduced the concept of "themes". Themes can be thought of as style sheets for components. They contain all the colors and display properties to use for a given component or page.<br/> When you create a component, the second parameter you pass is the theme it is to use. If you pass <span class="inlineCode">null</span>, a default theme is used. This default theme matches the default Microsoft Windows look and feel. The default theme is located in src/theme.js and is reproduced here for illustration. </p><pre class="code">function Theme(){
+  this.name            = "system";
+  //-----
+  this.font            = '8pt "MS Sans Serif",Geneva,sans-serif''; // normal font (think listbox)
+  this.bgColor         = "window";          // normal background
+  this.fgColor         = "windowtext";      // normal text
+  //-----
+  this.ctrlFont        = this.font;         // control font (think buttons)
+  this.ctrlBgColor     = "buttonface";      // control base
+  this.ctrlFgColor     = "buttontext";      // control text
+  //-----
+  this.hlFont          = this.font;         // mouse-over font
+  this.hlBgColor       = "infobackground";  // mouse-over background
+  this.hlFgColor       = "infotext";        // mouse-over text
+  //-----
+  this.selFont         = this.font;         // selected font
+  this.selBgColor      = "highlight";       // selected background
+  this.selFgColor      = "highlighttext";   // selected text
+  //-----
+  this.appFont         = this.font;         // appworkspace font
+  this.appBgColor      = "appworkspace";    // appworkspace background
+  this.appFgColor      = "buttontext";      // appworkspace text
+  //-----
+  this.captionFont     = ''bold 8pt "MS Sans Serif",Geneva,sans-serif''; // caption font
+  this.captionBgColor1 = "activecaption";   // caption background primary
+  this.captionBgColor2 = "background";      // caption background secondary
+  this.captionFgColor  = "captiontext";     // caption text
+  //-----
+  this.bdrLight        = "threedhighlight"; // border color
+  this.bdrDark         = "threedshadow";    // border color
+  this.getOutset       = function(){return this.bdrLight+" "+this.bdrDark +" "+this.bdrDark +" "+this.bdrLight};
+  this.getInset        = function(){return this.bdrDark +" "+this.bdrLight+" "+this.bdrLight+" "+this.bdrDark };
+  this.bdrColor        = this.getOutset();  // border color
+  this.bdrWidth        = 1;                 // border width
+  this.bdrOutset       = "outset";          // what to use for outset
+  this.bdrInset        = "inset";           // what to use for inset
+  this.bdrSolid        = "solid";           // what to use for solid borders
+  //-----
+  this.colorFadeInc   = 10;                 // for components that support color fading
+  this.colorFadeSpeed = 10;                 // for components that support color fading
+};</pre><p> These values tell the component how to draw itself on screen during startup, or in response to a <span class="inlineCode">reDraw()</span> event. The component''s author is responsible for implementing theme support. </p><p> Additional themes can be located in <a href="../view_source.cfm?which=src/more_themes.js">more_themes.js</a> or, if you''d like, you can also create your own. </p><p><span class="faqTitle">How do I change a theme after the page has loaded?</span> Each component has a <span class="inlineCode">reDraw()</span> method which re-applies it''s theme. You can simply set it''s new theme value and call <span class="inlineCode">reDraw()</span>.<br/> For example: </p><pre class="code">button1.theme = themePumpkin;
+button1.reDraw();</pre><p> This would cause <span class="inlineCode">button1</span> to immediately appear in the "pumpkin" theme </p><p><span class="faqTitle">How do I create my own themes?</span> Creating themes is easy.<br/>Here is some code which creates a theme named myTheme: </p><pre class="code">var myTheme = new Theme();</pre><p> This creates a brand new theme. By default, this theme is identical to the <span class="inlineCode">defaultTheme</span>. You then modify whichever values you want. For instance, if we wanted our new theme to have a blue border with red text, we would do something like: </p> with(myTheme){ name = "myTheme"; bdrColor = "blue"; ctrlFgColor = "red"; fgColor = "red"; } </pre><p> Notice that we set <b>two</b> properties to red, <span class="inlineCode">ctrlFgColor</span> and <span class="inlineCode">fgColor</span>. These are used by components in different ways depending on their context. For instance, a button component would use <span class="inlineCode">ctrlFgColor</span> for it's font color, while an edit component would use <span class="inlineCode">fgColor</span>. In the Windows world, think of anything that normally has a gray background color as using <span class="inlineCode">ctrlFgColor</span> and <span class="inlineCode">ctrlBgColor</span>, while anything that is white uses <span class="inlineCode">fgColor</span> and <span class="inlineCode">bgColor</span>. </p><p> Since each new theme defaults to the contents of <span class="inlineCode">defaultTheme</span>, you need only change the properties that are unique to your theme, not every single one. </p><p> You should place your custom themes in a separate file. Do not place them in <span class="inlineCode">more_themes.js</span> as that file is subject to change with the next release. If you have a theme that you think the community could benefit from and would like to add it to <span class="inlineCode">more_themes.js</span> permanently, please <a href="mailto:support@domapi.com">submit it</a>. </p><p><span class="faqTitle">I''m a component writer. How do I include theme support?</span> Each component should have at a minimum a <span class="inlineCode">theme</span> property and a <span class="inlineCode">reDraw()</span> method to keep it from throwing errors should the user try to interact with it. The standard constructor for components should include a <span class="inlineCode">theme</span> parameter, which if not provided, should default to <span class="inlineCode">defaultTheme</span> which is defined in <a href="../view_source.cfm?which=src/core.js">core.js</a> . </p><p> Listed here is a complete example of a basic component template that supports themes. Items to notice are the way in which the <span class="inlineCode">defaultTheme</span> is assigned if none was specified and the way <span class="inlineCode">reDraw()</span> is responsible for all style assignments.<br/> Also note how <span class="inlineCode">reDraw()</span> is called near the end of the template, ensuring that the component is displayed correctly after creation. <br/><br/><b>Standard component constructor and template:</b></p><pre class="code">function ComponentName(parent,theme,x,y,w,h);
+  var elm   = createElm(parent,x,y,w,h);
+  elm.theme = rTheme(theme);
+  //------
+  elm.reDraw=function(){
+    with (this.style) {
+      borderStyle     = this.theme.bdrOutset;
+      borderWidth     = this.theme.bdrWidth;
+      backgroundColor = this.theme.ctrlBgColor;
+      color           = this.theme.ctrlFgColor;
+      borderColor     = this.theme.getOutset();
+    }
+    if(typeof this.onredraw=="function")this.onredraw();
+  };
+  //------
+  elm.reDraw();
+  //------
+  elm.domAPIObjType="COMPONENTNAME";
+  return elm;
+}</pre><p><img src="../hr.gif" width="321" height="7" border="0" alt=""></p><p> To get more of a feel for what themes are and what they can do for you, play with the component examples. Nearly every example allows you to change themes on the fly. </p><div class="tutorNavBlock"><a href="tutor_40.htm"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="tutor_40.htm" title="Back">Menu</a> &nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a> &nbsp;&nbsp;&nbsp; <a href="tutor_27.htm" title="Next">Working with Compression</a><a href="tutor_27.htm"><img src="../docs/bin/right.gif" alt="Next" width="14" height="14" border="0"></a></div><hr />  </body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>ArrowScrollBox Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("arrowscrollbox");
+    domapi.loadUnit("button");
+    onload = function(){
+      exampleInit();
+      elm1   = domapi.ArrowScrollBox({x:300,y:100,h:300,w:150,doBorder:true});
+      elm1.beginUpdate();
+      try{      
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+        b = domapi.Button({parent:elm1});
+      }finally{
+        elm1.endUpdate();
+      }
+     
+
+
+   }
+		
+		function viewBorder(){
+			elm1.doBorder=!elm1.doBorder;elm1.draw();
+		}
+    
+    function setBoxHeight(){
+    elm1.setH(document.getElementById("newsize").value);
+    }
+  </script>
+
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Arrowscrollbox")</script>
+<input type="Checkbox" onclick="viewBorder()" checked alt="#" name="none" value="" /> doBorder<br />
+Arrows appear when the box is too small. 
+<input type="text" id="newsize" size="5" value="300"/><input type="button" value="Set height" onclick="setBoxHeight()"/>
+<script type="text/javascript">printFooter()</script>
+
+</body>
+</html>

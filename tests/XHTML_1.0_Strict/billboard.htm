@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Billboard Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("thirdparty/bdankert/billboard");
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Billboard({x:250,y:50});
+      elm1.add("../bin/banner1.jpg","banner 1");
+      elm1.add("../bin/banner2.jpg","banner 2");
+      elm1.add("../bin/banner3.jpg","banner 3");
+      elm1.stop(true);
+      elm1.pauseLength = 3000;      
+    }
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Billboard")</script>
+
+Speed<br />
+<select name="s2" onchange="elm1.pauseLength=this.value">
+<option value="1000">1000</option>
+<option value="3000" selected>3000</option>
+<option value="5000">5000</option>
+<option value="10000">10000</option>
+</select><br /><br />
+<input type="Checkbox" onclick="elm1.isRandom=this.checked" name="none" value="" alt="#" /> Is Random<br /><br />
+<input type="Checkbox" onclick="elm1.doFade=this.checked" name="none" value="" alt="#" checked /> Do Fade<br /><br />
+&nbsp;<a href="javascript:elm1.start()">Start</a>&nbsp;
+&nbsp;<a href="javascript:elm1.stop(true)">Stop</a>
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>
+

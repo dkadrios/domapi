@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script src="../../src/domapi.js"></script>
+<script type="text/javascript">
+domapi.loadUnit("reflow");
+domapi.loadUnit("thirdparty/gkafka/splitter");
+
+onload = init;
+function init(){
+  var elm1 = domapi.Elm({x:0,y:0,w:0,h:70});
+  elm1.style.border = "1px dotted black";
+  elm1.setAlign(alTop);
+ 
+  vs = domapi.Splitter({x:0,y:0,h:8,w:0,splitterType:"v"});
+  vs.setAlign(alTop);
+
+  var elm2 = domapi.Elm({x:0,y:0,w:0,h:70});
+  elm2.style.border = "1px dotted black";
+  elm2.setAlign(alTop);
+
+  var elm3 = domapi.Elm({x:0,y:0,w:0,h:50});
+  elm3.style.border = "1px dotted black";
+  elm3.setAlign(alBottom);
+ 
+  var elm4 = domapi.Elm({x:0,y:0,w:0,h:50});
+  elm4.style.border = "1px dotted black";
+  elm4.setAlign(alBottom);
+
+  var elm5 = domapi.Elm({x:0,y:0,w:100,h:0});
+  elm5.style.border = "1px dotted black";
+  elm5.setAlign(alLeft);
+
+  var elm6 = domapi.Elm({x:0,y:0,w:100,h:0});
+  elm6.style.border = "1px solid red";
+  elm6.setAlign(alLeft);
+
+
+  hs = domapi.Splitter({x:0,y:0,h:0,w:8,splitterType:"h"});
+  hs.setAlign(alLeft) ;
+
+
+  var elm7 = domapi.Elm({x:0,y:0,w:100,h:0});
+  elm7.style.border = "1px dotted black";
+  elm7.setAlign(alRight);
+
+  var elm8 = domapi.Elm({x:0,y:0,w:100,h:0});
+  elm8.style.border = "1px dotted black";
+  elm8.setAlign(alRight);
+
+  var elm9 = domapi.Elm({x:0,y:0,w:0,h:0});
+  elm9.style.border = "1px solid green";
+  elm9.setAlign(alClient);
+
+ 
+  domapi.reflow.render() ;
+
+  hs.dependent({splitterType:"grow",obj:elm6}) ;
+  hs.dependent({splitterType:"grow",obj:elm9});
+
+  vs.dependent({splitterType:"grow",obj:elm1}) ;
+  vs.dependent({splitterType:"grow",obj:elm2});
+
+  domapi.reflow.render() ;
+
+
+  elm1.setText("elm1:" + elm1.getH()) ;
+  elm2.setText("elm2:" + elm2.getH()) ;
+  elm3.setText("elm3:" + elm3.getH()) ;
+  elm4.setText("elm4:" + elm4.getH()) ;
+  elm5.setText("elm5:" + elm5.getW()) ;
+  elm6.setText("elm6:" + elm6.getW()) ;
+  elm7.setText("elm7:" + elm7.getW()) ;
+  elm8.setText("elm8:" + elm8.getW()) ;
+  elm9.setText("elm9:" + elm9.getW()) ;
+
+};
+
+</script>
+</head>
+<body style="overflow:hidden">
+
+</body>
+</html>

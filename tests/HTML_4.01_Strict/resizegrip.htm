@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Resizegrip Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("thirdparty/btudball/resizegrip");
+    onload = function(){
+      exampleInit();
+      eOuter = domapi.Elm({x:300,y:100,w:400,h:100,bgcolor:"#ddeeff"});
+      eOuter.setText("eOuter<br />elm1 = Resizegrip({minW:20,minH:60,maxW:400,maxH:200});");
+      eInner = domapi.Elm({parent:eOuter,x:50,y:40,w:100,h:20,bgcolor:"pink"});
+      eInner.setText("eInner");
+      eOuter.style.border="1px solid";
+      eOuter.style.borderColor = domapi.theme.border.getOutset();
+      elm1 = domapi.Resizegrip({parent:eOuter,minW:20,minH:60,maxW:400,
+          maxH:200,fStart:"customStart()",fMove:"customMove()",fEnd:"customEnd()"});
+      // ---- relative test
+      elm2 = domapi.Elm({w:200,h:70,position:"relative",bgcolor:domapi.theme.fonts.buttonface.bgcolor});
+      elm2.style.border="1px solid";
+      elm2.style.borderColor = domapi.theme.border.getOutset();
+      rg1 = domapi.Resizegrip({parent:elm2,minW:50,minH:30});
+    }
+  
+  function customStart(){eInner.setText("start")}
+  function customMove(){ eInner.setText("move")}
+  function customEnd(){  eInner.setText("end")}
+  </script>
+  
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Resizegrip")</script>
+
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> Enabled<br />
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

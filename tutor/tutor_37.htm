@@ -1,0 +1,61 @@
+<html><head><title>DomAPI Docs - Tutorial - Simple Navigation Menu</title><link rel="stylesheet" type="text/css" href="../docs/bin/style.css"></head><body><div id="logo"><a href="http://domapi.com"><img src="../docs/bin/logo6.gif" alt="DomAPI Application Platform" border="0" /></a></div><a href="#" onclick="history.go(-1)"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="#" onclick="history.go(-1)">Back</a>&nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a><a href="tutor_index.htm">Up to index</a><h3>DomAPI Tutorial</h3><div class="tutorNavBlock"><a href="tutor_31.htm"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="tutor_31.htm" title="Back">Working with Function Args</a> &nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a></div><h3>Simple Navigation Menu</h3><p class="tutorAuthor"> Author: <b>Darin Kadrioski</b><br /><span style="font-size:smaller">Modified: 06/21/2002</span></p><style type="text/css"> .navMenu{ position:relative; width:110px; } .navMenu th{ background-color: #31306B; color:white; font:8pt Verdana, Arial, Helvetica, Sans Serif; text-align: left; cursor: default; padding:3px 1px; } .navMenu td{ background-color: #CCCCCC; color: black; font:8pt Verdana, Arial, Helvetica, Sans Serif; cursor: pointer; padding:2px 1px; } .navMenu a{ font-weight: normal; color: black !important; text-decoration:none; } </style><p> This is an example of using the core domapi methods to produce a simple rollover menu out of an ordinary table. </p><p style="font-weight:bold"><a target="_blank" href="examples_w/simple_nav_menu.htm">Click here to view the final menu in action</a></p><p> This is the table that will form the basis for out menu. You would of course change the cell values and the hrefs in the anchors. </p><pre class="code">&lt;table id="navMenu" border="0" cellpadding="0" cellspacing="0"&gt;
+  &lt;tr&gt;&lt;th&gt;Heading 1&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page1.htm"&gt;Item 1&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page2.htm"&gt;Item 2&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;th&gt;Heading 2&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page1.htm"&gt;Item 1&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page2.htm"&gt;Item 2&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;th&gt;Heading 3&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page1.htm"&gt;Item 1&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page2.htm"&gt;Item 2&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page3.htm"&gt;Item 3&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;a href="page4.htm"&gt;Item 4&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</pre><p> As you can see, we use THs for the headings, and TDs for the link cells. Nothing new here. We've also given the table the id "navMenu", which we will use for applying some style. Here's the CSS we'll apply, nothing fancy. </p><pre class="code">#navMenu{
+  position:relative;
+  width:110px;
+}
+#navMenu th{
+  background-color: #31306B;
+  color:white;
+  font:8pt Verdana, Arial, Helvetica, Sans Serif;
+  text-align: left;
+  cursor: default;
+  padding:3px 1px;
+}
+#navMenu td{
+  background-color: #CCCCCC;
+  color: black;
+  font:8pt Verdana, Arial, Helvetica, Sans Serif;
+  cursor: pointer;
+  padding:2px 1px;
+}
+#navMenu a{
+  font-weight: normal;
+  color: black;
+  text-decoration:none;
+}</pre><p><table class="navMenu" border="0" cellpadding="0" cellspacing="1" style="float:left;margin-right:30px"><tr><th>Heading 1</th></tr><tr><td><a href="page1.htm">Item 1</a></td></tr><tr><td><a href="page2.htm">Item 2</a></td></tr><tr><th>Heading 2</th></tr><tr><td><a href="page1.htm">Item 1</a></td></tr><tr><td><a href="page2.htm">Item 2</a></td></tr><tr><th>Heading 3</th></tr><tr><td><a href="page1.htm">Item 1</a></td></tr><tr><td><a href="page2.htm">Item 2</a></td></tr><tr><td><a href="page3.htm">Item 3</a></td></tr><tr><td><a href="page4.htm">Item 4</a></td></tr></table> ... and then here's what you wind up with.<br /><br /> This now has the look of a menu, but if you mouse over the cells, you'll see the effect is not quite what we want. The text in the links is active, but clicking elsewhere in the cell has no effect. What we want is the whole cell to act as a link. We also want the cell background colors to change as we roll over them. This is where DomAPI comes in.<br /><br /> Now, what most designers would do now is attach onmouseover, onmouseout and onclick events to every cell in the table. This has two problems with it. First off, it's just plain messy. But most important, you lose the separation between form and content. What we're going to do instead is add all this functionality, <b>without</b> changing any of the html. Madness you say? The secret is using event bubbling, along with DomAPI's <span class="inlinecode">domapi.findTarget()</span> method. </p><p style="clear:left"> We'll start out as we start most DomAPI pages, with our onload event. In this event we get a referenece to our table and add three event handlers to it to cover onmouseover, onmouseout and onclick. We'll take advantage of the fact that these events also fire on all the child nodes of the table, and eventually bubble up to the table itself. Here is the complete onload event, we'll follow this by building our three event handlers. </p><pre class="code">onload = function(){
+  var t = document.getElementById("navMenu");
+  t.onmouseover = _tableOver;
+  t.onmouseout  = _tableOut;
+  t.onclick     = _tableClick;
+};</pre><p> The implementation of the mouseover and mouseout handlers are very similar. They use DomAPI's <span class="inlinecode">domapi.findTarget()</span> method to find if the event has occured over a TD. <span class="inlinecode">domapi.findTarget()</span> returns either the element specified or <span class="inlinecode">null</span>, so the line <span class="inlinecode">if(!e)return</span> kicks us out of the handler if it's not over a TD. This will ensure we don't apply rollover colors to a TH or the actual table.<br /> The mouseover handler also makes use a function called <span class="inlinecode">firstAnchor()</span>, which is defined below. We use this function to locate the anchor in the cell, so that we can set the statusbar text to be the anchor's href. This gives a more consistent feel to the menu, because otherwise the statusbar would only change when you moused over the anchor. </p><pre class="code">function _tableOver(E){
+  var e = domapi.findTarget(E,"TD"); if(!e)return;
+  var a = firstAnchor(e);
+  e.style.backgroundColor = "#DDDDDD";
+  if(a)status = a.href;
+  return true;
+};
+function _tableOut(E){
+  var e = domapi.findTarget(E,"TD"); if(!e)return;
+  e.style.backgroundColor = "#CCCCCC";
+};
+function firstAnchor(e){
+  var a = e.getElementsByTagName("A");
+  if(a.length == 0)return null;
+  return a[0];
+};</pre><p> So all that's left to wrap this up is to implement the onclick handler. This just as straight forward as the other events, we first find if we're other a TD, and then look if there's an anchor. If there is, we launch it's href. </p><pre class="code">function _tableClick(E){
+  var e = domapi.findTarget(E,"TD"); if(!e)return;
+  var a = firstAnchor(e);
+  if(!a || a.parentNode != e)return;
+  location.href = a.href;
+};</pre><p> So that's it. You can use this simple example as a basis for your own menu, or extend it to meet your needs. </p><p style="font-weight:bold"><a target="_blank" href="examples_w/simple_nav_menu.htm">Click here to view the final menu in action</a></p><div class="tutorNavBlock"><a href="tutor_31.htm"><img src="../docs/bin/left.gif" alt="Back" width="14" height="14" border="0"></a><a href="tutor_31.htm" title="Back">Working with Function Args</a> &nbsp;&nbsp;&nbsp; <a href="tutor_index.htm"><img src="../docs/bin/up.gif" alt="Up to index" width="14" height="14" border="0"></a></div><hr />  </body></html>

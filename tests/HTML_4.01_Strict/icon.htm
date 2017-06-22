@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Icon Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("icon");
+    onload = function(){
+      exampleInit();
+      var panel =domapi.getElm("panel1");
+      
+			elm1 = domapi.Icon({x:250,y:110,w:80,h:70,imgW:32,imgH:32,text:"Recycle Bin",src:"../bin/recycler32.gif"});
+			elm1.ondblclick = function() {alert("dblclick");};
+
+			elm2 = domapi.Icon({parent:panel,x:10,y:10,w:80,h:70,imgW:32,imgH:32,text:"My Computer",src:"../bin/computer32.gif"});
+			elm2.setSelected(true);
+
+			elm3 = domapi.Icon({parent:panel,x:10,y:80,w:80,h:70,imgW:32,imgH:32,text:"Recycle Bin",src:"../bin/recycler32.gif"});
+			elm3.emptyRecycler = function() {
+				this.setImageIndex(0);
+				this.focus();
+			}
+      f.s2.options.length=0;
+      for(a=0;a<2;a++)
+        f.s2.options[f.s2.options.length]=new Option(a,a);
+    }
+    var timer1;
+  </script>
+  <style type="text/css">
+    #panel1{
+      position:absolute;
+      left:250px;
+      top:300px;
+      width:220px;
+      height:160px;
+      border-width:2px;
+      border-style:inset;
+      background-color:appworkspace;
+      overflow:auto;
+    }
+    .DA_KONQ #panel1{background-color:#808080}
+  </style>
+</head>
+
+<body>
+
+<script type="text/javascript">printHeader("Icon")</script>
+
+<input type="Checkbox" onclick="for(i=0;i<domapi.bags.icon.length;i++)domapi.bags.icon[i].setAllowMove(this.checked)" checked alt="#" name="none" value=""/> doAllowMove<br />
+<input type="Checkbox" onclick="for(i=0;i<domapi.bags.icon.length;i++)domapi.bags.icon[i].doRollover = this.checked" alt="#" name="none" value=""/> doRollover<br />
+<input type="Checkbox" onclick="for(i=0;i<domapi.bags.icon.length;i++)domapi.bags.icon[i].doDepress = this.checked" alt="#" name="none" value=""/> doDepress<br />
+<br />
+Select Image <select name="s2" onchange="elm1.setImageIndex(this.value)"><option /></select>
+
+<script type="text/javascript">printFooter()</script><br />
+This is the image used by the Recycle Bin<br /><br />
+<img src="../bin/recycler32.gif" width="64" height="32" border="0" alt="" style="background-color:white" />
+<div id="panel1"></div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>BarChart Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("thirdparty/bdankert/barchart");
+    onload = function(){
+      exampleInit();
+      document.f1.reset();
+      elm1 = domapi.Barchart({x:250,y:50,w:250,h:250});
+      elm1.addChart(60,60,160,120,5,1);
+      elm1.addData("80,100,40,20","Bob,Erin,Mike,Jill");
+      elm1.setLabels(null,null,1);
+      elm1.setNames();
+      elm1.addTitle('DomAPI BarChart Example');
+      elm1.setXAxis('Names');
+      elm1.setYAxis('Coolness');
+      
+      var fonts= new Array("Arial","Arial Black","Century Gothic","Comic Sans MS","Courier New","Garamond","Georgia","Impact","Marlett","Palatino Linotype","Symbol","System","Tahoma","Times New Roman","Trebuchet MS","Verdana");
+      var ss=document.f1.s2;ss.options.length=0;
+      for(var a=0;a<fonts.length;a++)ss.options[ss.options.length]=new Option(fonts[a],fonts[a]);
+      ss.options[0].selected=true;
+      var sizes=new Array(2,4,6,8,10,12,14,16,18,20,22,24,26,28,30);
+      var ss=document.f1.s3;ss.options.length=0;
+      for(var a=0;a<sizes.length;a++)ss.options[ss.options.length]=new Option(sizes[a],sizes[a]);
+      ss.options[4].selected=true;
+      tt1=['','GridLines','Multiple'];
+    }
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader()</script>
+
+Value <input type="text" size="4" name="a1" value="75">&nbsp
+Name <input type="text" size="4" name="a2" value="test">
+<input type="button" value="Add" onclick="elm1.addData(document.f1.a1.value,document.f1.a2.value);"><hr />
+<span id="d1">GridLines</span> <input type="text" size="2" name="g1" value="5">
+<input type="button" value="Change" onclick="elm1.setGrid(document.f1.g1.value,document.f1.s5.value);if(document.f1.c1.checked)elm1.setLabels(null,null,parseInt(document.f1.a8.value));"><br />
+<select name="s5" onchange="domapi.getElm('d1').innerHTML=tt1[this.value];"><option value="1" selected>Number of Lines</option><option value="2">Lines per Multiple</option></select><hr />
+<input type="Checkbox" onclick="if(this.checked)elm1.setLabels(null,null,parseInt(document.f1.a8.value));else elm1.setLabels(0);" checked alt="#" name="c1" value="" /> Labels<br />
+Decimal Digits<input type="text" name="a8" size="3" value="1">
+<input type="button" value="Change" onclick="if(document.f1.c1.checked)elm1.setLabels(null,null,parseInt(document.f1.a8.value));"><hr />
+<input type="Checkbox" onclick="if(this.checked)elm1.setNames();else elm1.clearNames();" checked alt="#" name="c2" value="" /> Bar-Names<hr />
+<input type="Checkbox" onclick="if(this.checked)elm1.addTitle(document.f1.a4.value);else elm1.clearTitle();" checked alt="#" name="c3" value="" />
+Title<input type="text" name="a4" size="10" value="DomAPI BarChart Example">
+<input type="button" value="Set" onclick="if(document.f1.c3.checked)elm1.addTitle(document.f1.a4.value);"><hr />
+<input type="Checkbox" onclick="if(this.checked)elm1.setColors(document.f1.a5.value);else elm1.setColors();" alt="#" name="c4" value="" />
+Colors<input type="text" name="a5" size="10" value="gray,theme">
+<input type="button" value="Set" onclick="if(document.f1.c4.checked)elm1.setColors(document.f1.a5.value);"><hr />
+<input type="Checkbox" onclick="if(this.checked)elm1.setOrient(0);else elm1.setOrient(1);" alt="#" name="c5" value="" checked />Vertical<hr />
+<input type="Checkbox" onclick="if(this.checked)elm1.hText=true;else elm1.hText=false;elm1.reDraw();" alt="3" name="c6" value=""/>Horz Text
+<select name="s2" onchange="elm1.labelFont=this.value;elm1.reDraw();"><option /></select><br />
+<select name="s3" onchange="elm1.labelSize=this.value;elm1.reDraw();"><option /></select><br /><hr />
+Sort according to<br />
+<select name="s4" onchange="elm1.dataSort(this.value);elm1.reDraw();"><option value="1">By-Value</option><option value="2">Reverse By-Value</option><option value="3">By-Name</option><option value="4">Reverse By-Name</option></select>
+<input type="button" value="Set" onclick="elm1.dataSort(document.f1.s4.value);elm1.reDraw();"><hr />
+<input type="checkbox" onclick="if(this.checked)elm1.setXAxis(document.f1.a6.value);else elm1.clearXAxis();" name="c7" value="" checked />
+X-Axis<input type="text" size="10" value="Names" name="a6">
+<input type="button" onclick="if(document.f1.c7.checked)elm1.setXAxis(document.f1.a6.value);" value="Set"><br />
+<input type="checkbox" onclick="if(this.checked)elm1.setYAxis(document.f1.a7.value);else elm1.clearYAxis();" name="c8" value="" checked />
+X-Axis<input type="text" size="10" value="Coolness" name="a7">
+<input type="button" onclick="if(document.f1.c8.checked)elm1.setYAxis(document.f1.a7.value);" value="Set"><hr />
+<input type="button" onclick="alert([elm1.offX,elm1.offY]);" value="test"><hr />
+<input type="button" onclick="alert([elm1.chart.getH(),elm1.lines]);" value="test2"><hr />
+<input type="button" onclick="alert([elm1.isVert,elm1.range,elm1.chart.getY()]);" value="test3"><hr />
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>
+

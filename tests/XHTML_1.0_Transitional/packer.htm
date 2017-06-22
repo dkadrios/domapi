@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<script src="../../src/domapi.js"></script>
+<script type="text/javascript">
+  domapi.loadUnit("packer");
+	domapi.loadUnit("button");
+	domapi.loadUnit("listbox");
+  domapi.useElmHooks = true;
+	onload=init;
+	var anchors= "nw,n,ne,w,center,e,sw,s,se";
+  function init(){
+	
+	var elm1=domapi.Elm({x:-1000,y:-1000,w:200,h:60,bgcolor:"#F1F1F1",skipStyle:false});
+	elm1.packerOn({fill:'x'});
+	elm1.style.border = "1px solid #527DBD";
+	elm1.setText("<center>Packed width default option (except fill x)</center>") 
+	var elm2=domapi.Elm({x:10,y:10,w:100,h:60,bgcolor:"#CEDBEF",color:"#000000",skipStyle:false});
+	elm2.packerOn({side:'left',padX:1,padY:1,fill:'both',expand:'yes'});
+	elm2.style.border = "1px solid #527DBD";
+	elm2.setText("Select an anchor option in listbox");
+	
+	var elm3=domapi.Button({x:10,y:10,w:70,h:25,text:'Click me'});
+	elm3.packerOn({side:'top',padY:5,padX:5,expand:'yes'});
+	elm3.onclick = function(){
+	opt = elm3.packer.opt;
+	opt.fill = opt.fill == 'both'?'none':'both';
+	domapi.packer.render();
+	}
+	elm4=domapi.Listbox({parent:elm2,x:300,y:100,w:150,h:200});
+	elm4.delimitedText(anchors);
+	elm4.packerOn({side:'bottom',anchor:'center',padY:5,expand:'yes'});
+	elm4.onchange=function(){
+    if(elm4.itemIndex == -1)return;
+		elm4.packer.opt.anchor = elm4.items[elm4.itemIndex].innerText;
+		if (elm4.items[elm4.itemIndex].innerText.substr(0,1) == "s") elm4.direction = "up"; else elm4.direction = "down";
+  	domapi.packer.render(elm2);
+	}
+
+	//launch geometry manager
+	domapi.packer.render();
+	
+	}
+	</script>
+</head>
+<body style="overflow:hidden">
+
+</body>
+</html>

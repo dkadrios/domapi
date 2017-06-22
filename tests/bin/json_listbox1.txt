@@ -1,0 +1,27 @@
+{
+  items : [
+    {text : "Array",       value : "Array"},
+    {text : "boolean",     value : "boolean"},
+    {text : "Button",      value : "Button"},
+    {text : "Calendar",    value : "Calendar"},
+    {text : "Collection",  value : "Collection"},
+    {text : "Component",   value : "Component"},
+    {text : "Date",        value : "Date"},
+    {text : "Dropdown",    value : "Dropdown"},
+    {text : "Elm",         value : "Elm"},
+    {text : "Event",       value : "Event"},
+    {text : "Form",        value : "Form"},
+    {text : "Function",    value : "Function"},
+    {text : "HTMLElement", value : "HTMLElement"},
+    {text : "integer",     value : "integer"},
+    {text : "List",        value : "List"},
+    {text : "Listbox",     value : "Listbox"},
+    {text : "Object",      value : "Object"},
+    {text : "RPCPacket",   value : "RPCPacket"},
+    {text : "Speedbutton", value : "Speedbutton"},
+    {text : "String",      value : "String"},
+    {text : "Theme",       value : "Theme"},
+    {text : "TreeNode",    value : "TreeNode"},
+    {text : "variant",     value : "variant"}
+  ]
+};

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Speedbutton Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("speedbutton");
+    domapi.loadUnit("popupmenu");
+    onload = function(){
+      exampleInit();
+      sb = domapi.bags.speedbutton;
+      btn1 = domapi.Speedbutton({
+        text : "New",
+        src  : "../bin/new.gif",
+        hint : "New",
+        x : 300, y : 30
+      });
+      btn2 = domapi.Speedbutton({
+        text : "Open",
+        src  : "../bin/open.gif",
+        hint : "Open",
+        orientation : "vertical",
+        x : 300, y : 100
+      });
+      btn2_5 = domapi.Speedbutton({
+        text : "Disabled",
+        src  : "../bin/open.gif",
+        hint : "Disabled",
+        orientation : "vertical",
+        x : 350, y : 100,
+        enabled : false
+      });
+      btn3 = domapi.Speedbutton({        
+        src  : "../bin/alignL.gif",
+        hint : "Left align",
+        x : 300, y : 180,
+        radioGroup : 1
+      });
+      btn4 = domapi.Speedbutton({        
+        src  : "../bin/alignC.gif",
+        hint : "Center align",
+        x : 330, y : 180,
+        radioGroup : 1
+      });
+      btn5 = domapi.Speedbutton({        
+        src  : "../bin/alignR.gif",
+        hint : "Right align",
+        x : 360, y : 180,
+        radioGroup : 1
+      });
+      var m = domapi.Popupmenu({});
+      m.addItem({text:"Left",   radioGroup:2, checked:true});
+      m.addItem({text:"Center", radioGroup:2});
+      m.addItem({text:"Right",  radioGroup:2});
+      m.onselected = function(m,i){alert(m.getText(i))};
+      btn6 = domapi.Speedbutton({
+        x : 300, y : 230,
+        text     : "Align",        
+        kind     : "dropdown",
+        dropDown : m
+      });
+      btn7 = domapi.Speedbutton({
+        x : 360, y : 230,
+        text     : "Disabled",        
+        kind     : "dropdown",
+        enabled  : false,
+        dropDown : m
+      });
+      btn7 = domapi.Speedbutton({
+        x : 300, y : 280,
+        imgW : 32, imgH : 32,
+        src      : "../bin/explore32.gif",
+        text     : "Explore"
+      });
+      elm1 = btn1;
+    }
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Speedbutton")</script>
+
+<input alt="#" name="x" value="" type="Checkbox" onclick="for(a=0;a<sb.length;a++)sb[a].doRollover=this.checked" checked /> doRollover<br />
+<input type="Checkbox" onclick="for(a=0;a<sb.length;a++)sb[a].doDepress=this.checked" checked alt="#" name="none" value="" /> doDepress<br />
+<!---
+<input type="Checkbox" onclick="for(a=0;a<sb.length;a++){sb[a].doBorder=this.checked;sb[a].draw()}" checked alt="#" name="none" value="" /> doBorder<br />
+<input type="Checkbox" onclick="for(a=0;a<sb.length;a++){sb[a].doBGFill=this.checked;sb[a].draw()}" checked alt="#" name="none" value="" /> doBGBFill<br />
+<input type="Checkbox" onclick="for(a=0;a<sb.length;a++){sb[a].flat=this.checked;sb[a].draw()}" alt="#" name="none" value="" /> flat<br />
+--->
+<!---
+<div id="labels" style="position:absolute;left:300px;top:32px;font-size:10pt;width:200px">
+  <span>Simple buttons</span><br />
+  <span style="position:absolute;top:50px">Radio group</span>
+  <span style="position:absolute;top:100px">Separate toggles</span>
+</div>
+<br /><br /><br /><br /><br />
+--->
+<script type="text/javascript">printFooter()</script>
+
+</body>
+</html>

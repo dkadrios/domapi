@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
+<html>
+  <head>
+    <title>Desktop</title>
+    <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+    <script type="text/javascript">
+
+    domapi.loadUnit("window");
+    domapi.loadUnit("popupmenu");
+    domapi.loadUnit("icon");
+    domapi.loadUnit("thirdparty/btudball/statusbar");
+    domapi.loadUnit("thirdparty/btudball/resizegrip");
+
+    var useSplitPane = true;      
+      
+    onload = function() {
+    
+      var xWPos = 250;
+      var yWPos = 50;
+
+      var oPopupMenu = domapi.Popupmenu({x:200,y:50});
+      oPopupMenu.style.backgroundColor = 'white';
+
+      var oComputer = domapi.Icon({x:10, y:10 ,w:100, h:70, imgW:32, imgH:32,text:"My Computer",src:"images/computer32.gif",popupMenu:oPopupMenu});
+      oComputer.ondblclick = startExplorer;
+      oPopupMenu.attach(oComputer);   
+      
+      var oRecycle = domapi.Icon({x:10, y:80 ,w:100, h:70, imgW:32, imgH:32,text:"Recycle Bin",src:"images/recycler32.gif",popupMenu:oPopupMenu});
+      oRecycle.setImageIndex(1);
+      oPopupMenu.attach(oRecycle);    
+      
+      var oReadme = domapi.Icon({x:10, y:150 ,w:100, h:70, imgW:32, imgH:32,text:"Readme",src:"images/help32.gif"});
+      oReadme.ondblclick = showReadme;
+      
+      emptyRecycler = function() {
+        oRecycle.setImageIndex(0);
+      };
+      
+      sendAllIconsToBack = function() {
+        // The popup menu does not claim the topmost Z-order when shown and, because the icons may be already be
+        // topmost Z, the popup menu may show behind the icons. We send them to the back of the popup menu here.
+        oComputer.setZ(oPopupMenu.getZ()-1);
+        oRecycle.setZ(oPopupMenu.getZ()-1);
+        oReadme.setZ(oPopupMenu.getZ()-1);
+      };
+
+      
+      oComputer.popupmenuCheck = function(E){
+        sendAllIconsToBack();
+        var _this = domapi.findTarget(E, "ICON"); if(!_this)return;
+        _this.popupMenu.beginUpdate();
+        _this.popupMenu.clear();
+        var oJSON = {doImages:false,
+                        items:[{text:"<b>Open</B>",onselected:startExplorer},
+                              {text:"Explore",  onselected:startExplorer},
+                              {text:"Search...", enabled:false},
+                              {text:"Manage", enabled:false},
+                              {type:"separator", enabled:false},
+                              {text:"Map Network Drive...", enabled:false},
+                              {text:"Disconnect Network Drive...", enabled:false},
+                              {type:"separator"},
+                              {text:"Create Shortcut", enabled:false},
+                              {text:"Delete", enabled:false},
+                              {text:"Rename", enabled:false},
+                              {type:"separator"},
+                              {text:"Properties"}]};
+        _this.popupmenu.loadFromJson(oJSON);
+        _this.popupmenu.endUpdate();
+      }
+      
+      oRecycle.popupmenuCheck = function(E){
+        sendAllIconsToBack();
+        var _this = domapi.findTarget(E, "ICON"); if(!_this)return;
+        var oJSON = {doImages:false,
+                        items:[{text:"<b>Open</B>",onselected:"", enabled:false},
+                              {text:"Explore",  onselected:"", enabled:false},
+                              {text:"Empty Recycle Bin",onselected:emptyRecycler, enabled:(_this.getMainImg().index==1)},
+                              {type:"separator"},
+                              {text:"Create Shortcut", enabled:false},
+                              {text:"Properties", enabled:false},
+                              {text:"invisible", visible:false}]};
+        _this.popupMenu.beginUpdate();
+        _this.popupMenu.clear();
+        _this.popupmenu.loadFromJson(oJSON);
+        _this.popupmenu.endUpdate();
+      };
+      
+      oReadme.popupmenuCheck = function(E){
+        oPopupMenu.hide();
+        sendAllIconsToBack();
+      };
+
+
+      domapi.addEvent( oComputer, "contextmenu", oComputer.popupmenuCheck);
+      domapi.addEvent( oRecycle, "contextmenu", oRecycle.popupmenuCheck);
+      domapi.addEvent( oReadme, "contextmenu", oReadme.popupmenuCheck);
+
+      function startExplorer(){
+        var sCaptionMsg = '<img style="vertical-align:middle" src="images/explorer16.gif" width="16" height="16" border="0" />&nbsp;Explorer' + (useSplitPane? ' - (Splitpane)':' - (Splitter)');
+        var sStatusMsg = '<img style="vertical-align:middle" src="images/computer16.gif" width="16" height="16" border="0" />&nbsp;My Computer';
+        var oW = domapi.Window({text:sCaptionMsg,x:xWPos,y:yWPos,w:700,h:500,windowType:"IFRAME",showContentsWhileDragging:true});
+        var sURL = "wd_explore.htm?theme=system&skin=true&useSplitpane=" + useSplitPane;
+        
+        oW.loadURL(sURL);
+        xWPos += 20;
+        yWPos += 20;
+        
+        oW.sb = domapi.Statusbar({parent:oW,x:0,y:oW.getH()-18});
+        oW.sb.beginUpdate();
+        oW.sb.countPanel = oW.sb.addPanel({text:"0 objects"});
+        oW.sb.sizePanel = oW.sb.addPanel({text:"0 KB", type:ptFixed,minW:100});
+        oW.sb.addPanel({text:sStatusMsg, type:ptFixed,minW:200});
+        oW.sb.doResize();
+        var rg = domapi.Resizegrip({parent:oW,fMove:rgResize});
+        oW.sb.endUpdate();
+        
+        // make sure that the statusbar moves with the window during maximixe,minimize, and restore as necessary
+        oW.onmaximize = oW.onendresize = winResize;
+        oW.onminimize = function() {oW.sb.style.display = rg.style.display="none";};
+        oW.onrestore = function() {oW.sb.style.display = rg.style.display="";winResize();};
+        
+        function rgResize(){
+          oW.sb.moveTo(oW.sb.gap,oW.getH()-oW.sb.getH()-oW.sb.margin);
+          oW.sb.setW(oW.getW()-oW.sb.margin-oW.sb.gap);
+          oW.sb.doResize();
+        };
+        
+        function winResize() {
+          rgResize();
+          rg.setX(oW.getW()-rg.getW()-rg.margin);
+          rg.setY(oW.getH()-rg.getH()-rg.margin);  
+        };
+      };
+      
+      function showReadme(){
+        var w=500, h=300;
+        var oW = domapi.Window({text:'Readme',w:w,h:h,windowType:"IFRAME", showContentsWhileDragging: true});
+        oW.loadURL("wd_Readme.htm?theme=system&skin=true");        
+        oW.moveTo(domapi.bodyWidth()/2-w/2, domapi.bodyHeight()/2-h/2);
+      };
+    };
+  </script>
+  </head>
+  <body onDragDrop="return false;" oncontextmenu="return false;" onselectstart="return false;" style="overflow:hidden">
+  </body>
+</html>

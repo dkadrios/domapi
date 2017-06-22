@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!--
+//------------------------------------------------------------------------------
+// DomAPI - Collision Demo
+// Mark Proctor
+// (c) Mark Proctor 2001-2002
+//------------------------------------------------------------------------------
+// Contributors:
+// Peter Howarth
+// Philip Mudd
+//------------------------------------------------------------------------------
+// Created       11/07/2002
+// Last Modified 24/07/2002
+//------------------------------------------------------------------------------
+// modified for 4.0 by D. Kadrioski
+-->
+<html>
+<title>Align</title>
+<head>
+<script src="../../src/domapi.js?styleBody=true"></script>
+<script type="text/javascript">
+  domapi.loadUnit("drag");
+  domapi.loadUnit("align");
+  domapi.loadUnit("selection");
+  domapi.loadUnit("button");
+  domapi.loadUnit("groups");
+  domapi.useElmHooks = true;
+  onload = function(){
+    //document.style.userSelectable = "none";//make the page none selectable
+    textBox = domapi.Elm({x:550,y:10,w:160,h:60,bgcolor:"#DDDDDD",color:"black"});
+    textBox.style.borderStyle="solid";
+    textBox.style.borderColor="black";
+    textBox.setB(1);
+    textBox.setP(3);
+    textBox.setText('Rollover a button for help');
+    
+    domapi.selection.setControls(5, "black");
+    var x = 260;
+    createButton(x+0,  10,'<img src="../bin/left.gif">','Align Left - Aligns selected elms to the left of the target elm','domapi.align.alignLeft()');
+    createButton(x+0,  50,'<img src="../bin/right.gif">','Align Right - Aligns selected elms to the right of the target elm','domapi.align.alignRight()');
+    createButton(x+40, 10,'<img src="../bin/top.gif">','Align Top - Aligns selected elms to the top of the target elm', 'domapi.align.alignTop()');
+    createButton(x+40, 50,'<img src="../bin/bottom.gif">','Align Bottom - Aligns selected elms to the bottom of the target elm','domapi.align.alignBottom()');
+    createButton(x+80, 10,'<img src="../bin/middle_horz.gif">','Align Centre Horizontally - Aligns the selected elms to the centre of the target elm','domapi.align.alignCentre()');
+    createButton(x+80, 50,'<img src="../bin/middle_vert.gif">','Align Centre Vertically - Aligns the selected elms to the centre of the target elm', 'domapi.align.alignMiddle()');
+    createButton(x+120,10,'<img src="../bin/align_down.gif">','Align Down - Aligns the selection in order in which they are clicked to the target elm','domapi.align.alignVertical("down")');
+    createButton(x+120,50,'<img src="../bin/align_right.gif">','Align Right - Aligns the selection in order in which they are clicked to the target elm','domapi.align.alignHorizontal("right")');
+    createButton(x+160,10,'<img src="../bin/align_up.gif">','Align Up - Aligns the selection in order in which they are clicked to the target elm','domapi.align.alignVertical("up")');
+    createButton(x+160,50,'<img src="../bin/align_left.gif">','Align Left - Aligns the selection in order in which they are clicked to the target elm','domapi.align.alignHorizontal("left")');
+    createButton(x+200,10,'<img src="../bin/dist_centre_vert.gif">','Centre Vertically - places the elms centres the same distance apart from the enclosing elms','domapi.align.centreVertical()');
+    createButton(x+200,50,'<img src="../bin/dist_centre_horz.gif">','Centre Horizontally - places the elms centres the same distance apart from the enclosing elms','domapi.align.centreHorizontal()');
+    createButton(x+240,10,'<img src="../bin/vert_spacing.gif">','Vertical Spacing - Spaces the elms the same distance apart from the enclosing elms','domapi.align.verticalSpacing()');
+    createButton(x+240,50,'<img src="../bin/horz_spacing.gif">','Horizontal Spacing  - Spaces the elms the same distance apart from the enclosing elms','domapi.align.horizontalSpacing()');
+  
+  	createElement(300,100,150,100,"#333333","page");
+    createElement(480,160,100,100,"#555555","page")
+    createElement(320,250,100,100,"#999999","page");
+    createElement(440,300,100,100,"#ffffff","page");
+    
+    domapi.selection.addAllowed("page");
+  }
+  createElement = function(x,y,w,h,color,groupName){
+  	var elm = domapi.Elm({x:x,y:y,w:w,h:h,bgcolor:color});
+  	elm.setAlpha(75);
+  	elm.turnOnDrag();
+  	elm.addToGroup(groupName);
+    elm.style.borderColor="black";
+    elm.style.borderStyle="solid";
+    elm.setB(1);
+  }
+  createButton = function(x,y,image,popUpText,onClick){
+  	var b = domapi.Button({x:x,y:y,w:39,h:39,text:image});
+  	b.onclick=function(){eval(onClick)};
+  	b.doRollover = false;
+  	var l = popUpText.length;
+  	b.onmouseover = function(){textBox.setText(popUpText)};
+  }
+</script>
+ <style type="text/css">
+   p{
+     width:200px;
+     background-color:#DDDDDD;
+     border:1px solid black;
+     padding:6px;
+   }
+ </style>
+</head>
+<body bgcolor="white">
+  <p>The 4 elms on this page are dragable and selectable.</p>
+  <p>
+    Click on an elm to select it. Hold the shift key down to select more elms.
+    Clicking on an elm without the shift key pressed resets the group of selected elms.
+  </p>
+  <p>The selected elms can then be aligned using the buttons at the top of the page.</p>
+</body>
+</html>

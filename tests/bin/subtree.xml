@@ -1,0 +1,9 @@
+<subitems>
+<item title="Sub-Chapter 1"/>
+<item title="Sub-Chapter 2"/>
+<item title="Sub-Chapter 3"/>
+<item title="Sub-Chapter 4"/>
+<item title="Sub-Chapter 5"/>
+<item title="Sub-Chapter 5bis"/>
+<item title="Infinite subtree" subtree="../bin/subtree.xml"/>
+</subitems>

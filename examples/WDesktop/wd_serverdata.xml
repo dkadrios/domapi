@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<item text="My Computer" type="computer">
+  <item text="Removable Disk (A:)" type="disk" FileType="Removable Disk" TotalSpace="1.44 MB" FreeSpace="1.44 MB" />
+  <item text="Local Disk (C:)" type="disk" FileType="Local Disk" TotalSpace="4 GB" FreeSpace="1.7 GB">
+    <item text="config.msi" type="folder" FileSize=" " FileType="File Folder" LastModified="9/29/2004 5:03:37 PM" />
+    <item text="inetpub" type="folder" FileSize=" " FileType="File Folder" LastModified="7/28/2003 2:48:19 PM">
+      <item text="AdminScripts" type="folder" FileSize=" " FileType="File Folder" LastModified="7/28/2003 11:49:39 AM">
+        <item text="adsutil.vbs" type="file" FileSize="93 KB" FileType="VBScript Script File" LastModified="2/21/2003 5:48:20 PM" />
+        <item text="synciwam.vbs" type="file" FileSize="6 KB" FileType="VBScript Script File" LastModified="2/21/2003 5:48:20 PM" />
+      </item>
+      <item text="wwwroot" type="folder" FileSize=" " FileType="File Folder" LastModified="7/28/2003 11:49:40 AM">
+        <item text="aspnet_client" type="folder" FileSize=" " FileType="File Folder" LastModified="7/28/2003 11:52:17 AM">
+          <item text="system_web" type="folder" FileSize=" " FileType="File Folder" LastModified="7/28/2003 11:52:17 AM">
+            <item text="1_1_4322" type="folder" FileSize=" " FileType="File Folder" LastModified="7/28/2003 11:52:17 AM">
+              <item text="smartnav.htm" type="file" FileSize="0 KB" FileType="HTML Document" LastModified="2/21/2003 6:02:32 PM" />
+              <item text="smartnav.js" type="file" FileSize="8 KB" FileType="JScript Script File" LastModified="7/1/2004 9:05:23 PM" />
+              <item text="WebUIValidation.js" type="file" FileSize="14 KB" FileType="JScript Script File" LastModified="7/1/2004 9:05:39 PM" />
+            </item>
+          </item>
+        </item>
+        <item text="iisstart.htm" type="file" FileSize="1 KB" FileType="HTML Document" LastModified="2/21/2003 5:48:30 PM" />
+        <item text="pagerror.gif" type="file" FileSize="3 KB" FileType="GIF Image" LastModified="2/21/2003 5:48:30 PM" />
+      </item>
+    </item>
+    <item text="windows" type="folder" FileSize=" " FileType="File Folder" LastModified="10/27/2004 2:54:36 PM">
+      <item text="addins" type="folder" FileSize=" " FileType="File Folder" LastModified="7/25/2003 6:42:35 AM" />
+      <item text="0.log" type="file" FileSize="0 KB" FileType="Text Document" LastModified="11/15/2004 6:52:19 PM" />
+      <item text="aspnetocm.log" type="file" FileSize="36 KB" FileType="Text Document" LastModified="10/27/2004 2:39:37 PM" />
+      <item text="Blue Lace 16.bmp" type="file" FileSize="1 KB" FileType="Bitmap Image" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="bootstat.dat" type="file" FileSize="2 KB" FileType="dat File" LastModified="11/15/2004 6:52:01 PM" />
+      <item text="certocm.log" type="file" FileSize="44 KB" FileType="Text Document" LastModified="10/27/2004 2:39:37 PM" />
+      <item text="clock.avi" type="file" FileSize="81 KB" FileType="Video Clip" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="Coffee Bean.bmp" type="file" FileSize="17 KB" FileType="Bitmap Image" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="comsetup.log" type="file" FileSize="86 KB" FileType="Text Document" LastModified="10/27/2004 2:39:37 PM" />
+      <item text="control.ini" type="file" FileSize="0 KB" FileType="Configuration Settings" LastModified="7/25/2003 2:26:27 PM" />
+      <item text="dahotfix.log" type="file" FileSize="13 KB" FileType="Text Document" LastModified="9/29/2004 1:54:49 PM" />
+      <item text="desktop.ini" type="file" FileSize="0 KB" FileType="Configuration Settings" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="dialer.exe" type="file" FileSize="54 KB" FileType="Application" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="DtcInstall.log" type="file" FileSize="1 KB" FileType="Text Document" LastModified="7/25/2003 2:15:15 PM" />
+      <item text="explorer.exe" type="file" FileSize="1,009 KB" FileType="Application" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="explorer.scf" type="file" FileSize="0 KB" FileType="Windows Explorer Command" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="faxsetup.log" type="file" FileSize="233 KB" FileType="Text Document" LastModified="10/27/2004 2:39:36 PM" />
+      <item text="FeatherTexture.bmp" type="file" FileSize="16 KB" FileType="Bitmap Image" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="Gone Fishing.bmp" type="file" FileSize="17 KB" FileType="Bitmap Image" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="Greenstone.bmp" type="file" FileSize="26 KB" FileType="Bitmap Image" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="hh.exe" type="file" FileSize="11 KB" FileType="Application" LastModified="3/25/2003 7:00:00 AM" />
+      <item text="iis6.log" type="file" FileSize="424 KB" FileType="Text Document" LastModified="10/27/2004 2:39:37 PM" />
+    </item>
+    <item text="wmpub" type="folder" FileSize=" " FileType="File Folder" LastModified="7/25/2003 2:29:51 PM">
+      <item text="wmiislog" type="folder" FileSize=" " FileType="File Folder" LastModified="7/25/2003 2:29:51 PM" />
+    </item>
+    <item text="wutemp" type="folder" FileSize=" " FileType="File Folder" LastModified="7/28/2003 11:58:26 AM" />
+    <item text="autoexec.bat" type="file" FileSize="0 KB" FileType="Windows Batch File" LastModified="7/25/2003 2:26:27 PM" />
+    <item text="boot.ini" type="file" FileSize="0 KB" FileType="Configuration Settings" LastModified="7/25/2003 2:03:59 PM" />
+    <item text="config.sys" type="file" FileSize="0 KB" FileType="System file" LastModified="7/25/2003 2:26:27 PM" />
+    <item text="io.sys" type="file" FileSize="0 KB" FileType="System file" LastModified="7/25/2003 2:26:27 PM" />
+    <item text="msdos.sys" type="file" FileSize="0 KB" FileType="System file" LastModified="7/25/2003 2:26:27 PM" />
+    <item text="ntdetect.com" type="file" FileSize="46 KB" FileType="Application" LastModified="3/25/2003 7:00:00 AM" />
+    <item text="ntldr" type="file" FileSize="271 KB" FileType="File" LastModified="3/25/2003 7:00:00 AM" />
+    <item text="pagefile.sys" type="file" FileSize="589,824 KB" FileType="System file" LastModified="11/15/2004 6:51:58 PM" />
+    <item text="_navcclt.log" type="file" FileSize="37 KB" FileType="Text Document" LastModified="9/29/2004 2:31:45 PM" />
+  </item>
+</item>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Hook Example</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    //domapi.loadUnit(     "debug");
+    domapi.useElmHooks = true;
+    onload = function(){
+      elm1=domapi.Elm({x:50,y:200,w:70,h:70,bgcolor:"blue",color:"#ffffff"});      
+      domapi.regHook("setX", showpos1);
+      
+      elm2=domapi.Elm({x:370,y:200,w:70,h:70,bgcolor:"red",color:"#ffffff"});
+      elm2.regHook("setX", showpos2);
+      
+      elm1.onmouseover = function(){
+        if(domapi.hooks["setX"].length > 0)
+          elm1.setX(elm1.getX() + 10);
+      };
+      elm2.onmouseover = function(){
+        if(elm2.hooks["setX"].length > 0)
+          elm2.setX(elm2.getX() + 10);
+      };
+      
+      elm1.onclick = function(){domapi.unRegHook("setX", showpos1)};
+      elm2.onclick = function(){this.unRegHook(  "setX", showpos2)};
+    }
+    showpos1 = function(e,args){elm1.setText([e.getX(),args[0]])};
+    showpos2 = function(e,args){elm2.setText([e.getX(),args[0]])};
+    //---------------------------------
+  </script>
+  <link rel="stylesheet" type="text/css" href="../bin/examples.css">
+  <style type="text/css">
+    .main{
+      width:300px;
+      text-align:justify;
+      background-color:white;
+      border:1px solid;
+      border-color:silver gray gray silver;
+      position:absolute;
+    }
+    a,a:visited{color:black}
+  </style>
+</head>
+<body style="background-color:buttonface">
+<div class="main" style="top:5px;left:10px">
+  The blue Elm below will move itself to the right each time you move your mouse over it.  This is done using it's 
+  <span class="inlinecode">setX()</span> method.
+  <br /><br />
+  A hook was created using <span class="inlinecode">domapi.regHook("setX", func)</span> whose sole duty is 
+  to write the current <span class="inlinecode">left</span> value of the Elm that called 
+  <span class="inlinecode">setX()</span>.  The numbers that appear in the Elm are printed by this hook.
+  <br /><br />
+  To cancel the hook, click on the blue Elm.  This calls <span class="inlinecode">domapi.unRegHook("setX",func)</span>
+  and removes it. 
+</div>
+<div class="main" style="top:280px;left:10px;width:620px">
+  Hooks work just like events and in effect allow you to supplement methods of the Elm class.  All custom methods of the Elm class
+  can be made to dispatch a provided hook whenever the method is called.  The dispatch mechanism calls your hook and 
+  passes it both the target Elm and any arguments used.
+  <br /><br />
+  You can have more than one hook for each Elm method type.
+  <br /><br />
+  To learn more about hooks, see the Official DomAPI Tutorial.
+</div>
+
+<div class="main" style="top:5px;left:330px">
+  The red Elm below functions similarly, but at a level local only to itself.  Notice that the text in the blue Elm changes
+  too (if you haven't clicked the blue one yet).  This is the difference between global and local hooks.  The hook on the blue Elm was created globally using 
+  <span class="inlinecode">domapi.regHook</span> and therefore will respond to *any* Elm's <span class="inlinecode">setX</span>
+  method being called.<br /><br />
+  The red Elm was created locally using <span class="inlinecode">elm2.regHook</span> (where elm2 is the red Elm) and therefore
+  has private hooks.  No other Elm receives those hook messages.
+</div>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>XmlDocExample</title>
+<!--script type="text/javascript" src="../../src/domapi.js?skin=true&styleBody=true"></script-->
+<!-- next line demonstrates the dynamic module loader -->
+<script type="text/javascript" src="../../src/domapi.js?skin=true&styleBody=true"></script>
+<script type="text/javascript" src="../bin/examples.js"></script>
+<script type="text/javascript">
+domapi.loadUnit("thirdparty/dhendricks/xmlDOM");
+
+domapi.loadUnit("reflow");
+domapi.loadUnit("listbox");
+domapi.loadUnit("tree");
+domapi.loadUnit("combobox");
+domapi.loadUnit("splitpane");
+
+
+onload = init;
+var xmldoc,tree,urls;
+var out=null,logs=null;
+var docFrag;
+var UBS = '\nSee the example comments for instructions regarding this issue.';
+var parseEvents = false;
+
+function loadtree(startnode){
+  if(tree)
+    with(tree){
+	   clear();
+	   beginUpdate();
+	   xnode(startnode);
+	   endUpdate();
+	   init();
+	   expandAll();
+	 }
+};
+
+function doLists(){
+  urls  = domapi.Listbox({x:300,y:50,w:150,h:50,doBorder:true,doMultiSelect:false});
+
+  var ulist = '../bin/inventory.xml|../bin/xmlcore.xml|http://domapi.com/rss/forum.cfm';
+
+  urls.delimitedText(ulist,'|');
+  urls.selectItem(0,true);
+
+  urls.reflowAdd({l:300,t:50,r:'-10',pad:5,h:100});
+  domapi.reflow.render();
+};
+
+function doLists2(){
+
+  logs = domapi.Listbox({doBorder:true,x:0,y:10,h:50,w:400});
+  logs.reflowAdd({l:300,t:150,r:'-10',h:100,pad:5});
+  domapi.reflow.render();
+};
+
+function init(){
+
+
+var asynch = true;
+// Load list box objects with a callback (only if domapidyn.js is used)
+
+//domapi.loadUnit("listbox",null,asynch,{scope:window,fn:doLists});
+// or
+//domapi.loadUnit("listbox",null,asynch,doLists);
+// or
+//domapi.loadUnit("listbox",null,asynch,doLists2);
+
+ doLists();doLists2();
+ parseEvents = document.getElementById("parseWithEvents").checked;
+
+ domapi.comps.tree.xnode= function(node,ptreenode){
+   if (node==null) return;
+    var n;
+
+   if(ptreenode){
+    switch(node.nodeType){
+        case xmlntElement:
+          n=this.addNode({parent:ptreenode,text:node.tagName,img:"../bin/xnode.png"});
+          break;
+        case xmlntAttrib:
+          n=this.addNode({parent:ptreenode,text:node.nodeName +":" + node.value,img:"../bin/xattrib.png"});
+          break;
+        case xmlntText:
+        //case xmlntCdata:
+
+          var txt = node.nodeValue();
+          if(txt.replace(/\s/g,'').length>0)n=this.addNode({parent:ptreenode,text:txt,img:"../bin/options.gif"});
+
+          break;
+        default:
+          if(domapi.trace)dump(node.nodeTypeString());
+      }
+    }else n=this.addNode({text:node.tagName,img:"../bin/xnode.png"});
+
+
+    try{
+      if (node.hasAttributes())
+		for(var a=0;a<node.attributes.length;a++)this.xnode(node.attributes[a],n);
+    }catch(e){if(domapi.trace)dump(e.message);}
+
+    if(node.nodeType != xmlntAttrib && node.hasChildNodes()){
+      for(var a=0;a<node.childNodes.length;a++)
+        this.xnode(node.childNodes[a],n);
+    }
+
+};
+
+  tree = domapi.Tree({x:0,y:20,w:350,h:200,doShowLines:true});
+
+  out  = domapi.Elm({x:0,w:700,h:300});
+  if(out)with(out){
+	  frameBorder       = "2";
+	  style.margin      = "2px";
+      style.overflow    = "auto";
+   }
+
+  pane = domapi.Splitpane({x:20,y:300,h:300,w:110,orientation:"horizontal",
+		moveSplitterTo:220,
+		doThumbTrack:true,
+		doBorder:true,
+		doHideOnDrag:false,
+		doRollover:true,
+		ref1:tree,
+		ref2:out});
+
+  pane.reflowAdd({l:1,t:'50%',b:'-1',r:'-10',pad:5});
+
+  domapi.reflow.render();
+  exampleApplyTheme("system");
+
+};
+
+//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
+  //Gecko: To permit HTTPRequest to a site other than this one, script signing or
+  // codebase principals must be enabled in the browser setup.
+  //
+  // you'll need to do this under Mozilla/Gecko (but not Safari)
+  //
+  //To enable codebase principals, end users must add this line to the prefs.js file
+  //in their Mozilla/Firefox user profile directory:
+  //
+  //user_pref("signed.applets.codebase_principal_support", true);
+  //
+  //For deployment, your scripts should not rely on codebase principals being enabled.
+  //You might want to enable codebase principals when developing your scripts,
+  //but you should sign them before delivery.
+  //
+  // for more info see: http://www.mozilla.org/projects/security/components/signed-scripts.html#codebase
+
+function loadDomDocument(){
+
+ //domapi.trace=true;
+
+   if(domapi.isGecko && urls.getValue().indexOf('http:')>-1)  //Required to load content from other sources.(See above comments)
+       try{netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");}
+    catch(e){alert(e+UBS);}
+
+  xmldoc = domapi.DOMImplementation.createDocument({uri:urls.getValue(),
+    onreadystatechange:xevents,
+    ondataavailable:dataIsHere,
+    parseWithEvents:parseEvents,doDebug:false,noCache:true });
+
+  if(xmldoc)
+    xmldoc.registerNodeHandler(1,onElementNode);
+    try{
+		xmldoc.load();
+	}catch(e){alert(e.message);}
+
+
+};
+
+//------------------------------------------------------------------------------
+function loadDomDocumentAsync(){
+
+  if(domapi.isGecko && !domapi.isKHTML && urls.getValue().indexOf('http:')>-1)  //Required to load content from other sources.(See above comments)
+    try{netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");}
+             catch(e){alert(e+UBS);}
+
+  xmldoc = domapi.DOMImplementation.createDocument({asynch:true,
+  ondataavailable:dataIsHere,
+  parseWithEvents:parseEvents,
+  doDebug:false,noCache:true});
+
+  if(xmldoc)with(xmldoc){
+   registerNodeHandler(xmlntAttrib,onAttribute);    //trap attributes
+   registerNodeHandler(xmlntElement,onElementNode); // and elements
+   onreadystatechange = xevents;
+   load(urls.getValue());
+  }
+};
+//------------------------------------------------------------------------------
+function loadDomString(){
+
+  logs.clearItems();
+  logs.addItem({text:''});
+
+  xmldoc = domapi.DOMImplementation.createDocument();
+
+  with(xmldoc){
+	clear();
+    parseWithEvents = parseEvents;
+    registerNodeHandler(xmlntElement,onElementNode);
+    onreadystatechange = xevents;
+    ondataavailable = dataIsHere;
+
+    loadXML("<nodes><!-- My Favorites--><node>test</node><node>test</node><node>test</node></nodes>");
+  }
+  return true;
+};
+
+function addMovies(){
+	var movies, n, textnode
+	if(!docFrag && xmldoc){ //add some movies using a documentFragment
+		  docFrag = xmldoc.createDocumentFragment();
+		  if(docFrag){
+			  movies = docFrag.appendChild( xmldoc.createElement("movies"));
+
+			  n = movies.appendChild( xmldoc.createElement("movie"));
+			  n.appendChild( xmldoc.createTextNode("Gone with the Wind"));
+
+			  n = movies.appendChild( xmldoc.createElement("movie"));
+			  textnode = n.appendChild( xmldoc.createTextNode("Pitch Black"));
+
+			  n = n.appendChild( xmldoc.createElement("starring"));
+			  n.appendChild( xmldoc.createTextNode("Vin Diesel"));
+
+			  textnode.appendData(" 2?");
+		  }
+    }
+    if(docFrag)
+      xmldoc.documentElement.appendChild(docFrag);
+      logs.clearItems();
+      if(tree)loadtree(xmldoc.documentElement);
+      if(out)out.setText( xmldoc.toString()+" Exported Unicode as:<br><pre>"+
+         xmldoc.asString(true)+'</pre>');
+};
+
+function dataIsHere() {
+	if(logs && this.uri.length)logs.addItem({text:new Date().toLocaleTimeString () +' [ Download of "'+this.uri.concat('?').split('?')[0]+ '" is Complete.'});
+
+      logs.addItem({text:''});
+      goBottom(true);
+};
+//------------------------------------------------------------------------------
+
+function onElementNode(N){
+ if(N && logs){
+	 logs.addItem({text:"parsed incoming Element Named --- "+N.nodeName});
+	 goBottom(true);
+
+   }
+};
+
+
+function onAttribute(N){
+ if(N && logs && N.ownerElement.nodeType==1){
+	 logs.addItem({text:"parsed incoming Attribute " +N.nodeName+" = "+N.value+" for Element: "+N.ownerElement.tagName});
+	 goBottom(true);
+
+   }
+};
+
+function xevents(){ // 'this' Has DOMDocument context
+  var stat=new Date().toLocaleTimeString()+' [ ';
+
+  if(xmldoc.readyState == xmlrsCompleted){ // == 4
+	  with(logs)setItem(items.length-1,{text:stat + 'DOM Parse Completed.'});
+
+	  var E = this;
+
+	  if(!E)return;
+
+	  logs.addItem({text:stat+'XML Exporting... '+E.length+' top-level nodes.'});
+
+	  goBottom(true);
+	  if(tree)loadtree(this.documentElement); //populate tree by walking the DOM
+
+
+	 out.setText( E.toString()+" Parsed AND Exported Unicode as:<br><pre>"+
+         E.asString(true)+'</pre>');
+	  logs.addItem({text:''});
+	  stat += 'XML Export Complete.';
+
+}else if(xmldoc.readyState == xmlrsInteractive){
+
+  //stat += 'Parsing...';
+  return;
+}else if(xmldoc.readyState == xmlrsLoaded){
+
+   //logs.addItem({text:stat+'Parsing Started.'});
+   stat += 'Parsing Started.';
+
+
+
+}else if(xmldoc.readyState <= xmlrsLoading){
+   stat += 'Downloading "'+this.uri.concat('?').split('?')[0]+'"';
+   logs.clearItems();
+   logs.addItem({text:stat});
+   eventct = 0;
+}else if(xmldoc.readyState <= xmlrsFailure){
+   stat += 'Parse Failure :'+this.parseError.reason;
+
+} else {
+	stat += "Loading...";
+
+}
+
+with(logs){if(stat && items.length)
+     setItem(items.length-1,{text:stat});
+
+     goBottom(true);
+ }
+
+if(domapi.trace)dump(stat);
+};
+
+function goBottom(andsel){
+ 	with(logs)if(andsel && items.length>0){
+       scrollTop = _inner.offsetHeight;
+        selectNone();   selectItem(items.length-1,true);
+	}
+ };
+
+function showHeaders(){
+	if(xmldoc && xmldoc._HTTP) alert('Response Headers:\n'+xmldoc._HTTP.getAllResponseHeaders());
+	else alert('Open one of the sample XML documents first.');
+
+};
+</script>
+
+</head>
+<body>
+<script type="text/javascript">printHeader("XmlDoc")</script>
+
+<input type="button" onclick="loadDomDocument();" value="Load xml sync" style="width:150px">
+<input type="button" onclick="loadDomDocumentAsync();" value="Load xml async" style="width:150px">
+<input type="button" onclick="return loadDomString();" value="Load xml string" style="width:150px">
+<input type="button" onclick="addMovies();return true;" value="Add Some Movies.." style="width:150px">
+<input type="button" onclick="showHeaders();return true;" value="See Response Headers.." style="width:150px"><br />
+<input type="Checkbox" onclick="parseEvents=this.checked;return true;"alt="#" id="parseWithEvents" value="" /> parseWithEvents<br />
+<hr />
+<!--script type="text/javascript">printFooter()</script-->
+</body>
+</html>

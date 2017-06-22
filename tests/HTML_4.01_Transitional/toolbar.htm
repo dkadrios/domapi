@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Toolbar Example</title>
+  <style type="text/css">
+    .label{
+      position:absolute;
+      top:10px;
+      left:260px;
+    }
+    body{
+      font:10pt sans-serif
+    }
+    #memo1Div{
+      border:2px inset gray;
+      position:absolute;
+      top:420px;
+      left:260px;
+      height:150px;
+      width:390px;
+      background-color:#EEEEEE;
+      overflow:auto;
+      padding:3px;
+    }
+  </style>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("toolbar");    
+    onload = function(){
+      exampleInit();
+      var container = domapi.Elm({x:250,y:50,h:100,w:400});
+      with(container.style){
+        borderStyle = "solid";
+        borderColor = "black";
+        borderWidth = "0px 1px 1px 1px";
+      }
+      elm1      = domapi.Toolbar({parent:container});      
+      newBtn1   = domapi.Speedbutton({parent:elm1,src:"../bin/new.gif",   hint:"New",onclick:myClick});
+      openBtn1  = domapi.Speedbutton({parent:elm1,src:"../bin/open.gif",  hint:"Open",onclick:myClick});
+      elm1.addSpacer();
+      saveBtn1  = domapi.Speedbutton({parent:elm1,src:"../bin/save.gif",  hint:"Save",onclick:myClick});
+      printBtn1 = domapi.Speedbutton({parent:elm1,src:"../bin/print.gif", hint:"Print",onclick:myClick});
+      elm1.spaceControls();
+    }
+    function myClick(E){
+      alert("You clicked the '" + this.hint + "' button.");
+    };
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader('Toolbar')</script>
+
+<input type="Checkbox" onclick="for(a=0;a<b.length;a++){b[a].doBorder=this.checked;b[a].draw()}" checked alt="#" name="none" value="" /> doBorder<br />
+<input type="Checkbox" onclick="for(a=0;a<b.length;a++){b[a].doBGFill=this.checked;b[a].draw()}" checked alt="#" name="none" value="" /> doBGBFill<br />
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

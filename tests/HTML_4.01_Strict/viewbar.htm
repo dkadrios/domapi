@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Viewbar Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("viewbar");    
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Viewbar({x:250,y:50,w:150,h:230,exclusive:false,formName:"f1", elementName:"elm1_value"});  
+      elm1.groups.add({text:"Group 1"});
+      elm1.groups.add({text:"Group 2"});
+      elm1.groups.add({text:"Group 3"});
+
+      elm1.groups[0].add({text:"Item 1"});
+      elm1.groups[0].add({text:"Item 2"});
+      elm1.groups[0].add({text:"Item 3"});
+      elm1.groups[0].add({text:"Item 4"});
+      
+      elm1.groups[1].add({text:"Item 1"});
+      elm1.groups[1].add({text:"Item 2"});
+      elm1.groups[1].add({text:"Item 3"});
+      elm1.groups[1].add({text:"Item 4"});
+      
+      elm1.groups[2].add({text:"Item 1"});
+      elm1.groups[2].add({text:"Item 2"});
+      elm1.groups[2].add({text:"Item 3"});
+      elm1.groups[2].add({text:"Item 4"});
+   
+      elm1.onbeforechange = function(n){return n.innerHTML!="Item 3"};
+      elm1.onchange       = function( ){domapi.getElm("label1").innerHTML="<b>Selected =</b> "+this.selected.innerHTML};    
+    }
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Viewbar")</script>
+
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.enabled=this.checked;elm1.draw()" checked /> enabled<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" checked /> doBorder<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doBGFill=this.checked;elm1.draw()" checked /> doBGFill<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doRollover=this.checked" checked /> doRollover<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doDepress=this.checked" checked /> doDepress<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doShowSelection=this.checked;elm1.draw()" checked /> doShowSelection<br />
+<input type="Checkbox" name="exclusive" value="" onclick="elm1.setExclusive(this.checked)" alt="#" /> setExclusive (only view one group at a time)
+<br /><br />
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+<p id="label1"><b>Selected =</b></p>
+
+<script type="text/javascript">printFooter()</script>
+<div style="position:absolute;top:50px;left:420px;width:200px;border:2px solid gray;background-color:white;padding:2px;color:black">
+<b>NOTE:</b> This test has an onbeforechange() event that should not allow you to select items whose caption is "Item 3".  This is
+a test of the onchangebefore().  In other words, it's on purpose.
+</div>
+</body>
+</html>

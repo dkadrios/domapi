@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+//------------------------------------------------------------------------------
+// DomAPI - Collision Demo
+// Mark Proctor
+// (c) Mark Proctor 2001-2002
+//------------------------------------------------------------------------------
+// Contributors:
+// Peter Howarth
+//------------------------------------------------------------------------------
+// Created       11/07/2002
+// Last Modified 11/07/2002
+//------------------------------------------------------------------------------
+// modified for 4.0 by D. Kadrioski
+-->
+<html>
+<title>Snap</title>
+<head>
+<script src="../../src/domapi.js?styleBody=true"></script>
+<script type="text/javascript">
+  domapi.loadUnit("drag");
+  domapi.loadUnit("snap");
+  domapi.loadUnit("groups");
+  domapi.useElmHooks = true;
+
+  onload = function(){
+    createElement(300,100,150,100,"#666666");
+    createElement(530,150,100,150,"#999999");
+    createElement(350,250,100,100,"#ffffff");
+    domapi.snap.collOn();
+    domapi.snap.on();
+  };
+
+  createElement = function(x,y,w,h,color){
+    elm=domapi.Elm({x:x,y:y,w:w,h:h,bgcolor:color});
+    elm.style.borderStyle = "solid";
+    elm.style.borderColor = "black";
+    elm.setAlpha(85);
+    elm.setB(1);
+    elm.turnOnDrag();
+  };
+</script>
+<style type="text/css">
+   p{
+     width:200px;
+     background-color:#DDDDDD;
+     border:1px solid black;
+     padding:6px;
+   }
+ </style>
+</head>
+<body>
+  <p>
+    The snap function affects draging and other moving operations.
+    It can be turned on and off for the document.
+    The size of the grid can be set as desired (default = 25)
+  </p>
+  <p>
+    Collision detection is also available. If it is turned on then
+    it is not possible to drag one elm over another.<br>
+    Try dragging the elms...
+  </p>
+  <table>
+    <tr>
+      <td>Turn collision on:<br></td>
+      <td><input type="Checkbox" onclick="if(this.checked)domapi.snap.collOn();else domapi.snap.collOff();" checked alt="#"/></td>
+    </tr>
+    <tr>
+      <td>Turn snap on:<br></td>
+      <td><input type="Checkbox" onclick="if(this.checked)domapi.snap.on();else domapi.snap.off();" checked alt="#" /></td>
+    </tr>
+    <tr>
+      <td>Set grid size:</td>
+      <td>
+        <select name="grid" onchange="domapi.snap.setGrid(this.value)">
+        <option  value="5">5<option selected value="10">10<option value="25">25<option value="50">50
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Show grid:<br></td>
+      <td><input type="Checkbox" onclick="with(domapi.bodyElm().style)if(this.checked){backgroundImage='url(../bin/grid.gif)';backgroundRepeat='repeat';}else backgroundImage='none';" alt="#"/></td>
+    </tr>
+  </table>
+</body>
+</html>

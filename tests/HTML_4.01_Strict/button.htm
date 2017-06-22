@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Button Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("button");
+    onload = function(){
+      exampleInit();
+      label1 = domapi.Elm({x:300,y:150,w:300,h:50});
+      elm1   = domapi.Button({x:300,y:100});
+      elm1.onclick = function(){if(this.enabled)label1.setText('Clicked on '+new Date())};
+      elm2   = domapi.Button({x:300,y:200,w:90,text:"disabled",enabled:false});     
+    }
+  </script>
+
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Button")</script>
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.doRollover=this.checked" checked alt="#" name="none" value="" /> doRollover<br />
+<input type="Checkbox" onclick="elm1.doDepress=this.checked" checked alt="#" name="none" value="" /> doDepress<br />
+<input type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" checked alt="#" name="none" value="" /> doBorder<br />
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

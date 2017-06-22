@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+<script type="text/javascript" src="../bin/examples.js"></script>
+<script type="text/javascript">
+
+domapi.loadUnit("debug");
+domapi.loadUnit("reflow");
+domapi.loadUnit("splitpane");
+domapi.loadUnit("pagecontrol");
+domapi.loadUnit("listgrid");
+domapi.loadUnit("tree");
+
+var DualMode   = true;
+var doReflow = true;
+var hpane,vpane;
+onload = initsample;
+function initsample(){
+
+	//setup a test coordinate system
+	var l=20,r='-20',top=150,h=180,bot=-20,splittop=50,splith=10,pad=0,w=400,uh=splittop-top,hw=950;
+
+  	var panel=domapi.Listgrid({x:l,y:top,h:h,w:w,doVirtualMode:false,gridlines:'both'});
+  	//var panel=domapi.Pagecontrol({x:l,y:top, w:w, h:h,orientation:"bottom",tabalign:"right"});
+
+	vpane = domapi.Splitpane({x:l,y:top,h:h*2,w:hw,orientation:"vertical",
+	doThumbTrack:false,
+	doBorder:true,  //double border test
+	doHideOnDrag:false,
+	doRollover:true,
+	src1:'http://www.yahoo.com',
+	ref2:panel});
+
+	with(vpane){
+		// only reflow HERE if its the only Splitpane in the test
+  		if(!DualMode && doReflow)reflowAdd({t:top,b:bot,l:l,r:r});
+  		doRollover=true;
+  		doRolloverFill=true;
+		doBorder=true;
+	  	doBGFill=true;
+	}
+
+
+    if(DualMode){
+	  hpane= domapi.Splitpane({x:l,y:top,h:h*2,w:hw,orientation:"horizontal",
+		moveSplitterTo:220,
+		doThumbTrack:false,
+		doBorder:true,
+		doHideOnDrag:false,
+		doRollover:true,
+		ref1:domapi.Tree({x:0,y:0,w:120,h:h,doShowLines:true}),
+		ref2:vpane});
+
+		with(hpane){
+			// if reflowSelf:true then the component/elm's onreflow() member is called to handle rendering
+		    if(doReflow){
+				reflowAdd({t:top,b:bot,l:10,r:r,reflowSelf:false});
+				onreflow = function(myparent,parentcoords_obj,x,y,w,h){
+					if(domapi.trace)dump(this.toString()+'.onreflow('+[myparent.toString(),x,y,w,h]+')');
+					this.layout(w,h);
+				};
+			}
+			doRollover=true;
+			doRolloverFill=true;
+			doBorder=true;
+			doBGFill=true;
+
+		    if(typeof(pane1) == 'object' && pane1.DA_TYPE =='TREE')with(pane1){  //the tree
+		    	beginUpdate();
+				var n1 = addNode({text:"node1"});
+				var n2 = addNode({parent:n1,text:"node2"});
+				var n3 = addNode({parent:n2,text:"click me, I'm scary!",fn:"alert('boo!')"});
+				var n4 = addNode({parent:n3,text:"can't select me",canSelect:false});
+				var n5 = addNode({parent:n4,text:"node5"});
+				var n6 = addNode({text:"node2"});
+				var n7 = addNode({parent:n6,text:"My Music",img:"../bin/music_folder.gif"});
+				addPath({path:"this/is/a/long/path"});
+				addPath({path:"node1,node3",del:","});
+				addPath({path:"node1|node4",del:"|"});
+
+                init();  // renders root nodes
+                endUpdate();
+		    }
+
+		}
+    }
+
+    with(panel){
+	  switch(DA_TYPE){
+	   case "PAGECONTROL":
+		beginUpdate();
+		addPage({text:"Yahoo",type:'IFRAME',url:'http://www.yahoo.com'});
+		addPage({text:"Microsoft",type:'IFRAME'});
+		addPage({text:"Mozilla",type:'IFRAME'});
+
+		loadPage(1,'http://www.microsoft.com',!domapi.isIE); //set the url and optional delay
+		loadPage(2,'http://www.mozilla.org',!domapi.isGecko);
+		endUpdate();
+		break;
+	  case "LISTGRID":
+	    panel.loadFromJsonUrl('../bin/json_dataset2.txt');
+		break;
+	 }
+   }
+
+	domapi.trace=false;
+	if(doReflow)domapi.reflow.render();
+
+};
+</script>
+</head>
+<body style="overflow:hidden" scroll="no">
+<script type="text/javascript">printHeader("Complex SplitPane")</script>
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

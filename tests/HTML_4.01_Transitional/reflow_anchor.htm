@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script src="../../src/domapi.js"></script>
+<script type="text/javascript">
+domapi.loadUnit("reflow");
+
+onload = init;
+
+
+
+function init(){
+	mkelm = function(){
+		var elm = domapi.Elm({x:0,y:0,w:50,h:50});
+ 		elm.style.border = "1px solid black";
+  		return elm ;
+  	}
+  	
+  	lt = mkelm();
+  	lt.reflowAdd({anchor:"lt"});
+
+ 	ct = mkelm();
+  	ct.reflowAdd({anchor:"ct"});
+
+ 	rt = mkelm();
+  	rt.reflowAdd({anchor:"rt"});
+
+ 	lc = mkelm();
+  	lc.reflowAdd({anchor:"lc"});
+
+ 	cc = mkelm();
+  	cc.reflowAdd({anchor:"cc"});
+
+ 	rc = mkelm();
+  	rc.reflowAdd({anchor:"rc"});
+
+ 	lb = mkelm();
+  	lb.reflowAdd({anchor:"lb"});
+
+ 	cb = mkelm();
+  	cb.reflowAdd({anchor:"cb"});
+
+ 	rb = mkelm();
+  	rb.reflowAdd({anchor:"rb"});
+
+
+  domapi.reflow.render();
+
+}
+
+</script>
+</head>
+<body style="overflow:hidden">
+
+</body>
+</html>

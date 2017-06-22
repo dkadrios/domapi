@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-splittersplitterType" content="text/html; charset=utf-8">
+  <title>Splitter Example</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript" src="../bin/examples.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("thirdparty/gkafka/splitter");    
+    onload=function(){
+      exampleInit();
+      // Horizontal Splitting
+
+      elm1 = domapi.Elm({x:300,y:30,w:150,h:50,bgcolor:"blue"});
+      elm1.setText("(1) Left move");
+
+      elm2 = domapi.Elm({x:350,y:80,w:100,h:50,bgcolor:"red"});
+      elm2.setText("(2) Left Grow");
+
+      elm3 = domapi.Elm({x:460,y:30,w:300,h:50,bgcolor:"#00ff00"});
+      elm3.setText("(3) Right Grow");
+
+      elm4 = domapi.Elm({x:460,y:80,w:90,h:50,bgcolor:"#ffff00"});
+      elm4.setText("(4) Right move");
+
+      elm5 = domapi.Elm({x:550,y:80,w:210,h:50,bgcolor:"#ffcc00"});
+      elm5.setText("(5) Right Grow");
+
+      s = domapi.Splitter({x:450,y:30,h:100,splitterType:"h"});
+      s.dependent({splitterType:"move",obj:elm1}) ;
+      s.dependent({splitterType:"grow",obj:elm2,minW:50});
+      s.dependent({splitterType:"grow",obj:elm3,minW:70}) ;
+      s.dependent({splitterType:"move",obj:elm4}) ;
+      s.dependent({splitterType:"grow",obj:elm5,minW:50});
+
+
+      // Vertical Splitting
+
+
+	  elm6 = domapi.Elm({x:300,y:300,w:70,h:50,bgcolor:"blue"});
+      elm6.setText("(6) Top move");
+
+      elm7 = domapi.Elm({x:370,y:200,w:70,h:150,bgcolor:"red"});
+      elm7.setText("(7) Top Grow");
+
+      elm8 = domapi.Elm({x:300,y:360,w:70,h:150,bgcolor:"#00ff00"});
+      elm8.setText("(8) Bottom Grow");
+
+      elm9 = domapi.Elm({x:370,y:360,w:70,h:50,bgcolor:"#ffff00"});
+      elm9.setText("(9) Bottom move");
+
+      elm10 = domapi.Elm({x:370,y:410,w:70,h:100,bgcolor:"#ffcc00"});
+      elm10.setText("(10) Bottom Grow");
+
+      s2 = domapi.Splitter({x:300,y:350,w:140,splitterType:"v"});
+      s2.dependent({splitterType:"move",obj:elm6}) ;
+      s2.dependent({splitterType:"grow",obj:elm7,minH:30});
+      s2.dependent({splitterType:"grow",obj:elm8,minH:30}) ;
+      s2.dependent({splitterType:"move",obj:elm9}) ;
+      s2.dependent({splitterType:"grow",obj:elm10,minH:10});
+
+
+
+      // Splitting Splitts
+      elm11=domapi.Elm({x:500,y:200,w:100,h:100,bgcolor:"red"});
+      elm12=domapi.Elm({x:610,y:200,w:100,h:100,bgcolor:"blue"});
+      elm13=domapi.Elm({x:500,y:310,w:210,h:100,bgcolor:"#00ff00"});
+
+      s3 = domapi.Splitter({x:600,y:200,h:100,splitterType:"h"});
+      s3.dependent({splitterType:"grow",obj:elm11,minW:50});
+      s3.dependent({splitterType:"grow",obj:elm12,minW:50});
+
+      s4 = domapi.Splitter({x:500,y:300,w:210,splitterType:"v"});
+      s4.dependent({splitterType:"grow",obj:elm11,minH:50});
+      s4.dependent({splitterType:"grow",obj:elm12,minH:50});
+      s4.dependent({splitterType:"grow",obj:elm13,minH:50});
+      s4.dependent({splitterType:"grow",obj:s3,minH:50}) ;
+    };
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Splitter")</script>
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.doRollover=this.checked" checked alt="#" name="none" value="" /> doRollover<br />
+<input type="Checkbox" onclick="elm1.doRolloverFill=this.checked" checked alt="#" name="none" value="" /> doRolloverFill<br />
+<input type="Checkbox" onclick="elm1.doDepress=this.checked" checked alt="#" name="none" value="" /> doDepress<br />
+<input type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" checked alt="#" name="none" value="" /> doBorder<br />
+<input type="Checkbox" onclick="elm1.doBGFill=this.checked;elm1.draw()" checked alt="#" name="none" value="" /> doBGFill<br />
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

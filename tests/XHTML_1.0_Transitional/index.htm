@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML>
+<HEAD>
+<TITLE>DomAPI DHTML Application Platform</TITLE>
+  <META name="description" content="The first DHTML library devoted only to 5.0 or better browsers.">
+  <META name="keywords" content="library,DHTML,API,scripting,standards,javascript,script,tutorial,components,DOM,OSX,Netscape,Mozilla,explorer,Safari,Firefox">
+  <LINK rel="stylesheet" type="text/css" href="../../docs/bin/style.css">
+  <style type="text/css">
+    ul {float:left;width:120px;margin-top:0px;margin-left:10px}
+    h4,p {clear:left}
+    li{list-style: none;padding-left:12px;}
+    li.thirdparty{padding-left:0px}
+  </style>
+  <script type="text/javascript">
+    onload = function(){
+      var a;
+      var A = document.getElementsByTagName("LI");
+      for(var i=0;i<A.length;i++){
+        a = A[i].getElementsByTagName("A");
+        if(a.length)a[0].onclick = doclick;
+      }
+    };
+    function doclick(E){
+      document.f1.action = this.href;
+      document.f1.submit();
+      return false;
+    };
+  </script>
+</HEAD>
+<BODY>
+  <DIV id="logo"><A href="http://domapi.com"><IMG src="../../docs/bin/logo6.gif" alt="DomAPI Application Platform" border="0"/></A></DIV>
+  <H2>DomAPI - DHTML Application Platform</H2>
+  <h3>Component and Feature Set Tests</h3>
+  <fieldset>
+  <div style="font-weight:bold;font-size:smaller;margin-bottom:10px">Global Settings:</div>
+  <form name="f1" method="get" action="">
+  Theme
+  <select name="theme" style="margin-right:20px">
+    <option value="aqua">aqua</option>
+    <option value="system" selected>system</option>
+  </select>
+  Skinning
+  <select name="skin" style="margin-right:20px">
+    <option value="true">on</option>
+    <option value="false" selected>off</option>
+  </select>
+  Trace
+  <select name="trace" style="margin-right:20px">
+    <option value="true">on</option>
+    <option value="false" selected>off</option>
+  </select>
+  Language
+  <select name="lang">
+    <option value="eng" selected>eng</option>
+    <option value="fra">fra</option>
+    <option value="ger">ger</option>
+    <option value="nor">nor</option>
+    <option value="spa">spa</option>
+  </select>
+  </form>
+  </fieldset>
+  <h4>Components</h4>
+  <ul>
+    <li class="thirdparty">* <a href="arrowscrollbox.htm">Arrowscrollbox</a></li>
+    <li class="thirdparty">* <a href="barchart.htm">Barchart</a></li>
+    <li class="thirdparty">* <a href="billboard.htm">Billboard</a></li>
+    <li><a href="button.htm">Button</a></li>
+    <li><a href="calendar.htm">Calendar</a></li>
+    <li><a href="colorpane.htm">Colorpane</a></li>
+    <li><a href="colorpicker.htm">Colorpicker</a></li>
+    <li><a href="combobox.htm">Combobox</a></li>
+    <li><a href="datepicker.htm">Datepicker</a></li>
+    <li><a href="dropdown.htm">Dropdown</a></li>
+    <li class="thirdparty">* <a href="icon.htm">Icon</a></li>
+    <li><a href="imagecheckbox.htm">Imagecheckbox</a></li>
+    <li><a href="imagelist.htm">Imagelist</a></li>
+    <li><a href="imagepagecontrol.htm">Imagepagecontrol</a></li>
+    <li><a href="imageradiobutton.htm">Imageradiobutton</a></li>
+  </ul><ul>
+    <li><a href="imageradiogroup.htm">Imageradiogroup</a></li>
+    <li><a href="imagetabset.htm">Imagetabset</a></li>
+    <li><a href="label.htm">Label</a></li>
+    <li><a href="listbox.htm">Listbox</a></li>
+    <li><a href="listgrid.htm">Listgrid</a></li>
+    <li><a href="listgrid_(virtualmode).htm">Listgrid (virtual)</a></li>
+    <li><a href="menubar.htm">Menubar</a></li>
+    <li class="thirdparty">* <a href="news.htm">News</a></li>
+    <li class="thirdparty">* <a href="notebook.htm">Notebook</a></li>
+    <li><a href="outlookbar.htm">Outlookbar</a></li>
+    <li><a href="pagecontrol.htm">Pagecontrol</a></li>
+    <li><a href="popupmenu.htm">Popupmenu</a></li>
+    <li><a href="progressbar.htm">Progressbar</a></li>
+    <li class="thirdparty">* <a href="resizegrip.htm">Resizegrip</a></li>
+    <li><a href="rollover.htm">Rollover</a></li>
+  </ul><ul>
+    <li class="thirdparty">* <a href="scrollbutton.htm">Scrollbutton</a></li>
+    <li><a href="sidebar.htm">Sidebar</a></li>
+    <li><a href="slider.htm">Slider</a></li>
+    <li><a href="speedbutton.htm">Speedbutton</a></li>
+    <li><a href="spinedit.htm">Spinedit</a></li>
+    <li><a href="splitpane.htm">Splitpane</a></li>
+    <li class="thirdparty">* <a href="splitter.htm">Splitter</a></li>
+    <li class="thirdparty">* <a href="statusbar.htm">Statusbar</a></li>
+    <li><a href="tabset.htm">Tabset</a></li>
+    <li><a href="toolbar.htm">Toolbar</a></li>
+    <li><a href="tree.htm">Tree</a></li>
+    <li><a href="viewbar.htm">Viewbar</a></li>
+    <li><a href="window.htm">Window</a></li>
+  </ul>
+<p>* - Thirdparty components</p>
+  <h4>Features</h4>
+  <ul>
+    <li><a href="align.htm">Align</a></li>
+    <li><a href="animate.htm">Animate</a></li>
+    <li><a href="collision.htm">Collision</a></li>
+    <li><a href="color.htm">Color</a></li>
+    <li><a href="cookie.htm">Cookie</a></li>
+    <li><a href="dataset.htm">Dataset</a></li>
+    <li><a href="window_dialogs.htm">Dialog boxes</a></li>
+    <li><a href="drag.htm">Drag</a></li>
+    <li><a href="dragrect.htm">Dragrect</a></li>
+    <li><a href="elm.htm">Elm</a></li>
+    <li><a href="flyover.htm">Flyover</a></li>
+    <li><a href="form.htm">Form</a></li>
+    <li><a href="groups.htm">Groups</a></li>
+    <li><a href="hook.htm">Hook</a></li>
+  </ul><ul>
+    <li><a href="httpreq.htm">HTTP Request</a></li>
+    <li><a href="keyboard.htm">Keyboard</a></li>
+    <li><a href="more_css.htm">More CSS</a></li>
+    <li><a href="nodesort.htm">Nodesort</a></li>
+    <li><a href="packer.htm">Packer</a></li>
+    <li><a href="profile.htm">Profile</a></li>
+    <li><a href="reflow.htm">Reflow</a></li>
+    <li><a href="rpc_basic.htm">RPC</a></li>
+    <li><a href="selection.htm">Selection</a></li>
+    <li><a href="shadow.htm">Shadow</a></li>
+    <li><a href="snap.htm">Snap</a></li>
+    <li><a href="sysutils.htm">Sysutils</a></li>
+    <li><a href="validate.htm">Validate</a></li>
+    <li><a href="xmlcore.htm">XMLcore</a></li>
+  </ul><ul>
+    <li><a href="xmldoc.htm">XML DOM</a></li>
+    <li><a href="xulreader.htm">XUL Reader</a></li>
+  </ul>
+
+  <h4>Odds-n-ends</h4>
+  <ul style="width:170px">
+    <li><a href="benchmark1.htm">Benchmark #1</a></li>
+    <li><a href="listgrid_manual.htm">Listgrid - manual creation</a></li>
+    <li><a href="listbox_drag_drop.htm">Listbox drag-n-drop</a></li>
+    <li><a href="menubar_json.htm">Menubar via JSON</a></li>
+    <li><a href="packer_explorer.htm">Packer Explorer</a></li>
+    <li><a href="placeholder1.htm">Placeholder</a></li>
+    <li><a href="popupmenu_json.htm">Popupmenu via JSON</a></li>
+    <li><a href="reflow_align.htm">Reflow - align</a></li>
+    <li><a href="reflow_anchor.htm">Reflow - anchor</a></li>
+    <li><a href="reflow_split.htm">Reflow - split</a></li>
+    <li><a href="simple_nav_menu.htm">Simple nav menu</a></li>
+    <li><a href="complex_splitpane.htm">Splitpane - Complex</a></li>
+    <li><a href="treedrag.htm">Tree - drag</a></li>
+    <li><a href="treerpc.htm">Tree - RPC</a></li>
+  </ul><ul>
+    <li><a href="treexml.htm">Tree - XML</a></li>
+  </ul>
+
+  <P style="margin-top:50px">
+    <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#100;&#111;&#109;&#97;&#112;&#105;&#46;&#99;&#111;&#109;"><IMG src="../../docs/bin/mail.jpg" alt="" width="16" height="16" border="0" align="middle"></A>
+    <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#100;&#111;&#109;&#97;&#112;&#105;&#46;&#99;&#111;&#109;">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#100;&#111;&#109;&#97;&#112;&#105;&#46;&#99;&#111;&#109;</A>
+  </P>
+
+  <BR/>
+  <div style="font-size:7pt">
+    All code protected by international copyright law.
+    See <a target="_blank" href="http://domapi.com/license.txt">http://domapi.com/license.txt</a> for terms and conditions.
+  </div>
+</BODY>
+</HTML>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Listgrid Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("listgrid");
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Listgrid({x:300,y:100,w:400,h:300, doVirtualMode:true});
+      elm1.loadFromJsonUrl('../bin/json_dataset2.txt');
+    }
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Listgrid")</script>
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.doRollover=this.checked" checked alt="#" name="none" value="" /> doRollover<br />
+<input type="Checkbox" onclick="elm1.doDepress=this.checked" checked alt="#" name="none" value="" /> doDepress<br />
+<input type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" checked alt="#" name="none" value="" /> doBorder<br />
+<input type="Checkbox" onclick="elm1.doLedgerMode=this.checked;elm1.draw()" alt="#" name="none" value="" /> doLedgerMode<br />
+<input type="Checkbox" onclick="elm1.doShowHeader=this.checked;elm1.refresh()" checked alt="#" name="none" value="" /> doShowHeader<br />
+<input type="Checkbox" onclick="elm1.doShowRowbar=this.checked;elm1.refresh()" checked alt="#" name="none" value="" /> doShowRowbar<br />
+<input type="Checkbox" onclick="elm1.doAllowNoSelection=this.checked" alt="#" name="none" value="" /> doAllowNoSelection<br />
+<input type="Checkbox" onclick="elm1.doMultiSelect=this.checked" alt="#" name="none" value="" /> doMultiSelect<br />
+<input type="Checkbox" onclick="elm1.doColResize=this.checked" checked alt="#" name="none" value="" /> doColResize<br />
+<input type="Checkbox" onclick="elm1.doColSort=this.checked" checked alt="#" name="none" value="" /> doColSort<br />
+<input type="Checkbox" onclick="elm1.doColMove=this.checked" checked alt="#" name="none" value="" /> doColMove<br />
+<input type="Checkbox" onclick="elm1.doAllowEdit=this.checked" checked alt="#" name="none" value="" /> doAllowEdit<br />
+<br />setGridlines()<br />
+<fieldset>
+<input type="Radio" name="gridlines" value="both" onclick="elm1.setGridlines(this.value)" checked>both
+<input type="Radio" name="gridlines" value="vert" onclick="elm1.setGridlines(this.value)">vert
+<input type="Radio" name="gridlines" value="horz" onclick="elm1.setGridlines(this.value)">horz
+<input type="Radio" name="gridlines" value="none" onclick="elm1.setGridlines(this.value)">none
+</fieldset>
+<a href="#" onclick="domapi._private.listgrid.dumpState(elm1);return false">dumpState()</a><br />
+<br />loadFromJsonUrl()<br />
+<fieldset>
+<a href="#" onclick="elm1.loadFromJsonUrl('../bin/json_dataset1.txt');return false">dataset1.txt</a> (small)
+<a href="../bin/json_dataset1.txt" target="_blank">[view]</a><br />
+<a href="#" onclick="elm1.loadFromJsonUrl('../bin/json_dataset2.txt');return false">dataset2.txt</a> (medium)
+<a href="../bin/json_dataset2.txt" target="_blank">[view]</a><br />
+<a href="#" onclick="elm1.loadFromJsonUrl('../bin/json_dataset3.txt');return false">dataset3.txt</a> (big)
+<a href="../bin/json_dataset3.txt" target="_blank">[view]</a><br />
+</fieldset>
+<br />loadFromCsvUrl()<br />
+<fieldset>
+<a href="#" onclick="elm1.loadFromCsvUrl('../bin/files.csv');return false">files.csv</a>
+<a href="../bin/files.csv" target="_blank">[view]</a><br />
+</fieldset>
+<br />loadFromXmlUrl()<br />
+<fieldset>
+<a href="#" onclick="elm1.loadFromXmlUrl('../bin/files.xml', 'dataset');return false">files.xml</a>
+<a href="../bin/files.xml" target="_blank">[view]</a><br />
+</fieldset>
+
+<script type="text/javascript">printFooter()</script>
+<a href="" onclick="if(!elm1.doMultiSelect)alert('doMultiSelect is not checked');else elm1.selectAll();return false">elm1.selectAll()</a>
+<a href="" onclick="elm1.selectNone();return false">elm1.selectNone()</a>
+<a href="" onclick="elm1.refresh();return false">elm1.refresh()</a>
+<br /><br />
+
+</body>
+</html>

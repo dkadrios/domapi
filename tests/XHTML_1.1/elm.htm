@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <title>Elm Testbed</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("debug");
+    domapi.loadUnit("corecolor");
+    onload = init;
+    function init(){
+      exampleInit();
+      f = document.f1;
+      f.reset();
+      p2   = domapi.Elm({id:"panel2"});
+      elm1 = domapi.Elm({x:220,y:30,w:100,h:80,bgcolor:"#6699cc",color:"#ffffff"});
+      elm1.setText("Test Elm");
+      elm1.style.border = "0px solid red";
+      elm2 = domapi.Elm({x:400,y:300,w:200,h:70,bgcolor:"#888888",color:"#ffffff"});
+      elm2.setText("moveToElm Target<br>(Z = 1)");
+      elm2.setZ(1);
+      
+      cxe = domapi.getElm("cx");
+      cye = domapi.getElm("cy");
+      cwe = domapi.getElm("cw");
+      che = domapi.getElm("ch");
+      cpe = domapi.getElm("cp");
+      cme = domapi.getElm("cm");
+      cze = domapi.getElm("cz");
+      ccolore    = domapi.getElm("ccolor");
+      cbgcolore  = domapi.getElm("cbgcolor");
+      cclipe     = domapi.getElm("cclip");
+      cbe        = domapi.getElm("cb");
+      coverflowe = domapi.getElm("coverflow");
+      calphae    = domapi.getElm("calpha");
+      
+      updatePanel1();
+      
+      domapi.addEvent(self,"resize",pageResized,true);
+      pageResized();
+    }
+    function pageResized(){
+      var h = domapi.bodyHeight()-p2.getY()-10; 
+      if(h>50)p2.setH(h);
+    };
+    function updatePanel1(){
+      cxe.innerHTML = elm1.getX();
+      cye.innerHTML = elm1.getY();
+      cwe.innerHTML = elm1.getW();
+      che.innerHTML = elm1.getH();
+      cpe.innerHTML = elm1.getP();
+      cme.innerHTML = elm1.getM();
+      cze.innerHTML = elm1.getZ();
+      ccolore.innerHTML      = elm1.getColor();
+      cbgcolore.innerHTML    = elm1.getBgColor();
+      cclipe.innerHTML       = elm1.getClip();
+      cbe.innerHTML          = elm1.getB();
+      coverflowe.innerHTML   = elm1.getOverflow();
+      calphae.innerHTML      = elm1.getAlpha();
+      elm1.style.borderColor = "red";
+      elm1.style.borderStyle = "solid";
+    }
+  </script>  
+  <style type="text/css">
+    body{
+      font:8pt "MS Sans Serif", Geneva, sans-serif;
+      margin:20px 10px 10px;
+    }
+    td{
+      font-family:"courier new", monospace;
+      font-size:8pt;
+      padding-left:5px;
+    }
+    #panel1{
+      background-color:#FFFFE7;
+      width:200px;
+      border:1px solid black;
+    }
+    #panel2{
+      background-color:#FFFFE7;
+      width:200px;
+      border:1px solid black;
+      overflow:auto;
+      margin-top:10px;
+      position:relative;
+    }
+    .n{font-weight:bold}
+    body{
+      background-image : url(../bin/grid.gif) !important;
+      background-repeat : repeat;
+      margin:0px;
+      padding:2px;
+    }
+    button{
+      width:95px;
+      font:8pt "MS Sans Serif", Geneva, sans-serif;
+    }
+    td{
+      font:8pt "MS Sans Serif", Geneva, sans-serif;
+      vertical-align:top;
+      border-style:solid;
+      border-color:black;
+      border-width:0px 0px 1px 0px;
+      padding:2px 3px;
+    }
+</style>
+</head>
+<body>
+<script type="text/javascript">printLinks()</script>
+<div id="panel1">
+<div style="font-size:10pt;font-weight:bold;text-align:center">Elm Properties <br /> via Read Methods</div><hr />
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr><td class="n">getX()</td><td class="n">=</td><td id="cx"></td></tr>
+<tr><td class="n">getY()</td><td class="n">=</td><td id="cy"></td></tr>
+<tr><td class="n">getW()</td><td class="n">=</td><td id="cw"></td></tr>
+<tr><td class="n">getH()</td><td class="n">=</td><td id="ch"></td></tr>
+<tr><td class="n">getP()</td><td class="n">=</td><td id="cp"></td></tr>
+<tr><td class="n">getM()</td><td class="n">=</td><td id="cm"></td></tr>
+<tr><td class="n">getB()</td><td class="n">=</td><td id="cb"></td></tr>
+<tr><td class="n">getClip()</td><td class="n">=</td><td id="cclip"></td></tr>
+<tr><td class="n">getZ()</td><td class="n">=</td><td id="cz"></td></tr>
+<tr><td class="n">getColor()</td><td class="n">=</td><td id="ccolor"></td></tr>
+<tr><td class="n">getBgColor()</td><td class="n">=</td><td id="cbgcolor"></td></tr>
+<tr><td class="n">getOverflow()</td><td class="n">=</td><td id="coverflow"></td></tr>
+<tr><td class="n">getAlpha()</td><td class="n">=</td><td id="calpha"></td></tr>
+<tr><td colspan="3" align="center"><a href="x" onclick="domapi.debug.dump_props(elm1);return false">View All Properties</a></td></tr>
+</table>
+</div>
+
+<div id="panel2">
+<form action="none" name="f1">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr><td><button onclick="elm1.setX(f.esetx.value);updatePanel1();return false">setX()</button></td><td><input type="Text" name="esetx" size="3" value="300" alt="#" /></td></tr>
+<tr><td><button onclick="elm1.setY(f.esety.value);updatePanel1();return false">setY()</button></td><td><input type="Text" name="esety" size="3" value="300" alt="#" /></td></tr>
+<tr><td><button onclick="elm1.setW(f.esetw.value);updatePanel1();return false">setW()</button></td><td><input type="Text" name="esetw" size="3" value="50" alt="#" /></td></tr>
+<tr><td><button onclick="elm1.setH(f.eseth.value);updatePanel1();return false">setH()</button></td><td><input type="Text" name="eseth" size="3" value="50" alt="#" /></td></tr>
+
+<tr><td><button onclick="elm1.setP(f.esetp1.value,f.esetp2.value,f.esetp3.value,f.esetp4.value);updatePanel1();return false">setP()</button></td><td>
+  <input type="Text" name="esetp1" size="3" value="5" alt="#" /> t<br />
+  <input type="Text" name="esetp2" size="3" value="5" alt="#" /> r<br />
+  <input type="Text" name="esetp3" size="3" value="5" alt="#" /> b<br />
+  <input type="Text" name="esetp4" size="3" value="5" alt="#" /> l
+</td></tr>
+<tr><td><button onclick="elm1.setM(f.esetm1.value,f.esetm2.value,f.esetm3.value,f.esetm4.value);updatePanel1();return false">setM()</button></td><td>
+  <input type="Text" name="esetm1" size="3" value="5" alt="#" /> t<br />
+  <input type="Text" name="esetm2" size="3" value="5" alt="#" /> r<br />
+  <input type="Text" name="esetm3" size="3" value="5" alt="#" /> b<br />
+  <input type="Text" name="esetm4" size="3" value="5" alt="#" /> l
+</td></tr>
+<tr><td><button onclick="elm1.setB(f.esetb1.value,f.esetb2.value,f.esetb3.value,f.esetb4.value);updatePanel1();return false">setB()</button></td><td>
+  <input type="Text" name="esetb1" size="3" value="5" alt="#" /> t<br />
+  <input type="Text" name="esetb2" size="3" value="5" alt="#" /> r<br />
+  <input type="Text" name="esetb3" size="3" value="5" alt="#" /> b<br />
+  <input type="Text" name="esetb4" size="3" value="5" alt="#" /> l
+</td></tr>
+<tr><td><button onclick="elm1.setZ(f.esetz.value);updatePanel1();return false">setZ()</button></td><td><input type="Text" name="esetz" size="2" value="2" alt="#" /></td></tr>
+<tr><td><button onclick="elm1.setSize(f.esizew.value,f.esizeh.value);updatePanel1();return false">setSize()</button></td><td><input type="Text" name="esizew" size="3" value="100" alt="#" /> w<br /><input type="Text" name="esizeh" size="3" value="100" alt="#" /> h</td></tr>
+<tr><td><button onclick="elm1.setSizeBy(f.esizebyw.value,f.esizebyh.value);updatePanel1();return false">setSizeBy()</button></td><td><input type="Text" name="esizebyw" size="3" value="10" alt="#" /> w<br /><input type="Text" name="esizebyh" size="3" value="10" alt="#" /> h</td></tr>
+<tr><td><button onclick="elm1.moveTo(f.emovetox.value,f.emovetoy.value);updatePanel1();return false">moveTo()</button></td><td><input type="Text" name="emovetox" size="3" value="320" alt="#" /> x<br /><input type="Text" name="emovetoy" size="3" value="100" alt="#" /> y</td></tr>
+<tr><td><button onclick="elm1.moveBy(f.emovebyx.value,f.emovebyy.value);updatePanel1();return false">moveBy()</button></td><td><input type="Text" name="emovebyx" size="3" value="10" alt="#" /> x<br /><input type="Text" name="emovebyy" size="3" value="10" alt="#" /> y</td></tr>
+<tr><td><button onclick="elm1.moveToElm(elm2);updatePanel1();return false">moveToElm()</button></td><td>That Gray Elm</td></tr>
+<tr><td><button onclick="elm1.hide();updatePanel1();return false">hide()</button></td><td>&nbsp;</td></tr>
+<tr><td><button onclick="elm1.show();updatePanel1();return false">show()</button></td><td>&nbsp;</td></tr>
+<tr><td><button onclick="elm1.setText(f.esettext.value);updatePanel1();return false">setText()</button></td><td><input type="Text" name="esettext" size="7" value="Hello" alt="#" /></td></tr>
+<tr><td><button onclick="elm1.setBgColor(f.esetbgcolor.value);updatePanel1();return false">setBgColor()</button></td><td><input type="Text" name="esetbgcolor" size="7" value="#993333" alt="#" /></td></tr>
+<tr><td><button onclick="elm1.setColor(f.esetcolor.value);updatePanel1();return false">setColor()</button></td><td><input type="Text" name="esetcolor" size="7" value="#ffff99" alt="#" /></td></tr>
+<tr><td><button onclick="elm1.setClip(f.esetclip1.value,f.esetclip2.value,f.esetclip3.value,f.esetclip4.value);updatePanel1();return false">setClip()</button></td><td>
+  <input type="Text" name="esetclip1" size="3" value="10" alt="#" /> t<br />
+  <input type="Text" name="esetclip2" size="3" value="50" alt="#" /> r<br />
+  <input type="Text" name="esetclip3" size="3" value="30" alt="#" /> b<br />
+  <input type="Text" name="esetclip4" size="3" value="10" alt="#" /> l
+</td></tr>
+<tr><td><button onclick="elm1.setClipBy(f.esetclipby1.value,f.esetclipby2.value,f.esetclipby3.value,f.esetclipby4.value);updatePanel1();return false">setClipBy()</button></td><td>
+  <input type="Text" name="esetclipby1" size="3" value="5" alt="#" /> t<br />
+  <input type="Text" name="esetclipby2" size="3" value="5" alt="#" /> r<br />
+  <input type="Text" name="esetclipby3" size="3" value="5" alt="#" /> b<br />
+  <input type="Text" name="esetclipby4" size="3" value="5" alt="#" /> l
+</td></tr>
+<tr><td><button onclick="elm1.setAlpha(f.eseta.value);updatePanel1();return false">setAlpha()</button></td><td><input type="Text" name="eseta" size="3" value="50" alt="#" /></td></tr>
+</table>
+</form>
+</div>
+
+</body>
+</html>

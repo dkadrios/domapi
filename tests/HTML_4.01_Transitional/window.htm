@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Window Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("window");    
+    onload=function(){
+      exampleInit();
+      elm1 = domapi.Window({
+        text:'<img src="../bin/domapi_icon.gif" alt="" align="texttop" width="16" height="16" border="0"> Main Test',
+        x:250,y:40,
+        w:400,h:150
+      });
+      elm1.workspace.innerHTML = 
+        '<a href="#" onclick="elm1.setModal(true);return false">setModal(true)</a><br />' +
+        '<a href="#" onclick="elm1.setModal(false);return false">setModal(false)</a>';
+      
+      var panel =domapi.getElm("panel1");
+      elm2 = domapi.Window({parent:panel,text:"MDIChild 1",x:5,y:10,w:180,h:100});
+      elm3 = domapi.Window({parent:panel,text:"MDIChild 2",x:15,y:30,w:180,h:100});
+      elm4 = domapi.Window({parent:panel,text:"MDIChild 3",x:25,y:50,w:180,h:100});
+      
+      elm5 = domapi.Window({
+        text:"Contains a Form",
+        x:270,y:220,
+        w:400,h:250
+      });      
+      elm5.transferElm(domapi.getElm("formTarget"));
+      
+      elm6 = domapi.Window({
+        text:"http://www.google.com",
+        x:300,y:250,
+        w:400,h:250,
+        windowType:"IFRAME"
+      });
+      elm6.loadURL("http://www.google.com");
+      
+      elm7 = domapi.Window({
+        text:"http://www.w3.org",
+        x:330,y:280,
+        w:400,h:250,
+        windowType:"IFRAME"
+      });
+      elm7.loadURL("http://www.w3.org/");
+    }
+  </script>
+  <style type="text/css">
+    #panel1{
+      position:absolute;
+      left:10px;
+      top:320px;
+      width:250px;
+      height:180px;
+      border-width:2px;
+      border-style:inset;
+      background-color:appworkspace;
+      overflow:auto;
+    }
+  </style>
+</head>
+
+<body>
+
+<script type="text/javascript">printHeader("Window")</script>
+
+<input type="Checkbox" onclick="elm1.showTitleBar(this.checked)" checked alt="#" name="none" value="" /> showTitleBar<br />
+<input type="Checkbox" onclick="elm1.allowMove(this.checked)" checked alt="#" name="none" value="" /> allowMove<br />
+<input type="Checkbox" onclick="elm1.allowResize(this.checked)" checked alt="#" name="none" value="" /> allowResize<br />
+<input type="Checkbox" onclick="elm1.showContentsWhileDragging =this.checked" alt="#" name="none" value="" /> showContentsWhileDragging<br />
+<br />
+<input type="Radio" name="cn" value="left" onclick="elm1.controlsAlign=this.value;elm1.drawAndLayout()">Controls Left
+<input type="Radio" name="cn" value="right" checked onclick="elm1.controlsAlign=this.value;elm1.drawAndLayout()">Controls Right<br />
+<br />
+<input type="Radio" name="ca" value="left" checked onclick="elm1.setCaptionAlign(this.value)">Caption Left
+<input type="Radio" name="ca" value="center" onclick="elm1.setCaptionAlign(this.value)">Caption Center<br />
+<input type="Radio" name="ca" value="right"  onclick="elm1.setCaptionAlign(this.value)">Caption Right<br />
+
+<script type="text/javascript">printFooter()</script>
+
+<div id="panel1"></div>
+
+<form id="formTarget">
+Options<br />
+<input type="Radio" name="r1" checked>Setting 1<br />
+<input type="Radio" name="r1">Setting 2<br />
+<input type="Radio" name="r1">Setting 3<br />
+<input type="Radio" name="r1">Setting 4<br />
+<input type="Text" name="t1" value="editbox">
+</form>
+
+</body>
+</html>

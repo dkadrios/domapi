@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<head>
+<title>Xmlcore Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+<script type="text/javascript">
+domapi.loadUnit("xmlcore");
+domapi.loadUnit("xmldiff");
+domapi.loadUnit("listbox");
+domapi.loadUnit("tree");
+onload = init;
+var xmldoc;
+var editingNode;
+function displayText(n){alert(n.childNodes[0].rows[0].cells[1].innerHTML)};
+//------------------------------------------------------------------------------
+function start_editNode(n){
+  if (editingNode)end_editNode(); 
+  editingNode = n;
+  valueNode   = n.childNodes[0].rows[0].cells[1];
+  value       = valueNode.innerHTML;
+  valueNode.innerHTML="<input id='editingNode' type='text' onclick='domapi.preventBubble(this)' onblur='end_editNode()' value='"+value+"'>";
+};
+//------------------------------------------------------------------------------
+function end_editNode(){
+  valueNode = editingNode.childNodes[0].rows[0].cells[1];
+  valueNode.innerHTML=domapi.getElm('editingNode').value;
+  editingNode = null;
+};
+//------------------------------------------------------------------------------
+function init(){
+  domapi.comps.listbox.xml = function(xmldoc){
+    this.clearItems();
+    var root = xmldoc.documentElement;
+    for(var a=0;a<root.childNodes.length;a++)
+      if(root.childNodes[a].nodeType == 1)
+        this.addItem({text:root.childNodes[a].firstChild.nodeValue});
+  };
+
+  domapi.comps.tree.xnode= function(node,ptreenode){
+    if (node==null) return;
+    var n;
+    if(ptreenode)  {
+      switch(node.nodeType){
+        case 1:
+          n=this.addNode({parent:ptreenode,text:node.tagName,img:"../bin/xnode.png"});
+          break;
+        case 2:
+          n=this.addNode({parent:ptreenode,text:node.name +":" + node.value,img:"../bin/xattrib.png"});
+          break;
+        case 3:
+          if(node.nodeValue.replace(/\s/g,'')!='')n=this.addNode({parent:ptreenode,text:node.nodeValue,img:"../bin/xnode.png",fn:start_editNode});
+          break;
+        default:
+          alert(node.nodeType);
+      }
+    }else n=this.addNode({text:node.tagName,img:"../bin/xnode.png"});
+    try{
+      if (node.attributes.length>0) 
+        for(var a=0;a<node.attributes.length;a++)
+          this.xnode(node.attributes[a],n);
+    }catch(e){}
+    if(node.childNodes.length>0 && node.nodeType !=2 ){
+      for(var a=0;a<node.childNodes.length;a++)
+        this.xnode(node.childNodes[a],n);
+    }
+  }
+
+  domapi.comps.tree.xml = function(xmldoc){
+    if(this.nodes.length>0)
+      this.deleteNode(this.nodes[0]);
+    this.xnode(xmldoc.documentElement);
+  }
+
+  elm1=domapi.Listbox({x:250,y:50,w:100,h:100});
+  elm2=domapi.Tree({x:360,y:50,w:200,h:200})
+  if(domapi.isIE){
+    var out =  document.getElementById("out");
+    out.innerHTML = "xml version:" + domapi.xml.msDomId;
+  }
+  exampleApplyTheme("system");
+};
+//------------------------------------------------------------------------------
+function loadDomDocumentWithParam(){
+xmldoc = domapi.xml.getDomDocument(null,'foo');
+ var out =  document.getElementById("out");
+  out.innerHTML = domapi.xml.view(xmldoc);
+};
+//------------------------------------------------------------------------------
+function loadDomDocument(){
+  xmldoc = domapi.xml.getDomDocument();
+  xmldoc.async =false;
+  xmldoc.load("../bin/xmlcore.xml?nocache"+(new Date().getTime()));
+  elm1.xml(xmldoc);
+//------------------------------------------------------------------------------
+  var out =  document.getElementById("out");
+  out.innerHTML = "List loaded with the following xml:<br>"+domapi.xml.view(xmldoc);
+};
+//------------------------------------------------------------------------------
+function xonload (){
+  var out =  document.getElementById("out");
+  out.innerHTML = "List loaded with the following xml:<br>"+domapi.xml.view(xmldoc);
+  elm2.xml(xmldoc);
+  elm2.init();
+};
+//------------------------------------------------------------------------------
+function loadDomDocumentAsync(){
+  xmldoc = domapi.xml.getDomDocument();
+  xmldoc.async =true;
+  var out =  document.getElementById("out");
+  out.innerHTML = "Loading...";
+  xmldoc.onreadystatechange = xonload;
+  xmldoc.load("../bin/xmlcore.xml?nocache"+(new Date().getTime()));
+};
+//------------------------------------------------------------------------------
+function loadDomDocumentString(){
+  xmldoc = domapi.xml.getDomDocument();
+  xmldoc.loadXML("<xml><node>test</node></xml>");
+  var out =  document.getElementById("out");
+  out.innerHTML = domapi.xml.view(xmldoc);
+};
+//------------------------------------------------------------------------------
+function xpathTestSSN(){
+  xmldoc = domapi.xml.getDomDocument();
+  xmldoc.loadXML("<xml><node>test1</node><node>test2</node><node att='mytest'>test3</node></xml>");
+  var out =  document.getElementById("out");
+  out.innerHTML = domapi.xml.view(xmldoc);
+  alert(xmldoc.documentElement.selectSingleNode("//node[@att='mytest']").xml);
+};
+//------------------------------------------------------------------------------
+function xpathTestSN(){
+  xmldoc = domapi.xml.getDomDocument();
+  xmldoc.loadXML("<xml><node>item1</node><node>item2</node><node>item3</node></xml>");
+  var out =  document.getElementById("out");
+  var xnodes = xmldoc.documentElement.selectNodes("//node");
+  out.innerHTML = domapi.xml.view(xmldoc);
+  for(i=0;i<xnodes.length;i++){
+    alert(xnodes[i].xml);
+  }
+};
+//------------------------------------------------------------------------------
+function xsltTestTN(){
+  xmldoc = domapi.xml.getDomDocument();
+  xmldoc.loadXML("<xml><node>item1</node><node>item2</node><node>item3</node></xml>");
+  xsldoc = domapi.xml.getDomDocument();
+  strXsl =  "<?xml version='1.0'?><xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>";
+  strXsl += "<xsl:template match='xml'><ul><xsl:apply-templates/></ul></xsl:template>";
+  strXsl += "<xsl:template match='node'><li><xsl:value-of select='.'/></li></xsl:template>";
+  strXsl += "</xsl:stylesheet>";
+  xsldoc.loadXML(strXsl);
+  var out =  document.getElementById("out");
+  out.innerHTML = xmldoc.transformNode(xsldoc);
+};
+//------------------------------------------------------------------------------
+function xsltTestTNTO(){
+  xmldoc = domapi.xml.getDomDocument();
+  xmldoc.loadXML("<xml><node>item1</node><node>item2</node><node>item3</node></xml>");
+  xsldoc = domapi.xml.getDomDocument();
+  strXsl =  "<?xml version='1.0'?><xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>";
+  strXsl += "<xsl:template match='xml'><ul><xsl:apply-templates/></ul></xsl:template>";
+  strXsl += "<xsl:template match='node'><li><xsl:value-of select='.'/></li></xsl:template>";
+  strXsl += "</xsl:stylesheet>";
+  xsldoc.loadXML(strXsl);
+  var out =  document.getElementById("out");
+  xmlout = domapi.xml.getDomDocument();
+  xmldoc.transformNodeToObject(xsldoc,xmlout);
+  out.innerHTML = domapi.xml.view(xmlout);
+};
+//------------------------------------------------------------------------------
+function diffDomDocument(){
+  xdoc1 = domapi.xml.getDomDocument();
+  xdoc1.loadXML("<xml><node att1='a' att2='a'>test</node><todel/></xml>");
+  xdoc2 = domapi.xml.getDomDocument();
+  xdoc2.loadXML("<xml><node att1='b'>test2</node><node att1='c'>test3</node></xml>");
+  usexupdate = domapi.getElm('xupdate').checked;
+  xres =  domapi.xml.diff(xdoc1,xdoc2,usexupdate,0);
+  var out =  document.getElementById("out");
+  out.innerHTML = domapi.xml.view(xres);
+};
+</script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Xmlcore")</script>
+<input type="button" onclick="loadDomDocumentWithParam();" value="Get DomDocument" style="width:150px">
+<input type="button" onclick="loadDomDocument();" value="Load xml sync" style="width:150px">
+<input type="button" onclick="loadDomDocumentAsync();" value="Load xml async" style="width:150px">
+<input type="button" onclick="loadDomDocumentString();" value="Load xml string" style="width:150px">
+<hr />
+<input type="button" onclick="xpathTestSSN();" value="selectSingleNode" style="width:150px">
+<input type="button" onclick="xpathTestSN();" value="selectNodes" style="width:150px">
+<input type="button" onclick="xsltTestTN();" value="transformNode" style="width:150px">
+<input type="button" onclick="xsltTestTNTO();" value="transformNodeToObject" style="width:150px">
+<hr />
+<input type="button" onclick="diffDomDocument();" value="Diff xml" style="width:150px"><br/><input type="checkbox" id="xupdate"/>XUpdate format<br /><hr />
+note:<br />some actions may work only when you access sample file from webserver (for security reason)
+<div style="border:1px inset;position:absolute;left:250px;top:300px;width:400px;background-color:#E1E1BF" id="out">Div for output</div>
+</body>

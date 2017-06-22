@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Listbox Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("listbox");
+    var fonts = "Aardvark,Abbey-Medium,Symbol,ChickenScratch AOE,Default,MS Serif,Expo,Brooklyn,GilbertUltraBold,"+
+                "Lansbury,Arial Narrow,Lucida Console,Arial Black,System,Arial,Fixedsys,Trebuchet MS,Humanst521 Cn BT,"+
+                "Scythe,Garamond,Palatino Linotype,Swis721 BlkEx BT,Pepsi,Dragonwick,Century Gothic,Georgia,Marlett,"+
+                "Courier New,Tahoma,DawnCastle,Merlin,Bookman Old Style,Times New Roman,Haettenschweiler,Script,"+
+                "Wingdings,Microsoft Sans Serif,Terminal,Small Fonts,Abagail,Book Antiqua,Carleton,Modern,Andes,"+
+                "MS Sans Serif,Bastarda,Roman,Opera,Stonehenge,MS Outlook,Lucida Sans Unicode,Erie,OzHandicraft BT,"+
+                "Lochen,Webdings,Lincoln,Verdana,Comic Sans MS,Motor,Courier,Impact";
+    onload = function(){
+      exampleInit();
+      label1 = domapi.Elm({x:450,y:73});
+      label2 = domapi.Elm({x:450,y:55});
+      elm1   = domapi.Listbox( {x:270,y:50,w:150,h:220});
+      elm1.delimitedText(fonts);
+//      elm1.delimitedText(fonts); 
+      elm1.onchange=listbox1Changed;
+      listbox1Changed(); // for display label
+      elm1.onbeforechange=function(item){
+        return item.innerHTML.substr(0,1)!="E";
+      };      
+      elm1.attachToForm(document.f1,"elm1_value");      
+    }
+    //----
+    function listbox1Changed(){
+      label1.setText("<b>Value:</b> <br />" + elm1.getValue("<br />"));
+      label2.setText("<b>Sel count:</b> " + elm1.selected.length);
+      return true;
+    }
+  </script>  
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Listbox")</script>
+
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.enabled=this.checked;elm1.draw()" checked /> enabled<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" checked /> doBorder<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doBGFill=this.checked;elm1.draw()" checked /> doBGFill<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doMultiSelect=this.checked" /> doMultiSelect<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doAllowNoSelection=this.checked" /> doAllowNoSelection<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doShowSelection=this.checked;elm1.draw()" checked /> doShowSelection<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doHLines=this.checked;elm1.draw()" checked /> doHLines<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doRollover=this.checked" checked /> doRollover<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doDepress=this.checked" checked /> doDepress<br />
+<!---<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doFade=this.checked" /> Use Fade Effect<br />--->
+<hr />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doLedger=this.checked;elm1.draw()" /> doLedger<br />
+Color 1 <input alt="#" type="Text" value="#FFFFB9" size="10" name="lc1" />
+<input alt="#" type="Button" onclick="elm1.ledgerC1=f.lc1.value;elm1.draw()" value="Apply" /><br />
+Color 2 <input alt="#" type="Text" value="#E8FFEA" size="10" name="lc2" />
+<input alt="#" type="Button" onclick="elm1.ledgerC2=f.lc2.value;elm1.draw()" value="Apply" />
+<hr />
+&nbsp;<a href="x" onclick="elm1.sortItems(0);return false">sortItems(0)</a>&nbsp;&nbsp;
+&nbsp;<a href="x" onclick="elm1.sortItems(1);return false">sortItems(1)</a><br />
+&nbsp;<a href="x" onclick="elm1.clearItems();return false">clearItems()</a>&nbsp;&nbsp;
+&nbsp;<a href="x" onclick="elm1.loadFromJsonUrl('../bin/json_listbox1.txt');return false">loadFromJsonUrl()</a>
+<hr />
+<a href="x" onclick="elm1.selectAll();return false">selectAll()</a>&nbsp;&nbsp;
+<a href="x" onclick="elm1.selectNone();return false">selectNone()</a>
+<hr />
+<input alt="#" type="text" name="e1" /> <input alt="#" type="Button" value="Add" onclick="elm1.addItem({value:f.e1.value})" />
+<br /><br />
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+
+<script type="text/javascript">printFooter()</script>
+<div style="position:absolute;top:300px;left:270px;width:200px;border:2px solid gray;background-color:white;padding:2px;color:black">
+<b>NOTE:</b> This test has an onchangebefore() event that should not allow you to select items that start with the letter "E".  This is
+a test of the onchangebefore().  In other words, it's on purpose.
+</div>
+</body>
+</html>

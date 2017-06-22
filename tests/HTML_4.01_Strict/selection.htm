@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Select</title>
+<script src="../../src/domapi.js?styleBody=true"></script>
+<script type="text/javascript">
+onload=init;
+domapi.loadUnit("selection");
+domapi.loadUnit("resize");
+domapi.loadUnit("drag");
+domapi.useElmHooks = true;
+onload=init;
+function init(){
+  elm1 = domapi.Elm({x:250,y:10,w:200,h:100,bgcolor:"#aaaaaa"});
+  setControls();
+  elm1.resizeOn();
+  elm1.style.borderColor="black";
+  elm1.style.borderStyle="solid";
+  elm1.setB(1);
+  elm1.turnOnDrag(null,null,5);
+}
+
+function setExample1(){
+  var size = domapi.getElm("size").value;
+  var offset = domapi.getElm("offset").value;
+  var deselectOnDrag = domapi.getElm("deselectOnDrag").checked;
+  domapi.selection.setControls(deselectOnDrag, size, null, offset, false);
+}
+
+function setExample2(){
+  domapi.getElm("size").selectedIndex = 12;
+  var size = domapi.getElm("size").value;
+  var offset = domapi.getElm("offset").value;
+  var deselectOnDrag = domapi.getElm("deselectOnDrag").checked;
+  domapi.selection.setControls(deselectOnDrag, size, null, offset, "../bin/uni.jpg");
+}
+
+function setExample3(){
+  domapi.getElm("size").selectedIndex = 12;
+  var size = domapi.getElm("size").value;
+  var offset = domapi.getElm("offset").value;
+  var deselectOnDrag = domapi.getElm("deselectOnDrag").checked;
+  domapi.selection.setControls(deselectOnDrag, size, null, offset, [null, null, null, null, "../bin/uni.jpg", null, null, null]);
+}
+
+function setExample4(){
+  domapi.getElm("size").selectedIndex = 12;
+  var size = domapi.getElm("size").value;
+  var offset = domapi.getElm("offset").value;
+  var deselectOnDrag = domapi.getElm("deselectOnDrag").checked;
+  domapi.selection.setControls(deselectOnDrag, size, null, offset, ["../bin/uni.jpg", true, "../bin/uni.jpg", null, "../bin/uni.jpg", true, "../bin/uni.jpg", null]);
+}
+
+function setControls() {
+  var size = domapi.getElm("size").value;
+  var offset = domapi.getElm("offset").value;
+  var deselectOnDrag = domapi.getElm("deselectOnDrag").checked;
+  domapi.selection.setControls(deselectOnDrag, size, "#000000", offset, null);
+}
+</script>
+  <link rel="stylesheet" type="text/css" href="../bin/examples.css">
+</head>
+<body>
+<div class="main">
+  <table width=200 cellpadding="2" cellspacing="0" border="0">
+    <tr><td>size</td><td>
+      <select id="size" name="size" onchange="setControls()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7" selected>7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+      </select>
+    </tr>
+    <tr><td>offset</td><td>
+      <select id="offset" name="offset" onchange="setControls()">
+        <option value="null" selected>null</option>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">5</option>
+        <option value="5">7</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+      </select>
+    </tr>
+    <tr><td>example 1</td><td><input type="radio" checked id="example" name="example" value="1" onclick="setExample1()" alt="#"  ></td>
+    </tr>
+    <tr><td>example 2</td><td><input type="radio" id="example" name="example" value="2" onclick="setExample2()" alt="#"  ></td>
+    </tr>
+    <tr><td>example 3</td><td><input type="radio" id="example" name="example" value="3" onclick="setExample3()" alt="#" ></td>
+    </tr>
+    <tr><td>example 4</td><td><input type="radio" id="example" name="example" value="4" onclick="setExample4()" alt="#" ></td>
+    </tr>
+    <tr><td>Deselect on drag</td><td><input type="checkbox" id="deselectOnDrag" name="deselectOnDrag" value=true onclick="setControls()" alt="#"  ></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

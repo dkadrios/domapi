@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<script src="../../src/domapi.js"></script>
+<script type="text/javascript">
+  domapi.loadUnit("debug");
+  domapi.loadUnit("packer");
+	domapi.loadUnit("listgrid");
+	domapi.loadUnit("pagecontrol");
+	domapi.loadUnit("listbox");
+	domapi.loadUnit("tree");
+	domapi.loadUnit("thirdparty/gkafka/splitter");
+	domapi.loadUnit("speedbutton");
+	
+	onload=init;
+	var anchors= "nw,n,ne,w,center,e,sw,s,se";
+  function init(){
+	//create the menu container
+	var cmenu = domapi.Elm({x:0,y:0,w:100,h:30});
+	cmenu.packerOn({fill:'x'});
+	cmenu.style.border = "2px groove";
+	cmenu.setText("<center>menu bar</center>");
+	//create the toolbar  container
+	var ctoolbar = domapi.Elm({x:0,y:0,w:100,h:34});
+	ctoolbar.packerOn({fill:'x',padY:1});
+	ctoolbar.style.border = "2px groove";
+	btnPath = domapi.imagePath+"buttons/";
+	
+	//add some speedbutton in the toolbar
+	btn1  = domapi.Speedbutton({parent:ctoolbar,src:btnPath+"newrec.gif", hint:"New"});
+	btn1.packerOn({side:'left',padX:1});
+  btn2  = domapi.Speedbutton({parent:ctoolbar,src:btnPath+"open.gif",   hint:"Open"});
+	btn2.packerOn({side:'left',padX:1});
+	
+ //create the main container
+	var ccontainer = domapi.Elm({x:0,y:0,w:100,h:20});
+	ccontainer.packerOn({fill:'both',expand:'yes',padY:1});
+		
+	//Create the tree component
+	var ctree =domapi.Tree({parent:ccontainer,w:200});
+	//pack it in container
+	ctree.packerOn({parent:ccontainer,side:'left',fill:'y'});
+	//Add some node to tree
+	var n1 = ctree.addNode({caption:"Dir1"});
+	var n2 = ctree.addNode({caption:"Dir2"});
+	var n3 = ctree.addNode({caption:"Dir3"});
+	var sn1 = ctree.addNode({parent:n1,caption:"Dir1"});
+	var sn2 = ctree.addNode({parent:n1,caption:"Dir2"});
+	var sn3 = ctree.addNode({parent:n1,caption:"Dir3"});
+	ctree.init();
+	
+	//Create the splitter between tree and workzone
+	var csplitter = domapi.Splitter({parent:ccontainer,w:1,splitterType:"h"});
+	csplitter.packerOn({parent:ccontainer,side:'left',fill:'y'});
+	
+	//Create a grid 
+	var cgrid = domapi.Listgrid({parent:ccontainer,w:100,h:100});
+  cgrid.beginUpdate();
+	cgrid.packerOn({parent:ccontainer,side:'top',fill:'x'});
+	//fill grid
+	cgrid.addCol({w:100});
+  cgrid.addCol({w:60,align:"center"});
+  cgrid.addCol({w:120,align:"right",defaultValue:"mauve"});
+
+  cgrid.addRow(["Cadillac","1999","red"]);
+  cgrid.addRow(["Cadillac","1999"]);
+  cgrid.addRow("Ford,2002,blue");
+  cgrid.addRow("Chrysler,1997,black");
+  cgrid.addRow("Chevy,1980,white");
+  cgrid.addRow("Dodge,1999,black");
+  cgrid.addRow("Toyota,2000,green");
+  cgrid.addRow("Mercedes,1994,yellow");
+  cgrid.addRow("BMW,1988,orange");
+  cgrid.addRow("Rolls Royce,1965,purple");
+  cgrid.endUpdate();
+	
+	//Create a second splitter between grid and pagecontrol
+	var csplitter2 = domapi.Splitter({parent:ccontainer,h:3,splitterType:"v"});
+	csplitter2.packerOn({parent:ccontainer,side:'top',fill:'x'});
+	
+
+	//Create the container element
+  var ccontent = domapi.Elm({parent:ccontainer,bgcolor:'white'});
+  ccontent.packerOn({side:'top',fill:'both',expand:'yes'});
+  var cpagectrl = domapi.Pagecontrol({parent:ccontent,w:200,h:50});
+  cpagectrl.addPage("Page 1","DIV");
+  cpagectrl.addPage("Test","DIV");
+  cpagectrl.packerOn({fill:'both',expand:'yes'})
+
+	//Create the statusbar 
+	var cstatusbar = domapi.Elm({x:0,y:0,w:100,h:30});
+	cstatusbar.packerOn({fill:'x'});
+	cstatusbar.style.border = "2px groove";
+	cstatusbar.setText("<center>status bar</center>");
+	
+	//launch geometry manager
+	domapi.packer.render();
+	
+	//attach the splitters
+	csplitter2.dependent({splitterType:"grow",obj:cgrid});
+	csplitter2.dependent({splitterType:"grow",obj:ccontent});
+	
+	csplitter.dependent({splitterType:"grow",obj:ctree}) ;
+  csplitter.dependent({splitterType:"grow",obj:ccontent});
+	csplitter.dependent({splitterType:"grow",obj:cgrid});
+	csplitter.dependent({splitterType:"grow",obj:csplitter2});
+
+	}
+	</script>
+</head>
+<body style="overflow:hidden" scroll="no">
+
+</body>
+</html>

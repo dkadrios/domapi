@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!--
+//------------------------------------------------------------------------------
+// DomAPI - Groups Demo
+// Mark Proctor
+// (c) Mark Proctor 2001-2002
+//------------------------------------------------------------------------------
+// Contributors:
+// Philip Mudd
+//------------------------------------------------------------------------------
+// Created       11/07/2002
+// Last Modified 22/07/2002
+//------------------------------------------------------------------------------
+// Modified for 4.0 by D. Kadrioski
+-->
+<html>
+<title>Groups and selection</title>
+<head>
+<script src="../../src/domapi.js?styleBody=true"></script>
+<script type="text/javascript">
+  domapi.loadUnit("groups");
+  domapi.loadUnit("button");
+  domapi.loadUnit("drag");
+  domapi.loadUnit("selection");
+  domapi.useElmHooks = true;
+
+  onload = function(){
+    textBox(      500, 190);
+    createElms(   300, 50);
+    createButtons(500, 60);
+    selection(    20,  50);
+    groups(       50,  320);
+
+    domapi.selection.setControls(5, "black");
+    domapi.selection.onSelect         = writeSelection;
+    domapi.selection.onDeSelect       = writeSelection;
+    domapi.selection.onClearSelection = writeSelection;
+    domapi.selection.addAllowed("clickable");
+  };
+
+  selectedGroup = null;
+  selectedElm   = null;
+
+  writeSelection = function(s) {
+    var cs = domapi.selection;
+    if (!cs.elms) {
+      sel1.innerHTML = '';
+      return;
+    }
+    var str='';
+    for (var i=0;i<cs.elms.length;i++)str += cs.elms[i].innerHTML +",";
+    sel1.innerHTML = str;
+  };
+
+  textBox = function(x,y){
+  	textBox =domapi.Elm({x:x,y:y,w:185,h:80,bgcolor:"#dddddd", color:"black"});
+  	textBox.style.borderColor="black";
+    textBox.style.borderStyle="solid";
+    textBox.setB(1);
+    textBox.setP(3);
+  }
+  createClickableElm = function(x,y,text){
+   	var elm = domapi.Elm({x:x, y:y, w:25, h:25,bgcolor:"blue",color:"white"});
+    elm.setText(text);
+    elm.addToGroup("clickable");
+    elm.setAlpha(75);
+  };
+  createElms = function(x,y){
+  	elmBox_x = x-30;
+  	elmBox_y = y-0;
+  	elmBox_w = 170;
+  	elmBox_h = 140;
+
+  	elmBox = domapi.Elm({x:elmBox_x,y:elmBox_y,w:elmBox_w,h:elmBox_h,bgcolor:"white",color:"white"});
+  	elmBox.style.borderColor="black";
+    elmBox.style.borderStyle="solid";
+    elmBox.setB(1);
+    
+    sel1 = domapi.Elm({x:x-30,y:y+160,w:170,h:40,bgcolor:"gray",color:"#ffffff"});
+    sel1.style.borderColor = "black";
+    sel1.style.borderStyle = "solid";
+    sel1.setB(1);
+    sel1.setAlpha(75);
+
+    createClickableElm(x+0,  y+30,'A');
+    createClickableElm(x+30, y+30,'B');
+    createClickableElm(x+60, y+30,'C');
+    createClickableElm(x+90, y+30,'D');
+    createClickableElm(x+0,  y+60,'E');
+    createClickableElm(x+30, y+60,'F');
+    createClickableElm(x+60, y+60,'G');
+    createClickableElm(x+90, y+60,'H');
+    createClickableElm(x+0,  y+90,'I');
+    createClickableElm(x+30, y+90,'J');
+    createClickableElm(x+60, y+90,'K');
+    createClickableElm(x+90, y+90,'L');
+  };
+
+  createButtons = function(x,y){
+    addTo      = domapi.Button({x:x+0,  y:y+0, w:90,h:25,text:"Add To"});    
+    removeFrom = domapi.Button({x:x+100,y:y+0, w:90,h:25,text:"Remove From"});
+    b1         = domapi.Button({x:x+0,  y:y+30,w:90,h:25,text:"set Green"});        
+    b2         = domapi.Button({x:x+100,y:y+30,w:90,h:25,text:"set Blue"});    
+    b3         = domapi.Button({x:x+0,  y:y+60,w:90,h:25,text:"Drag On"});    
+    b4         = domapi.Button({x:x+100,y:y+60,w:90,h:25,text:"Drag Off"});            
+    isInGroup  = domapi.Button({x:x+0,  y:y+90,w:90,h:25,text:"Is In Group"});    
+    inGroups   = domapi.Button({x:x+100,y:y+90,w:90,h:25,text:"In Groups"});    
+    
+    b1.onclick         = function(){domapi.groups.callFunction(selectedGroup,"setBgColor('green')");}    
+    b2.onclick         = function(){domapi.groups.callFunction(selectedGroup,"setBgColor('blue')");}    
+    b3.onclick         = function(){domapi.groups.callFunction(selectedGroup,"turnOnDrag(null,domapi.drag.dtCustom,0,null,boundBox ,null)");}    
+    b4.onclick         = function(){domapi.groups.callFunction(selectedGroup,"turnOffDrag()");}    
+    addTo.onclick      = function(){addSelection();};    
+    removeFrom.onclick = function(){removeSelection();};    
+    isInGroup.onclick  = function(){selectionIsInGroup();}    
+    inGroups .onclick  = function(){selectionInGroups();}          
+    
+    b1.onmouseover         = function(){textBox.setText("Turns the currently selected groups elm's to Green");}
+    b2.onmouseover         = function(){textBox.setText("Turns the currently selected groups elm's to Blue");}
+    b3.onmouseover         = function(){textBox.setText("Turns drag on for the currently selected group. Note the elms can only be draged within thier holding box");}
+    b4.onmouseover         = function(){textBox.setText("Turns drag off for the currently selected group");}
+    addTo.onmouseover      = function(){textBox.setText("Adds the current selection to the selected group");}
+    removeFrom.onmouseover = function(){textBox.setText("Removes the current selection from the selected group");}
+    isInGroup.onmouseover  = function(){textBox.setText("Takes the current selection and returns true / false depending on whether the elm is in the currently selected group");}
+    inGroups.onmouseover   = function(){textBox.setText("Takes the current selection and returns the group that each elm is in. Note - Each of the 'clickable' elms are in a separate group 'clickable'");}
+  };
+
+  boundBox = function(x,y,dX,dY){
+    if(x<elmBox_x)x = elmBox_x; if(x+25> (elmBox_x + elmBox_w))x= (elmBox_x + elmBox_w-25);
+    if(y<elmBox_y)y = elmBox_y; if(y+25>(elmBox_y + elmBox_h))y= (elmBox_y + elmBox_h-25);
+    this.elm.moveTo(x,y);
+  };
+
+  selection = function(x,y){
+    tipBox = domapi.Elm({x:x+0,y:y+0,w:200,h:200,bgcolor:"dddddd",color:"black"});
+    tipBox.style.borderColor = "black";
+    tipBox.style.borderStyle = "solid";
+    tipBox.setB(1);
+    tipBox.setP(3);
+    tipBox.setBgColor("white");
+    tipBox.setText(
+      "Select a group from below, then click on a lettered elm to select. Holding 'shift' allows multiple elms " +
+      "to be selected.<br />Now click the 'Add To' button to place the selection in the group. " +
+      "Adding an elm twice removes it from the current selection. To Clear the selection, " +
+      "click outside the white box. Use the Buttons on the left to manipulate the groups."
+    );
+  };
+
+  createGroupBox = function(x,y,color,a){
+  	var elm = domapi.Elm({x:x,y:y,w:140,h:100,bgcolor:color});
+    var t   = domapi.rInt(a,50); elm.setAlpha(t);
+    elm.style.borderColor = "black";
+    elm.style.borderStyle = "solid";
+    elm.setB(1);
+    elm.addToGroup("collision");
+    elm.addToGroup("groups");
+    return elm;
+  };
+
+  createGroupBoxButtons = function(elm,groupName,selectFunction,clearFunction){
+    var bSize = 25;
+  	select =  domapi.Button({x:elm.getX(),y:elm.getY()-bSize,w:(elm.getW()/2),h:bSize,text:"Select " +groupName});
+    select.onclick = function() {selectGroup(elm,groupName);}
+    clear =  domapi.Button({x:elm.getX()+(elm.getW()/2),y:elm.getY()-bSize,w:(elm.getW()/2),h:bSize,text:"Clear"});
+    clear.onclick = function() {removeAllItems(elm,groupName);};
+  	update(elm,groupName);
+  }
+
+  groups = function(x,y){
+   //max groups = 4;
+    var bSize = 25;
+    g1 = createGroupBox(x+0,y+0,"red",75);
+    createGroupBoxButtons(g1,"g1");
+    selectedElm = g1;
+    selectedGroup = "g1";
+
+    g2 = createGroupBox(x+150,y+0,"gray");
+    createGroupBoxButtons(g2,"g2");
+
+    g3 = createGroupBox(x+300,y+0,"gray");
+    createGroupBoxButtons(g3,"g3");
+
+    g4 = createGroupBox(x+450,y+0,"gray");
+    createGroupBoxButtons(g4,"g4");
+  };
+  
+  selectionIsInGroup = function(){
+    if(!domapi.selection.elms) return;
+    var str = "";
+    var s = domapi.selection.elms;
+    for(var i=0; i<s.length; i++){
+      if(s[i].isInGroup(selectedGroup))
+        str += s[i].innerHTML + " is in group '" + selectedGroup +"'\n";
+      else
+        str += s[i].innerHTML + " is not group '" + selectedGroup +"'\n";
+    }
+    alert(str);
+  };
+
+  selectionInGroups = function(){
+    if(!domapi.selection.elms) return;
+    var str = "";
+    var s = domapi.selection.elms;
+    for(var i=0; i<s.length; i++){
+      var g = s[i].inGroups();
+      str += "\nElm '" +s[i].innerHTML + "' is in groups - ";
+      for(var j=0; j<g.length; j++)
+        str += g[j] + ",";
+    }
+    alert(str);
+  };
+
+  selectGroup = function(s,name){
+    domapi.groups.callFunction("groups","setBgColor('gray')");
+    domapi.groups.callFunction("groups","setAlpha(50)");
+    s.setBgColor('red');
+    s.setAlpha(75);
+    selectedGroup = name;
+    selectedElm = s;
+  };
+
+  addSelection = function(){
+    if(!domapi.selection.elms) return;
+    for(var i=0; i < domapi.selection.elms.length; i++)
+      domapi.selection.elms[i].addToGroup(selectedGroup);
+    update(selectedElm,selectedGroup);
+  };
+
+  removeSelection = function(){
+    if(!domapi.selection.elms) return;
+    for(var i=0; i < domapi.selection.elms.length; i++)
+    	if(domapi.selection.elms[i].isInGroup(selectedGroup))
+      	domapi.selection.elms[i].removeFromGroup(selectedGroup);
+    update(selectedElm,selectedGroup);
+  };
+
+  removeAllItems = function(s,name){
+    var g = domapi.groups.getGroup(name);
+    var i=0;
+    while(i < g.length){
+      g[i].removeFromGroup(name);
+      if(g.length == 0)
+        break;
+    }
+    update(s,name);
+  };
+
+  update = function(s,name){
+    var str ="<b>";
+    if(domapi.groups.groupExists(name)){
+     	textBox.setText(name +" Edited");
+      //if(!domapi.isIE)
+      //	alert("Group Edited");
+      var g = domapi.groups.getGroup(name);
+      for(var i=0;i<g.length;i++)
+        str += g[i].innerHTML + ", ";
+    }
+    s.setText(str);
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="../bin/examples.css">
+</head>
+<body>
+  <h3>Groups and Selection</h3>
+</body>
+</html>

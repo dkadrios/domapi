@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!--
+//------------------------------------------------------------------------------
+// DomAPI - Collision Demo
+// Mark Proctor
+// (c) Mark Proctor 2001-2002
+//------------------------------------------------------------------------------
+// Contributors:
+// Philip Mudd
+//------------------------------------------------------------------------------
+// Created       11/07/2002
+// Last Modified 11/07/2002
+//------------------------------------------------------------------------------
+
+// modified for 4.0 by D. Kadrioski
+-->
+<html>
+<head>
+<title>Collision</title>
+<script src="../../src/domapi.js?styleBody=true"></script>
+<script type="text/javascript">
+  domapi.loadUnit("collision");
+  domapi.loadUnit("drag");
+  domapi.loadUnit("groups");
+  domapi.loadUnit("debug");
+  onload = function(){
+    domapi.useElmHooks = true;
+    domapi.groups.createGroup('g');
+    var elm1 = createElement( 220, 120, 100, 50,  "#222222");
+    var elm2 = createElement( 500, 120, 100, 25,  "#555555");
+    var elm3 = createElement( 220, 250, 150, 170, "#888888");
+    var elm4 = createElement( 500, 250, 125, 125, "#aaaaaa");
+    var elm5 = createElement( 400, 200, 15,  15,  "#ffffff");
+    textElm = domapi.Elm({x:10,y:200,w:150,h:100,bgcolor:"dddddd",color:"black"});
+    textElm.style.borderColor="black";
+    textElm.style.borderStyle="solid";
+    textElm.setText("Potential collisions will appear in this box.");
+    textElm.setB(1);
+
+    domapi.regHook('moveTo',checkCollision);
+  };
+
+  createElement = function(x,y,w,h,color){
+    var elm = domapi.Elm({x:x,y:y,w:w,h:h,bgcolor:color});
+    elm.turnOnDrag();
+    elm.setAlpha(75);
+    elm.style.borderColor="black";
+    elm.style.borderStyle="solid";
+    elm.addToGroup("collision");
+    elm.setB(1);
+    return elm;
+  };
+
+  checkCollision = function(e,args){
+    var a = e.hasHit(['collision','g']);
+    var str = "Collision Between " + e.getBgColor() + " and ";
+    for(var i=0; i<a.length; i++)
+      for(var j=0; j<a[i].length; j++)
+        str += a[i][j].getBgColor() + ", ";
+    textElm.setText(str);
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="../bin/examples.css">
+</head>
+<body>
+  <h3>Collision Detection</h3>
+  <div class="main">
+    -Click and Drag Elms<br>
+    -User alerted if a collision takes place
+  </div>
+</body>
+</html>

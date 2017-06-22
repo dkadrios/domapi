@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Drag Example</title>
+  <script type="text/javascript" src="../../src/domapi.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("drag");
+    onload=function(){
+      label1= label("#FFFFAA");
+      label2= label("#FFFFAA");
+      label3= label("#E9967A");
+      label4= label("#FFFFAA");
+      label4a=label("#E9967A",label4);
+      label1.turnOnDrag();
+      label2.turnOnDrag();
+      label4a.turnOnDrag(label4);
+      label5= label("#FFFFAA");
+      label5a=label("#E9967A");
+      label5a.turnOnDrag(label5);
+      label6= label("#E9967A");
+      label7= label("#E9967A");
+      label8= label("#FFFFAA");
+      label9= label("#FFFFAA");
+      label6.turnOnDrag(null,domapi.drag.dtCustom,0,null,boundBox ,null);
+      label7.turnOnDrag(null,domapi.drag.dtCustom,0,null,boundV   ,null);
+      label8.turnOnDrag(null,domapi.drag.dtCustom,0,null,boundH   ,null);
+      label9.turnOnDrag(null,domapi.drag.dtCustom,0,null,domapi.drag.dragBasin,null);
+      //-----
+      // define basins for label9
+      label9.setSize(18,18); label9.setZ(1);
+      label9.basins = [ [300, 1100], [400, 1100], [300, 1200], [400, 1200] ];
+      //-----
+      c1=domapi.getElm("cont1");
+      c2=domapi.getElm("cont2");
+      domapi.drag.registerDropContainer(c1);
+      domapi.drag.registerDropContainer(c2);
+      with(label("#FFFFAA",c1)){style.position="relative";turnOnDrag(null,domapi.drag.dtDragDrop)}
+      with(label("#ccffcc",c1)){style.position="relative";turnOnDrag(null,domapi.drag.dtDragDrop)}
+      with(label("#66ccff",c1)){style.position="relative";turnOnDrag(null,domapi.drag.dtDragDrop)}
+      with(label("#E9967A",c1)){style.position="relative";turnOnDrag(null,domapi.drag.dtDragDrop)}
+      //-----
+      c1.ondragdrop=function(){return true};
+      c2.ondragdrop=function(){return true};
+      //-----
+      b1=label("#ccffcc");b2=label("#ccffcc");b3=label("#ccffcc");b4=label("#ccffcc");
+      b1.setSize(15,15); b1.moveTo(300,1100);
+      b2.setSize(15,15); b2.moveTo(400,1100);
+      b3.setSize(15,15); b3.moveTo(300,1200);
+      b4.setSize(15,15); b4.moveTo(400,1200);
+      b1.setZ(0); b2.setZ(0); b3.setZ(0); b4.setZ(0);
+      //-----
+      resetPage();
+    }
+    function label(c,p){
+      elm=domapi.Elm({parent:p,x:0,y:0,w:50,h:30});
+      elm.setBgColor(c);
+      elm.setB(1);
+      elm.style.borderColor="black";
+      elm.style.borderStyle="solid";
+      elm.setAlpha(75);
+      return elm;
+    }
+    function resetPage(){
+      label1.moveTo(250,20);
+      label2.moveTo(320,20);
+      label3.moveTo(250,130);
+      label3.turnOffDrag();
+      label4.moveTo(250,200);
+      label4a.moveTo(2,2);
+      label4a.setSize(15,15);
+      label4a.setAlpha(100);
+      label4a.setP(0);
+      label5.moveTo(250,275);
+      label5a.moveTo(320,275);
+      label5a.setSize(15,15);
+      label5a.setAlpha(100);
+      label6.moveTo(250,370);
+      label7.moveTo(250,470);
+      label8.moveTo(350,470);
+      label9.moveTo(300,1100);
+    }
+    function boundBox(x,y,dX,dY){
+      if(x<200)x=200; if(x>300)x=300;
+      if(y<300)y=300; if(y>400)y=400;
+      this.elm.moveTo(x,y);
+    }
+    function boundV(x,y,dX,dY){
+      if(y<400)y=400; if(y>500)y=500;
+      this.elm.moveTo(250,y);
+    }
+    function boundH(x,y,dX,dY){
+      if(x<300)x=300; if(x>400)x=400;
+      this.elm.moveTo(x,470);
+    }
+  </script>
+  <style type="text/css">
+    p{
+      width:200px;
+      background-color:#DDDDDD;
+      border:2px solid black;
+      padding:6px;
+    }
+    body{
+      background-image : url(../bin/grid.gif);
+      background-repeat : repeat;
+    }
+  </style>
+</head>
+
+<body>
+
+<p>
+These two divs are both dragable.  Which ever one you are dragging should appear on top of the other.
+</p>
+
+<p>
+This div's dragablility can be turned <a href="x" onclick="label3.turnOnDrag();return false">[on]</a> and 
+<a href="x" onclick="label3.turnOffDrag();return false">[off]</a>.
+</p>
+
+<p>
+This yellow div can only be dragged by the red child in it.
+</p>
+
+<p>
+As you can see, the dragged div does not need to be a child, nor attached or even nested... weird
+</p>
+
+<p>
+This div can only be dragged within a defined area.
+</p>
+
+<p>
+These divs can only be dragged along a vertical or horizontal plane. Useful for creating sliders
+</p>
+
+<p>
+The colored divs in the box below can only be dragged to the other container.  They can also be dragged back to
+their original container, or sorted by dragging and dropping.<br />
+There is a 15px threshhold before the element is removed from it's container.
+</p>
+
+<p id="cont1" style="height:138px;background-color:#99cccc"></p>
+<p id="cont2" style="height:138px;background-color:#99cccc;margin-bottom:30px"></p>
+
+<p>
+This div can only be moved to one of the four locations at right.  These positions are defined by an array.
+</p>
+
+<p>
+<a href="x" onclick="resetPage();return false">[Reset Page]</a>
+</p>
+
+</body>
+</html>

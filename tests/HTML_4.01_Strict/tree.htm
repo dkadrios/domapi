@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Tree Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("tree");    
+    onload = function(){
+      exampleInit();
+      var starttime = new Date().getTime();
+
+      elm1  = domapi.Tree({x:300,y:50,w:200,h:150,formName:"f1", elementName:"elm1_value"});
+
+      var n1 = elm1.addNode({text:"node1"});
+      var n2 = elm1.addNode({parent:n1,text:"node2"});
+      var n3 = elm1.addNode({parent:n2,text:"click me, I'm scary!",fn:"alert('boo!')"});
+      var n4 = elm1.addNode({parent:n3,text:"can't select me",doAllowSelect:false});
+      var n5 = elm1.addNode({parent:n4,text:"node5"});
+      var n6 = elm1.addNode({text:"node2"});
+      var n7 = elm1.addNode({parent:n6,text:"My Music",img:"../bin/music_folder.gif"});
+
+      elm1.addPath({path:"this/is/a/long/path"});
+      elm1.addPath({path:"node1,node3",del:","});
+      elm1.addPath({path:"node1|node4",del:"|"});
+      elm1.init();  // renders root nodes
+//elm1.expandAll();
+      var timeItTook=(new Date().getTime() - starttime)/1000;
+      document.getElementById("took").innerHTML="Took "+timeItTook+" seconds to render the tree";
+    };
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Tree")</script>
+
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" checked /> doBorder<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doRollover=this.checked" checked /> doRollover<br />
+<input type="Checkbox" onclick="elm1.doBGFill=this.checked;elm1.draw()" checked alt="#" name="none" value="" /> doBGFill<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doTextExpands=this.checked" /> doTextExpands<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doFolderExpands=this.checked" checked /> doFolderExpands<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doDblClickTextExpands=this.checked" checked /> doDblClickTextExpands<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doDblClickFolderExpands=this.checked" /> doDblClickFolderExpands<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doFolderSelects=this.checked" checked /> doFolderSelects<br />
+<input alt="#" name="x" value="" type="Checkbox" onclick="elm1.doShowLines=this.checked;elm1.refresh()" /> doShowLines<br />
+<br />
+<a href="#" onclick="elm1.expandAll();return false">expandAll</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="elm1.collapseAll();return false">collapseAll</a><br />
+<a href="#" onclick="elm1.clear();return false">clear</a>
+<hr />
+<p id="took"></p>
+
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

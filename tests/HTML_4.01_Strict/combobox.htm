@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Combobox Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("combobox");
+    var fonts= "Aardvark,Abbey-Medium,Symbol,ChickenScratch AOE,Default,MS Serif,Expo,Brooklyn,GilbertUltraBold,"+
+               "Lansbury,Arial Narrow,Lucida Console,Arial Black,System,Arial,Fixedsys,Trebuchet MS,Humanst521 Cn BT,"+
+               "Scythe,Garamond,Palatino Linotype,Swis721 BlkEx BT,Pepsi,Dragonwick,Century Gothic,Georgia,Marlett";
+    onload=function(){
+      exampleInit();
+      elm1   = domapi.Combobox({x:250,y:50,w:150,formName:"f1", elementName:"elm1_value"});
+      label1 = domapi.Elm({x:250,y:200,w:200,h:50});
+      elm1.dropDown.delimitedText(fonts);      
+      elm1.onchange = function(v){
+        label1.setText("(onchange) Value = "+v);
+      };
+      elm1.onchange(elm1.value);
+      elm1.onbeforechange = function(v){//alert(v && v.substr(0,1)!="C")
+        return (v && v.substr(0,1)!="C");
+      };
+    }
+  </script>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Combobox")</script>
+
+<input type="Checkbox" onclick="elm1.setEnabled(this.checked)" checked alt="#" name="none" value="" /> enabled<br />
+<input type="Checkbox" onclick="elm1.dropDown.doHLines=this.checked;elm1.draw()" alt="#" value="" name="none" /> showLines<br />
+<input type="Checkbox" onclick="elm1.setDoAllowEdit(this.checked)" checked alt="#" value="" name="none" /> doAllowEdit<br /><br />
+Direction:<br />
+<table class="norm"><tr>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='up'" alt="#" value="" />up</td>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='right'" alt="#" value="" />right</td>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='down'" checked alt="#" value="" />down</td>
+<td><input type="Radio" name="dir" onchange="if(typeof elm1 == 'object')elm1.direction='left'" alt="#" value="" />left</td>
+</tr></table><br />
+
+Select item <input type="text" size="2" value="2" name="selItem"> <input type="Button" value="Go" onclick="elm1.selectItem(this.form.selItem.value)">
+<br /><br />
+<input type="text" name="e1" alt="#" value="" /> <input type="Button" alt="#" value="Add" onclick="elm1.addItem(document.f1.e1.value)" />
+<br /><br />
+&nbsp;<a href="x" onclick="elm1.dropDown.sortItems(0);return false">Sort Up</a>&nbsp;&nbsp;
+&nbsp;<a href="x" onclick="elm1.dropDown.sortItems(1);return false">Sort Down</a>&nbsp;&nbsp;
+&nbsp;<a href="x" onclick="elm1.dropDown.clearItems();return false">Clear</a><br />
+<br /><br />
+This control has been attached to a form on this page.  Pressing the button below will POST the form.<br />
+<input type="submit" value="Test attachToForm()" />
+
+<script type="text/javascript">printFooter()</script>
+<div style="position:absolute;top:250px;left:270px;width:200px;border:2px solid gray;background-color:white;padding:2px;color:black">
+<b>NOTE:</b> This test has an onchangebefore() event that should not allow you to select items that start with the letter "C".  This is
+a test of the onchangebefore().  In other words, it's on purpose.
+</div>
+</body>
+</html>

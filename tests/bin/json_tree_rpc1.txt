@@ -1,0 +1,12 @@
+{
+  nodes : [
+    {text : "node1", value : "n1"},
+    {text : "node2", value : "n2"},
+    {text : "node3", value : "n3",
+     nodes : [
+      {text : "node1", value : "n1"},
+      {text : "node2", value : "n2"}
+     ]
+    }
+  ]
+};

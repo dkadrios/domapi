@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Colors</title>
+  <style type="text/css">
+    #testFadeDiv,#testFadeDiv2{
+      width:150px;
+      height:25px;
+      text-align:center;
+      border:2px outset inherit;
+      font:10pt sans-serif;
+      color:white;
+    }
+    td{
+      font:10pt sans-serif;
+    }
+    body{
+      background-color:white;
+    }
+  </style>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("corecolor");
+    domapi.loadUnit("color");
+    domapi.loadUnit("debug");
+    onload=init;
+    //--------------------------------------------------------------------------
+    function getColor(id){
+      return domapi.getElm(id).style.backgroundColor;
+    }
+    //--------------------------------------------------------------------------
+    function setText(prefix){
+      for(var a=1;a<4;a++)
+        domapi.getElm(prefix+a).innerHTML=domapi.color.makeSureIsHexColor(getColor(prefix+a));
+    }
+    //--------------------------------------------------------------------------
+    function init(){
+      f=document.f1;
+      currentLabel=domapi.getElm("calpha");
+      f.reset();
+      elm1=domapi.Elm({x:350,y:500,w:200,h:197});
+      elm1.setText('<img src="../bin/logo.gif" width="100%" height="100%" />');
+      elm2=domapi.Elm({x:350,y:500,w:200,h:197});
+      elm2.setText('Hello!Hello!Hello!Hello!Hello!Hello!<br>Hello!Hello!HelloHello!Hello!Hello!!<br>Hello!Hello!Hello!Hello!Hello!Hello!<br>Hello!Hello!Hello!Hello!Hello!Hello!<br>Hello!Hello!Hello!Hello!Hello!Hello!<br>Hello!Hello!Hello!Hello!Hello!Hello!');
+      elm1.setZ(2);
+      elm1.setZ(1);
+      domapi.color.setColor("l3",domapi.color.alterColor(  getColor("l1"),  20));
+      domapi.color.setColor("d3",domapi.color.alterColor(  getColor("d1"), -20));
+      domapi.color.setColor("a3",domapi.color.mergeColor(  getColor("a1"), getColor("a2"), "add"));
+      domapi.color.setColor("s3",domapi.color.mergeColor(  getColor("s1"), getColor("s2"), "subtract"));
+      domapi.color.setColor("an3",domapi.color.mergeColor( getColor("an1"),getColor("an2"),"and"));
+      domapi.color.setColor("o3",domapi.color.mergeColor(  getColor("o1"), getColor("o2"), "or"));
+      domapi.color.setColor("x3",domapi.color.mergeColor(  getColor("x1"), getColor("x2"), "xor"));
+      domapi.color.setColor("n3",domapi.color.mergeColor(  getColor("n1"), getColor("n2"), "not"));
+      domapi.color.setColor("m3",domapi.color.mergeColor(  getColor("m1"), getColor("m2"), "blend"));
+      domapi.color.setColor("f3",domapi.color.mergeColor(  getColor("f1"), getColor("f2"), "floor"));
+      setText("l");
+      setText("d");
+      setText("a");
+      setText("s");
+      setText("an");
+      setText("o");
+      setText("x");
+      setText("n");
+      setText("m");
+      setText("f");
+      domapi.color.setColor("testFadeDiv" ,"#aaaaaa");
+      domapi.color.setColor("testFadeDiv2","#aaaaaa");
+      //-----------------------
+      domapi.getElm("oldSchoolTable").onmouseover=function(e){
+        var elm=domapi.findTarget(e,"TD"); if(elm.innerHTML.substring(0,1)!="I") return;
+        elm.style.backgroundColor="6699cc"
+      }
+      domapi.getElm("oldSchoolTable").onmouseout=function(e){
+        var elm=domapi.findTarget(e,"TD"); if(elm.innerHTML.substring(0,1)!="I") return;
+        elm.style.backgroundColor="ffffcc"
+      }
+      //-----------------------
+      domapi.getElm("newSchoolTable").onmouseover=function(e){
+        var elm=domapi.findTarget(e,"TD"); if(elm.id=="") return;
+        domapi.color.fadeToColor(elm.id,null,"#6699cc")
+      }
+      domapi.getElm("newSchoolTable").onmouseout=function(e){
+        var elm=domapi.findTarget(e,"TD"); if(elm.id=="") return;
+        domapi.color.fadeToColor(elm.id,null,"#ffffcc")
+      }
+      setInterval("currentLabel.innerHTML=elm1.getAlpha()",100);
+    }
+    //--------------------------------------------------------------------------
+    function fadeTo(){
+      domapi.color.fadeToColor("testFadeDiv2","bg","#336699",null,null,"domapi.color.fadeToColor('testFadeDiv2','bg','#aaaaaa')");
+    }
+    //------
+    function setAlpha(){
+      elm1.alphaTo( f.alph.value,f.atype.value,f.inc1.value,f.spd1.value);
+    }
+    function randomAlpha(){
+      elm1.alphaTo( Math.random()*100,f.atype.value,f.inc1.value,f.spd1.value);
+    }
+    var alpha_count=6;
+    function randomAlpha2(){
+      alpha_count--;
+      if(alpha_count>0){
+        var a=Math.random()*100;
+        elm1.alphaTo( a,
+                     f.atype.value,f.inc1.value,f.spd1.value,"randomAlpha2()");
+      }else alpha_count=6;
+    }
+  </script>
+  <link rel="stylesheet" type="text/css" href="../bin/examples.css">
+</head>
+<body>
+
+<table width="500" cellpadding="2" cellspacing="0" border="1">
+<tr>
+  <th>&nbsp;</th>
+  <th>Color1</th>
+  <th>Color2</th>
+  <th>Result</th>
+</tr>
+<tr>
+  <td>lighten color 20%</td>
+  <td id="l1" style="background-color:blue">&nbsp;</td>
+  <td id="l2">&nbsp;</td>
+  <td id="l3">&nbsp;</td>
+</tr>
+<tr>
+  <td>darken color 20%</td>
+  <td id="d1" style="background-color:#6699cc">&nbsp;</td>
+  <td id="d2">&nbsp;</td>
+  <td id="d3">&nbsp;</td>
+</tr>
+<tr>
+  <td>add colors</td>
+  <td id="a1" style="background-color:#6699cc;">&nbsp;</td>
+  <td id="a2" style="background-color:#ffffcc;">&nbsp;</td>
+  <td id="a3">&nbsp;</td>
+</tr>
+<tr>
+  <td>subtract colors</td>
+  <td id="s1" style="background-color:#6699cc;">&nbsp;</td>
+  <td id="s2" style="background-color:#ffffcc;">&nbsp;</td>
+  <td id="s3">&nbsp;</td>
+</tr>
+<tr>
+  <td>AND colors</td>
+  <td id="an1" style="background-color:#6699cc;">&nbsp;</td>
+  <td id="an2" style="background-color:#ffffcc;">&nbsp;</td>
+  <td id="an3">&nbsp;</td>
+</tr>
+<tr>
+  <td>OR colors</td>
+  <td id="o1" style="background-color:#6699cc;">&nbsp;</td>
+  <td id="o2" style="background-color:#ffffcc;">&nbsp;</td>
+  <td id="o3">&nbsp;</td>
+</tr>
+<tr>
+  <td>XOR colors</td>
+  <td id="x1" style="background-color:#6699cc;">&nbsp;</td>
+  <td id="x2" style="background-color:#ffffcc;">&nbsp;</td>
+  <td id="x3">&nbsp;</td>
+</tr>
+<tr>
+  <td>NOT color</td>
+  <td id="n1" style="background-color:#6699cc;">&nbsp;</td>
+  <td id="n2">&nbsp;</td>
+  <td id="n3">&nbsp;</td>
+</tr>
+<tr>
+  <td>blend colors</td>
+  <td id="m1" style="background-color:#6699cc;">&nbsp;</td>
+  <td id="m2" style="background-color:#ffffcc;">&nbsp;</td>
+  <td id="m3">&nbsp;</td>
+</tr>
+<tr>
+  <td>FLOOR color</td>
+  <td id="f1" style="background-color:#777777;">&nbsp;</td>
+  <td id="f2">&nbsp;</td>
+  <td id="f3">&nbsp;</td>
+</tr>
+</table>
+<div id="testFadeDiv2" onclick="fadeTo()" style="margin:20px 0px 20px">Click Me</div>
+<div id="testFadeDiv" onmouseover='domapi.color.fadeToColor(this.id,null,"#336699")' onmouseout='domapi.color.fadeToColor(this.id,null,"#aaaaaa")'>Rollover Me</div>
+
+<table style="margin-top:20px">
+<tr>
+  <td>
+    Old School Rollover<br />
+    <table style="border:2px solid black;background-color:#ffffcc"  cellpadding="2" cellspacing="0" width="100" id="oldSchoolTable">
+      <tr><td>Item 1</td></tr>
+      <tr><td>Item 2</td></tr>
+      <tr><td>Item 3</td></tr>
+      <tr><td>Item 4</td></tr>
+      <tr><td>Item 5</td></tr>
+    </table>
+  </td>
+  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td>
+    Smooth Rollover<br />
+    <table style="border:2px solid black" cellpadding="2" cellspacing="0" width="100" id="newSchoolTable">
+      <tr><td id="item1" style="background-color:#ffffcc">Item 1</td></tr>
+      <tr><td id="item2" style="background-color:#ffffcc">Item 2</td></tr>
+      <tr><td id="item3" style="background-color:#ffffcc">Item 3</td></tr>
+      <tr><td id="item4" style="background-color:#ffffcc">Item 4</td></tr>
+      <tr><td id="item5" style="background-color:#ffffcc">Item 5</td></tr>
+    </table>
+  </td>
+</tr>
+</table>
+<form action="none" name="f1">
+<h3>Alpha Fades</h3>
+<div class="main">
+<table cellpadding="2" cellspacing="0" border="0">
+  <tr><td>Type</td><td><select name="atype"><option value="2">fast-to-slow</option><option value="1">slow-to-fast</option><option value="3">Linear</option></select></td></tr>
+
+  <tr><td>Steps</td><td><input type="Text" name="inc1" value="50" size="4" alt="#" /></td></tr>
+  <tr><td>Speed</td><td><input type="Text" name="spd1" value="20" size="4" alt="#" /></td></tr>
+  <tr><td>Alpha</td><td><input type="Text" name="alph" value="50" size="4" alt="#" /> <button style="width:50px;margin-left:20px" onclick="setAlpha();return false">Go!</button></td></tr>
+  <tr><td>&nbsp;</td><td></td></tr>
+  <tr><td> Current:</td><td id="calpha" style="font-weight:bold">&nbsp;</td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="elm1.alphaTo(0,f.atype.value,f.inc1.value,f.spd1.value);return false">Fade out</button></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="elm1.alphaTo(100,f.atype.value,f.inc1.value,f.spd1.value);return false">Fade in</button></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="randomAlpha();return false">Do random fade</button></td></tr>
+  <tr><td>&nbsp;</td><td><button onclick="randomAlpha2();return false">Do five in a row</button></td></tr>
+</table>
+</div>
+</form>
+</body>
+</html>
+

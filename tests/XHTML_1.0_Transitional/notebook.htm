@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Notebook Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("notebook");    
+    onload = function(){
+      exampleInit();
+      elm1 = domapi.Notebook({x:300,y:70,w:400,h:300});
+      elm1.addPage({});
+      exampleInit();
+      update();
+    }
+    function update(){
+      domapi.getElm('nbIndex').innerHTML = 
+        (elm1.index + 1) + '/' + elm1.pages.length;
+    };
+  </script>
+  <style type="text/css">
+    .avail{
+      border:2px solid black;
+      background-color:#ffff99;
+      width:200px;
+    }
+  </style>
+</head>
+
+<body>
+<script type="text/javascript">printHeader("Notebook")</script>
+  <input type="Checkbox" onclick="elm1.doBorder=this.checked;elm1.draw()" checked alt="#" name="none" value="" /> doBorder<br />
+  <input type="button" value="addPage()" onclick="elm1.addPage({});update()" alt="#" />
+  <input type="button" value="clearPages()" onclick="elm1.clearPages();update()" alt="#" /><br />  
+  <input type="button" value="previous()" onclick="elm1.previous();update()" alt="#" />
+  <input type="button" value="next()" onclick="elm1.next();update()" alt="#" /><br />
+  Page <span id="nbIndex">0</span>
+  <hr />
+  <!---Add Page (w/Site)<br /><input type="text" name="edit2" value="http://www.w3.org" size="22" style="font:8pt monospace" alt="#" /> <input type="button" value="Add" onclick="elm1.addPage(f.edit2.value,'IFRAME',f.edit2.value);elm1.reDraw()" alt="#" />--->
+  Add Page (w/Site)<br />
+  url: <input type="text" name="edit2" value="http://domapi.com/license.txt" size="22" style="font:8pt monospace" alt="#" ID="Text1"/><br />
+  delayLoad: <input type="Checkbox" alt="#" name="delayLoad" value="#" ID="Checkbox4"/>
+  refreshPage: <input type="Checkbox" alt="#" name="refreshPage" value="#" ID="Checkbox5"/><br />
+  <input type="button" value="addPage()" onclick="elm1.addPage({type:'IFRAME',url:f.edit2.value,delayLoad:f.delayLoad.checked, refreshPage:f.refreshPage.checked});update()" alt="#" />
+  <hr />
+  <input type="button" onclick="elm1.assignElement({id:'div1'});update();return false" alt="#" value="Add DIV1 as new page">
+  <br />
+  <input type="button" onclick="elm1.assignElement({id:'div2', index:4});update();return false" alt="#" value="Add DIV2 as page #5">
+  <br />
+  <input type="button" onclick="elm1.assignElement({id:'div3', index:1, overwrite:true});update();return false" alt="#" value="Overwrite page #2 with DIV3">
+  <br />
+  <input type="button" onclick="elm1.assignElement({id:'div4', index:1, overwrite:false});update();return false" alt="#" value="Append DIV4 to #2">
+  <hr />
+  <div id="div1" class="avail">Content of DIV1</div><br />
+  <div id="div2" class="avail">Content of DIV2</div><br />
+  <div id="div3" class="avail">Content of DIV3</div><br />
+  <div id="div4" class="avail">Content of DIV4</div>
+</div>
+</form>
+<p style="background-color:#EEEEEE">
+<b style="color:red">NOTE:</b>  IE5 cannot deal with dynamic IFRAMES.  To use IFRAMES as pages, you need to include it in your page as HTML 
+then use <span class=inlinecode>assignElement()</span> to add it into the control.<br>
+The "add page w/iframe" button on this page does not do that and therefore will <b>not work</b> in IE5.
+</p>
+
+<script type="text/javascript">printFooter()</script>
+<div id="label1" style="position:absolute;left:300px;top:40px"></div>
+</body>
+</html>

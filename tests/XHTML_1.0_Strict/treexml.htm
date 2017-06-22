@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<script src="../../src/domapi.js?styleBody=true"></script>
+<script type="text/javascript">
+  domapi.loadUnit("xmlcore");
+  domapi.loadUnit("xmldiff");
+  domapi.loadUnit("tree");
+
+  var xmldoc,xmldocsub, currentnode; 
+  function updateXmlTree(){
+    xmldoc2 = domapi.xml.getDomDocument();
+    xmldoc2.async =false;
+    xmldoc2.load("../bin/maintree2.xml?nocache"+(new Date().getTime()));
+    xdiff = domapi.xml.diff(xmldoc,xmldoc2);
+    elm2.xmlUpdate(xdiff);
+  };
+
+  function xonload(){
+    if (xmldocsub.readyState==4){
+      elm2.deleteNode(currentnode.nodes[0]);
+      node = xmldocsub.documentElement;
+      if(node.childNodes.length>0 && node.nodeType !=2 ){
+        for(var a=0;a<node.childNodes.length;a++)
+          elm2.xnode(node.childNodes[a],currentnode);
+      }
+      elm2.expandNode(currentnode);
+    }
+  };
+
+  function addSubTree(n){
+    n.nodefn = null;
+    currentnode = n;
+    xmldocsub = domapi.xml.getDomDocument();
+    xmldocsub.onreadystatechange = xonload;
+    xmldocsub.async =true;
+    xmldocsub.load(n.xmlsrc);
+  };
+
+  onload = function(){
+    domapi.comps.tree.findNodeByXpath=function(xpath,node){
+      var matchNode = null;
+      var nodes = node?node.nodes:this.nodes;
+      var i;
+      for(i=0;i<nodes.length;i++){
+        if(nodes[i].xpath){
+          if(nodes[i].xpath == xpath){
+            matchNode = nodes[i];return matchNode;
+          }else{
+            if(this.hasChildren(nodes[i]))
+              matchNode = this.findNodeByXpath(xpath,nodes[i]);
+            if (matchNode) return matchNode;
+          }
+        }
+      }
+      return matchNode;
+    };
+
+    domapi.comps.tree.xmlUpdate=function(xupdate){
+      root = xupdate.documentElement;
+      cn = root.childNodes;
+      var i;
+      for(i=0;i<cn.length;i++){
+        var node = null;
+        switch(cn.item(i).nodeName){
+          case 'changeattr':
+            xpath = cn.item(i).getAttribute("xpath");
+            node = this.findNodeByXpath(xpath);
+            attrList =cn.item(i).childNodes;
+            for(j=0;j<attrList.length;j++){
+              a = attrList.item(j).nodeName;
+              if ( a == "attribute"){
+                attribToUpdate = attrList.item(j).getAttribute("name");
+                switch(attribToUpdate){
+                  case 'title':
+                    this.setText(node,attrList.item(j).getAttribute("newvalue"));
+                    break;
+                  default: break;
+                }
+              }
+            }
+            break;
+          case 'changedata':
+            //nothing to do
+            break;
+          case 'addsubtree':
+            xpath = cn.item(i).getAttribute("xpathparent");
+            node = this.findNodeByXpath(xpath);
+            this.xnode(cn.item(i).childNodes.item(0),node);
+            break;
+          case 'delsubtree':
+            xpath = cn.item(i).getAttribute("xpath");
+            node = this.findNodeByXpath(xpath);
+            this.deleteNode(node);
+            break;
+          default: break;
+        }
+      }
+      //I did it cause have some problem of refreshing display
+      if (node.expanded) {this.collapseNode(node);this.expandNode(node);}
+    };
+
+    domapi.comps.tree.xnode= function(node,ptreenode){
+      var n;
+      if(ptreenode){
+        switch(node.nodeType){
+          case 1:
+            if(node.getAttribute("subtree")){
+              n=this.addNode({parent:ptreenode,text:node.getAttribute("title"),onopen:addSubTree,xmlsrc:node.getAttribute("subtree"),xpath:domapi.xml.generateXPath(node)});
+              ln=this.addNode({parent:n,text:"loading...",img:domapi.imagePath+"buttons/docs.gif"});
+            }else
+              n=this.addNode({parent:ptreenode,text:node.getAttribute("title"),xpath:domapi.xml.generateXPath(node)});
+            break;
+          case 2:
+            //n=this.addNode({parent:ptreenode,text:node.name +":" + node.value,img:domapi.imagePath+"buttons/next.gif"});
+            break;
+          case 3:
+            //if(node.nodeValue.replace(/\s/g,'')!='')n=this.addNode({parent:ptreenode,text:node.nodeValue,img:domapi.imagePath+"buttons/docs.gif",fn:displayText});
+            break;
+          default: alert(node.nodeType);
+        }       
+      }else 
+        n=this.addNode({text:node.getAttribute("title"),xpath:domapi.xml.generateXPath(node)});
+
+      try{
+        if (node.attributes.length>0) 
+          for(var a=0;a<node.attributes.length;a++)
+            this.xnode(node.attributes[a],n);
+      }catch(e){}
+      if(node.childNodes.length>0 && node.nodeType !=2){
+        for(var a=0;a<node.childNodes.length;a++)
+          this.xnode(node.childNodes[a],n);
+      }
+    };
+
+    domapi.comps.tree.xmlLoad = function(xmldoc){
+      this.xmlsrc = xmldoc;
+      this.xnode(xmldoc.documentElement);
+    };
+
+    elm2=domapi.Tree({x:10,y:35,w:200,h:400})
+    exampleApplyTheme("system");
+
+    xmldoc = domapi.xml.getDomDocument();
+    xmldoc.async =false;
+    xmldoc.load("../bin/maintree.xml");
+
+    elm2.xmlLoad(xmldoc);
+    elm2.init();
+    elm2.onexpandnode = function(selNode){if(selNode.onopen) {selNode.onopen(selNode);selNode.onopen = null;}};
+ };
+</script>
+<script type="text/javascript" src="../bin/examples.js"></script>
+</head>
+<body>
+<input type="button" onclick="updateXmlTree();" value="update"/>
+</body>
+</html>

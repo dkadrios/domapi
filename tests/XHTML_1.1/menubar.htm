@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Menubar Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("menubar");    
+    onload = function(){
+      exampleInit();
+      var container = domapi.Elm({x:250,y:50,h:100,w:400});
+      with(container.style){
+        borderStyle = "solid";
+        borderColor = "black";
+        borderWidth = "0px 1px 1px 1px";
+      }
+      elm1 = domapi.Menubar({parent:container, doShadow:true, doImages:true});
+      elm1.beginUpdate();
+      with(elm1) try{
+        mi1 = addItem({text:"Menu 1"}).childMenu;
+        mi2 = addItem({text:"Menu 2"}).childMenu;
+        mi3 = addItem({text:"Menu 3"}).childMenu;
+        mi4 = addItem({text:"disabled", enabled:false}).childMenu;          
+        mi1.addItem({text:"Item 1", img:"../bin/delete.gif"});
+        mi1.addItem({text:"Item 2", img:"../bin/email.gif"});
+        mi1.addItem({text:"Item 3"});
+        mi1.setEnabled(1,false);
+        with(mi2){
+          addItem({text:"I can be toggled", autoCheck:true, checked:true});
+          addItem({text:"I have an image", img:"../bin/edit.gif"});
+          mi5 = addItem({text:"I have a submenu of radiobuttons"});
+          m = mi2.addChildMenu({parent:mi5});         
+            m.addItem({text:"SubItem 1", radioGroup:1, checked:true});
+            m.addItem({text:"SubItem 2", radioGroup:1});            
+        }
+        mi3.addItem({text:"I'm scary", onselected:"alert('boo')"});
+      }finally{
+        elm1.endUpdate();
+      }
+    }
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Menubar")</script>
+<input type="Checkbox" checked onclick="for(var i=0;i<domapi.bags.popupmenu.length;i++)domapi.bags.popupmenu[i].doShadow=this.checked"> doShadow
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>

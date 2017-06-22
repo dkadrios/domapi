@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>DomAPI Benchmark 1</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("button");
+    domapi.theme.apply();
+    onload = function(){
+      domapi.theme.apply();
+      document.form1.reset();
+      document.form1.cbUseElmHooks.checked = domapi.useElmHooks;
+      aParent = domapi.getElm("divContainer");
+    };
+    function start(){starttime = new Date().getTime()};
+    function end(){
+      var timeItTook = (new Date().getTime() - starttime);
+      domapi.getElm("divOutput").innerHTML =
+        "<b>Last test time:</b> " + parseInt(timeItTook) + " msec";
+    };
+
+    function createElms(n,skipAdd){
+      var x,y,w,h;
+      start();
+      try{
+        for(var i=0;i<n;i++){
+          x = Math.random()*300;
+          y = Math.random()*300;
+          w = Math.random()*300;
+          h = Math.random()*300;
+          domapi.Elm({x:x,y:y,w:w,h:h,skipAdd:skipAdd,parent:aParent}).style.border="1px solid black";
+        }
+      }finally{
+        end();
+      }
+    };
+
+    function createButtons(n,skipAdd){
+      var x,y;
+      start();
+      try{
+        for(var i=0;i<n;i++){
+          x = Math.random()*300;
+          y = Math.random()*300;
+          domapi.Button({x:x,y:y,skipAdd:skipAdd,parent:aParent});
+        }
+      }finally{
+        end();
+      }
+    };
+  </script>
+  <style type="text/css">
+    #divOutput{
+      position:relative;
+      left:200px;
+      width:100px;
+      border:2px solid black;
+      background-color:white;
+      padding:1px 5px;
+    }
+    #divContainer{
+      width:300px;
+      height:300px;
+      border:2px solid black;
+      background-color:white;
+      margin:20px 5px;
+      position:relative;
+      overflow:hidden;
+    }
+  </style>
+</head>
+<body>
+<h3>Instructions:</h3>
+<ul>
+  <li>Close all non-essential applications.</li>
+  <li>Get your system to a stable state where there is little disk or memory activity.</li>
+  <li>Close ALL instances of your browser before each test to get a clean run.</li>
+  <li>Repeat each test at least 5 times, throw out any results that are obviously out of range.
+    Take and average of the remainders.</li>
+  <li>Do not refresh the browser between tests, close it and reload the url.</li>
+  <li>Run the tests with and without hooks enabled, to test for performance impact.</li>
+</ul>
+<hr />
+<form name="form1" action="null">
+  <input name="cbUseElmHooks" type="Checkbox" onclick="domapi.useElmHooks=this.checked"> domapi.useElmHooks
+  <span id="divOutput"><b>Last test time:</b> 0 msec</span>
+</form>
+<hr />
+<a href="#" onclick="createElms(500,true);return false">Create 500 Elms in memory</a><br />
+<a href="#" onclick="createButtons(500,true);return false">Create 500 Buttons in memory</a>
+<hr align="left" style="width:200px;margin:20px 0px" />
+<a href="#" onclick="createElms(500,false);return false">Create 500 Elms</a><br />
+<a href="#" onclick="createButtons(500,false);return false">Create 500 Buttons</a><br />
+<div id="divContainer">
+</body>
+</html>

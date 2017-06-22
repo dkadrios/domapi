@@ -1,0 +1,113 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Splitpane Example</title>
+  <style type="text/css">
+    .memo{
+      overflow:auto;
+      padding:0px;
+      background-color:white;
+      color:black;
+      visibility:"hidden";
+      padding-left:5px;
+    }
+    body{overflow:hidden;margin:0px;padding:0px}
+  </style>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("splitpane");
+    domapi.loadUnit("menubar");
+    domapi.loadUnit("outlookbar");
+    domapi.loadUnit("icon");
+    domapi.loadUnit("listbox");
+    domapi.loadUnit("pagecontrol");
+    domapi.loadUnit("toolbar");
+    domapi.loadUnit("reflow");
+    domapi.loadUnit("debug");
+
+    onload = function(){      
+      menubar1 = domapi.Menubar({parent:null,doShadow:false, doImages:false});
+      menubar1.beginUpdate();
+      with(menubar1) try{
+        mi1 = addItem({text:"File"}).childMenu;
+        mi2 = addItem({text:"Edit"}).childMenu;
+        mi3 = addItem({text:"View"}).childMenu;
+        mi4 = addItem({text:"Help", enabled:false}).childMenu;
+        mi1.addItem({text:"New"});
+        mi1.addItem({text:"Open"});
+        mi1.addItem({text:"Open Recent"});
+        mi1.addSeparator();
+        mi1.addItem({text:"Save"});
+        mi1.addItem({text:"Save As"});
+        mi1.setEnabled(1,false);
+        with(mi2){
+          addItem({text:"I can be toggled", autoCheck:true, checked:true});
+          mi5 = addItem({text:"I have a submenu of radiobuttons"});
+          m = mi2.addChildMenu({parent:mi5});
+          m.addItem({text:"SubItem 1", radioGroup:1, checked:true});
+          m.addItem({text:"SubItem 2", radioGroup:1});
+        }
+        mi3.addItem({text:"I'm scary", onselected:"alert('boo')"});
+      }finally{
+        menubar1.setAlign(alTop);
+        //menubar1.packerOn({fill:'x'});
+        menubar1.endUpdate();
+      }
+
+      toolbar1      = domapi.Toolbar({});
+      toolbar1.setAlign(alTop);
+      //toolbar1.packerOn({fill:'x'});
+      newBtn1   = domapi.Speedbutton({parent:toolbar1,src:"../../tests/bin/new.gif",   hint:"New"});
+      openBtn1  = domapi.Speedbutton({parent:toolbar1,src:"../../tests/bin/open.gif",  hint:"Open"});
+      toolbar1.addSpacer();
+      saveBtn1  = domapi.Speedbutton({parent:toolbar1,src:"../../tests/bin/save.gif",  hint:"Save"});
+      printBtn1 = domapi.Speedbutton({parent:toolbar1,src:"../../tests/bin/print.gif", hint:"Print"});
+      toolbar1.spaceControls();
+
+      domapi.Icon({parent:domapi.getElm("divPage2"),x:30,y:20, w:80,h:70,imgW:32,imgH:32,doAllowMove:false,text:"My Computer",src:"../../tests/bin/computer32.gif"});
+      domapi.Icon({parent:domapi.getElm("divPage2"),x:30,y:100,w:80,h:70,imgW:32,imgH:32,doAllowMove:false,text:"Recycle Bin",src:"../../tests/bin/recycler32.gif"});
+      var listbox1 = domapi.Listbox({doBorder:false});
+      listbox1.delimitedText(domapi.libs.sort().toString());
+
+      outlookbar1 = domapi.Outlookbar({parent:null,w:150,h:400,valign:"bottom"});
+      outlookbar1.beginUpdate();
+      try{
+        outlookbar1.addPage({id  : "divPage1"});
+        outlookbar1.addPage({id  : "divPage2", text : "Some Icons"});
+        var s = '<img src="../../tests/bin/options.gif" alt="" width="13" height="14" border="0" align="baseline"> Loaded units';
+        if(domapi.isIE) s = '<span style="position:relative;top:4px">' + s + '</span>';
+        outlookbar1.addPage({ref : listbox1, text : s});
+        outlookbar1.addPage({enabled : false, text:"Disabled"});
+      }finally{
+        outlookbar1.endUpdate();
+      }
+      
+      pagecontrol1 = domapi.Pagecontrol({});
+      pagecontrol1.addPage({text:'untitled.js',type:'IFRAME',url:'main.htm',delayLoad:false,refreshPage:false} );
+      pagecontrol1.addPage({text:'untitled.js',type:'IFRAME',url:'main.htm',delayLoad:true, refreshPage:false} );
+
+      splitpane1 = domapi.Splitpane({
+        ref1 : outlookbar1,
+        ref2 : pagecontrol1,
+        orientation : "horizontal"
+      });
+      splitpane1.setAlign(alClient);
+      //splitpane1.packerOn({side:'left',padX:1,padY:1,fill:'both',expand:'yes'});
+      splitpane1.moveSplitter(180);
+      
+      domapi.reflow.render();
+    };
+  </script>
+</head>
+<body>
+
+<div id="divPage1" style="padding:5px">
+This is the content 
+for page 1.<br />
+<br />
+It can contain any HTML at all, or even another component such as a Tree or Listbox.
+</div>
+
+<div id="divPage2" style="padding:5px"></div>
+</body>
+</html>

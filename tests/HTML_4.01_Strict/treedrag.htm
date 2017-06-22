@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Tree Example</title>
+  <script type="text/javascript" src="../../src/domapi.js?styleBody=true"></script>
+  <script type="text/javascript" src="../bin/examples.js"></script>
+  <script type="text/javascript">
+    domapi.loadUnit("tree");    
+    onload = function(){
+      exampleInit();
+
+      elm1  = domapi.Tree({x: 20,y:150,w:150,h:200,doAllowDrag:true});
+      elm2  = domapi.Tree({x:200,y:150,w:150,h:200,doAllowDrag:true});
+
+      var n1 = elm1.addNode({text:"tree1_node1"});
+      var n2 = elm1.addNode({parent:n1,text:"tree1_node2"});
+      var n3 = elm1.addNode({parent:n1,text:"tree1_node3"});
+      var n4 = elm2.addNode({text:"tree2_node1"});
+      var n5 = elm2.addNode({parent:n4,text:"tree2_node2"});
+      var n6 = elm2.addNode({parent:n4,text:"tree2_node3"});
+      
+      elm1.init();
+      elm2.init();
+      elm1.expandAll();
+      elm2.expandAll();
+      //-----
+      // custom tailor ondropallow and ondrop to your particular needs
+      // ondropallow must always return a boolean
+      elm1.ondropallow = function(arg){
+        var d = domapi.customDrag;
+        var n = domapi.findParent(arg.over, "NODE");
+        var p = domapi.findParent(arg.over, "TREE");
+        // drop on anything but itself or child
+        return (n || p) && (!n || n.doAllowNodeDrop) && (d.elm != n) && (!p.nodeIsChildOfNode(n,d.elm));
+      };
+      //-----
+      elm1.ondrop = function(arg){
+        var d = domapi.customDrag;
+        var targetNode = domapi.findParent(arg.over, "NODE");
+        if(!targetNode)targetNode = domapi.findParent(arg.over, "TREE");
+        var sourceNode = arg.source;
+        var targetTree = domapi.findParent(targetNode,"TREE");
+        var sourceTree = domapi.findParent(sourceNode,"TREE");
+        targetTree.insertNode({
+          fromNode    : sourceNode,
+          toNode      : targetNode,
+          sourceTree  : sourceTree,
+          insertAbove : d.insertAbove,
+          insertBelow : d.insertBelow
+        });
+      };
+      //-----
+      elm2.ondropallow = elm1.ondropallow;
+      elm2.ondragend   = elm1.ondragend;
+      elm2.ondrop      = elm1.ondrop;
+    };
+  </script>
+</head>
+<body>
+<script type="text/javascript">printHeader("Tree w/Drag")</script>
+<a href="#" onclick="domapi.dumpSource(elm1);return false">dump 1</a>
+<a href="#" onclick="domapi.dumpSource(elm2);return false">dump 2</a>
+<script type="text/javascript">printFooter()</script>
+</body>
+</html>
